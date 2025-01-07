@@ -1,0 +1,63 @@
+/* Register Container */
+.register-container {
+  display: flex;
+  width: 80vw;
+  height: 80vh;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for aesthetics */
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image Container */
+.image-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-container img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  filter: blur(.5px) brightness(0.8); /* Blur and dark tint */
+}
+
+.image-container .image-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for better contrast */
+}
+
+/* Form Container */
+.form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  gap: 20px;
+}
+
+.form-container h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.form-container button {
+  margin-top: 20px;
+  width: 500px;
+}
+.form-container .custom-textfield{
+ width: 500px;
+}
