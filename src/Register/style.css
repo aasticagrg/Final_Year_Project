@@ -45,6 +45,7 @@
   flex-direction: column;
   padding: 40px;
   gap: 20px;
+  
 }
 
 .form-container h2 {
@@ -57,6 +58,7 @@
 .form-container button {
   margin-top: 20px;
   width: 500px;
+  color: aquamarine !important;
 }
 .form-container .custom-textfield{
  width: 500px;
