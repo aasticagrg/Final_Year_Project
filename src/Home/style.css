@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 1000;
+}
+
+.home-content {
+  padding-top: 80px; /* Adjust this value if needed */
+}

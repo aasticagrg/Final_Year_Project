@@ -1,32 +1,46 @@
-
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Home from './Home';
-import Login from './Login';
-import Register from './Register';
-
-
+import LoginPage from './Login';
+import RegisterPage from './Register';
+import VendorRegisterPage from './VendorRegister';
+import VendorHome from './Vendor/Home';
 
 function App() {
+  const token = localStorage.getItem("token");
   const router = createBrowserRouter([
     {
-      path:"/",
-      element: <Login/>
-    },
-    {
-      path:"/Home",
+      path: "/",
       element: <Home/>
     },
     {
-      path:"/Register",
-      element: <Register/>
+      path: "/Login",
+      element: <LoginPage/>
+    },
+    
+    {
+      path: "/VendorRegister",
+      element: <VendorRegisterPage/>
     },
     {
-      path:"*",
+      path: "/Register",
+      element: <RegisterPage/>
+    },
+    {
+      path: "/Vendor/Home",
+      element: <VendorHome/>
+    },
+    {
+      path: "*",
       element: <div>Page Not Found!!!</div>
     }
-  ])
+  ]);
+
   return (
-    <RouterProvider router={router}/>
+    <>
+      <Toaster />
+      <RouterProvider router={router}/>
+    </>
   );
 }
 

@@ -1,37 +1,44 @@
-import React from 'react';
-// import { Link } from "react-router-dom"
-import "./styles.css"
-import { FaRegHeart } from "react-icons/fa";
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
+import "./styles.css";
 import { CgProfile } from "react-icons/cg";
 
-
 const Navbar = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleProfileClick = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
-    <div className="container" >
+    <div className="nav-container">
+      <img 
+        src='../assets/rentalLogo.png' 
+        alt='logo' 
+        style={{ width: "max-width", height: "35px" }}
+      />
 
-       <img src= '../assets/rentalLogo.png' alt= 'logo' style={{
-        width : "max-width",
-        height: "35px",
-       }}/>
+      <span className='nav-link'>
+        <Link className="link" to="/home">Home</Link>
+        <Link className="link">Booking</Link>
+        <Link className="link">About</Link>
+        <Link className="link">Contact</Link>
+        <Link className="link" to="/VendorRegister">List Your Property</Link>
+      
 
-       <ul>
-        <li>Home</li>
-        <li>Booking</li>
-        <li>About</li>
-        <li>Contact</li>
-        <li>List Your property</li>
-       </ul>
-
-       {/* <span className='nav-link'>
-        <Link>Home</Link>
-        <Link>About Us</Link>
-        <Link>Services</Link>
-       </span> */}
-
-       <div className='icons'>
+      <div className='icons' onClick={handleProfileClick}>
         <CgProfile />
-       </div>
-
+        {dropdownOpen && (
+          <div className="dropdown">
+            <Link to="/profile">My Account</Link>
+            <Link to="/bookings">Bookings</Link>
+            <Link to="/reviews">Reviews</Link>
+            <Link to="/liked">Liked</Link>
+            <Link to="/signout">Sign Out</Link>
+          </div>
+        )}
+      </div>
+      </span>
     </div>
   );
 }

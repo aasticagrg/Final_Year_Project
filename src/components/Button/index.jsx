@@ -1,14 +1,14 @@
-const Button = ({ label, onClick }) => {
+import "./style.css"
+
+const Button = ({ label, onClick, type }) => {
   return (<>
-      <button  style={{
-          padding: "10px",
-          backgroundColor: "blue",
-          border: "none",
-          color: "white",
-          borderRadius: "5px",
-          fontSize: "12px",
-          fontWeight: "bold",
-      }}  onClick={onClick} > {label}</button>
+      <button 
+    
+        type= {type} onClick={(e) =>{
+        onClick && onClick(e)
+       }} > 
+        {label}
+      </button>
   </>);
 }
 export default Button;

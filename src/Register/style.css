@@ -4,7 +4,7 @@
   width: 80vw;
   height: 80vh;
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for aesthetics */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
   margin: 0 auto;
@@ -23,7 +23,7 @@
   object-fit: cover;
   height: 100%;
   width: 100%;
-  filter: blur(.5px) brightness(0.8); /* Blur and dark tint */
+  filter: blur(0.5px) brightness(0.8);
 }
 
 .image-container .image-text {
@@ -35,7 +35,7 @@
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); /* Shadow for better contrast */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Form Container */
@@ -45,7 +45,7 @@
   flex-direction: column;
   padding: 40px;
   gap: 20px;
-  
+  justify-content: center;
 }
 
 .form-container h2 {
@@ -55,11 +55,72 @@
   margin-bottom: 10px;
 }
 
-.form-container button {
-  margin-top: 20px;
+/* Custom Button */
+.custom-button {
   width: 500px;
-  color: aquamarine !important;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* transition: background 0.3s ease-in-out; */
 }
-.form-container .custom-textfield{
- width: 500px;
+
+.custom-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Custom TextField */
+.custom-textfield {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .register-container {
+    width: 90vw;
+    height: auto;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .image-container {
+    display: none; /* Hide image on smaller screens */
+  }
+
+  .form-container {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .custom-textfield {
+    width: 100%;
+  }
+
+  .custom-button {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .form-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .custom-textfield {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .custom-button {
+    font-size: 14px;
+    padding: 10px;
+  }
 }

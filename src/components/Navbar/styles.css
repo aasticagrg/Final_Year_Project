@@ -1,12 +1,13 @@
-.container{
-  height: 50px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+.nav-container {
   display: flex;
+  height: 80px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
   text-transform: uppercase;
+  background-color: white; /* Added background color */
 }
+
 .nav-link {
   display: flex;
   gap: 20px;
@@ -17,12 +18,9 @@
   color: #333;
   margin-left: 30px;
   letter-spacing: 0.2em;
-  justify-content: space-between;
   position: relative;
-  
 
   &::before {
-    background-color: #f0f0f0;
     content: '';
     position: absolute;
     bottom: -2px;
@@ -34,8 +32,35 @@
     transform-origin: right;
   }
 
-  &:hover::before{
+  &:hover::before {
     transform: scaleX(1);
     transform-origin: left;
   }
+}
+
+.icons {
+  position: relative;
+  cursor: pointer;
+  font-size: 16px; /* Adjust size as needed */
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px; /* Adjust based on your layout */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px 20px;
+  color: black;
+  text-decoration: none;
+}
+
+.dropdown a:hover {
+  background-color: #f1f1f1;
 }
