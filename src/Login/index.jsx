@@ -37,15 +37,20 @@ const LoginPage = () => {
             if (data.success) {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("role", data.role);
+                
+                // Store complete vendor information if this is a vendor login
+                if (data.role === "vendor" && data.vendor) {
+                    localStorage.setItem("vendor", JSON.stringify(data.vendor));
+                    console.log("Vendor data stored in localStorage:", data.vendor);
+                }
+                
                 toast.success(data.message);
                 
                 // Navigate based on role with fixed paths
                 if (data.role === "vendor") {
                     navigate("/Vendor/Home"); 
-
                 } else if (data.role === "admin") {
                     navigate("/admin");
-
                 } else {
                     navigate("/");
                 }
@@ -57,8 +62,6 @@ const LoginPage = () => {
             console.error(error);
         }
     };
-    
-
     
     return (
         <div className="login-container">
@@ -131,8 +134,6 @@ const LoginPage = () => {
                         </Link>
                     </span>
                 </div>
-                
-            
             </div>
         </div>
     );

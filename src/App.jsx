@@ -4,7 +4,10 @@ import Home from './Home';
 import LoginPage from './Login';
 import RegisterPage from './Register';
 import VendorRegisterPage from './VendorRegister';
-import VendorHome from './Vendor/Home';
+
+import AddProperty from "./Vendor/AddProperty";
+import VendorHome from "./Vendor/Home";
+
 
 function App() {
   const token = localStorage.getItem("token");
@@ -25,6 +28,10 @@ function App() {
     {
       path: "/Register",
       element: <RegisterPage/>
+    },
+    {
+      path: "/Vendor/AddProperty",
+      element: <AddProperty/>
     },
     {
       path: "/Vendor/Home",

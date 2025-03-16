@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./styles.css";
 import { CgProfile } from "react-icons/cg";
+import "./styles.css"; // Import CSS
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -12,35 +12,37 @@ const Navbar = () => {
 
   return (
     <div className="nav-container">
+      {/* Logo */}
       <img 
         src='../assets/rentalLogo.png' 
         alt='logo' 
-        style={{ width: "max-width", height: "35px" }}
+        className="logo"
       />
 
-      <span className='nav-link'>
+      {/* Navbar Links */}
+      <div className="nav-link">
         <Link className="link" to="/home">Home</Link>
-        <Link className="link">Booking</Link>
-        <Link className="link">About</Link>
-        <Link className="link">Contact</Link>
+        <Link className="link" to="/booking">Booking</Link>
+        <Link className="link" to="/about">About</Link>
+        <Link className="link" to="/contact">Contact</Link>
         <Link className="link" to="/VendorRegister">List Your Property</Link>
-      
 
-      <div className='icons' onClick={handleProfileClick}>
-        <CgProfile />
-        {dropdownOpen && (
-          <div className="dropdown">
-            <Link to="/profile">My Account</Link>
-            <Link to="/bookings">Bookings</Link>
-            <Link to="/reviews">Reviews</Link>
-            <Link to="/liked">Liked</Link>
-            <Link to="/signout">Sign Out</Link>
-          </div>
-        )}
+        {/* Profile Icon & Dropdown */}
+        <div className="icons" onClick={handleProfileClick}>
+          <CgProfile className="profile-icon" />
+          {dropdownOpen && (
+            <div className="dropdown">
+              <Link to="/profile">My Account</Link>
+              <Link to="/bookings">Bookings</Link>
+              <Link to="/reviews">Reviews</Link>
+              <Link to="/liked">Liked</Link>
+              <Link to="/signout">Sign Out</Link>
+            </div>
+          )}
+        </div>
       </div>
-      </span>
     </div>
   );
-}
+};
 
 export default Navbar;
