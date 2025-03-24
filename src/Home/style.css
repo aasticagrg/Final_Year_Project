@@ -1,12 +1,19 @@
-
-.container {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: white;
-  z-index: 1000;
+header{
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../../public/assets/Home.jpg');
+  background-position: bottom;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.home-content {
-  padding-top: 80px; /* Adjust this value if needed */
+.header-content {
+  color: whitesmoke;
+  text-align: center;
+
+}
+.header-content h2{
+  font-size: 5vmin;
 }

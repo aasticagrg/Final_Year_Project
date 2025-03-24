@@ -1,7 +1,7 @@
-/* Global Body Fix to Prevent Content Overlapping */
+/* Global Body Fix */
 body {
   margin: 0;
-  padding-top: 80px; /* Ensures content starts below navbar */
+  padding-top: 60px;
   font-family: Arial, sans-serif;
 }
 
@@ -13,35 +13,31 @@ body {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   justify-content: space-between;
   align-items: center;
-  text-transform: uppercase;
   background-color: white;
-  padding: 0 20px; /* Adds spacing inside navbar */
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* Ensures navbar stays above content */
+  z-index: 1000;
 }
 
-/* Logo Styling */
+/* Logo */
 .logo {
   height: 35px;
-  width: auto; /* Adjust width automatically */
+  width: auto;
 }
 
 /* Navigation Links */
 .nav-link {
   display: flex;
-  gap: 20px;
-  align-items: center; /* Ensures proper alignment */
+  gap: 30px;
+  align-items: center;
 }
 
-/* Individual Link Styling */
+/* Individual Links */
 .link {
   text-decoration: none;
   color: #333;
-  margin-left: 30px;
   letter-spacing: 0.2em;
-  position: relative;
   transition: color 0.3s ease-in-out;
 }
 
@@ -49,33 +45,25 @@ body {
   color: #555;
 }
 
-/* Underline Effect on Hover */
-.link::before {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  width: 100%;
-  height: 2px;
-  background: #666;
-  transform: scaleX(0);
-  transition: transform 0.5s ease-in-out;
-  transform-origin: right;
+/* Hamburger Menu (Hidden by Default) */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
 }
 
-.link:hover::before {
-  transform: scaleX(1);
-  transform-origin: left;
+/* Menu Icon */
+.menu-icon {
+  font-size: 28px;
 }
 
-/* Profile Icon Container */
+/* Profile Icon */
 .icons {
   position: relative;
   cursor: pointer;
   font-size: 20px;
-  padding-right: 10px;
 }
 
-/* Profile Icon */
 .profile-icon {
   font-size: 24px;
 }
@@ -92,7 +80,6 @@ body {
   min-width: 150px;
 }
 
-/* Dropdown Links */
 .dropdown a {
   display: block;
   padding: 10px 20px;
@@ -102,4 +89,32 @@ body {
 
 .dropdown a:hover {
   background-color: #f1f1f1;
+}
+
+/* RESPONSIVE DESIGN */
+@media screen and (max-width: 768px) {
+  /* Show Hamburger Menu */
+  .hamburger {
+    display: block;
+  }
+
+  /* Hide Navigation Links Initially */
+  .nav-link {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    display: none;
+    padding: 20px 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  }
+
+  /* Show Menu When Active */
+  .nav-active {
+    display: flex;
+  }
 }

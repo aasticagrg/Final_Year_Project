@@ -138,8 +138,9 @@
   border: 1px solid #ddd;
 }
 
-/* Button styling - add to your style.css */
-button {
+/* Button styling - add to your style.css
+.*/
+.custom-button{
   width: 100%;
   padding: 12px;
   background-color: #4a5568;
@@ -149,7 +150,7 @@ button {
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  margin-top: 15px;
+  /* margin-top: 15px; */
   transition: background-color 0.2s;
 }
 

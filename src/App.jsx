@@ -3,10 +3,12 @@ import { Toaster } from "react-hot-toast";
 import Home from './Home';
 import LoginPage from './Login';
 import RegisterPage from './Register';
+import PropertiesPage from "./PropertiesPage";
 import VendorRegisterPage from './VendorRegister';
-
+import Properties from "./Properties";
 import AddProperty from "./Vendor/AddProperty";
 import VendorHome from "./Vendor/Home";
+import ProfilePage from "./Profile";
 
 
 function App() {
@@ -20,7 +22,10 @@ function App() {
       path: "/Login",
       element: <LoginPage/>
     },
-    
+    {
+      path: "/Profile",
+      element: <ProfilePage/>
+    },
     {
       path: "/VendorRegister",
       element: <VendorRegisterPage/>
@@ -30,12 +35,20 @@ function App() {
       element: <RegisterPage/>
     },
     {
+      path: "/PropertiesPage",
+      element: <PropertiesPage/>
+    },
+    {
       path: "/Vendor/AddProperty",
       element: <AddProperty/>
     },
     {
       path: "/Vendor/Home",
       element: <VendorHome/>
+    },
+    {
+      path: "/Properties",
+      element: <Properties/>
     },
     {
       path: "*",
