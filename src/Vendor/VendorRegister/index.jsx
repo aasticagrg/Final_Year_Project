@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import TextField from "../components/TextField";
-import { baseUrl } from "../constants";
+import Button from "../../components/Button";
+import TextField from "../../components/TextField";
+import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
 import "./style.css"; 
 

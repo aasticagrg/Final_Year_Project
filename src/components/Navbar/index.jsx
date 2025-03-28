@@ -1,19 +1,26 @@
-// src/components/Navbar.js
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import { FiMenu, FiX } from "react-icons/fi"; // Import menu icons
-import toast from "react-hot-toast"; // For toast notifications
-import { baseUrl } from "../../constants"; // Adjust based on where your base URL is
-import "./styles.css"; // Import CSS
+import { FiMenu, FiX } from "react-icons/fi";
+import toast from "react-hot-toast";
+import { baseUrl } from "../../constants";
+import "./styles.css";
 
 const Navbar = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleProfileClick = () => {
-    setDropdownOpen(!dropdownOpen);
+  const handleProfileClick = (e) => {
+    const isLoggedIn = localStorage.getItem("token");
+
+    if (!isLoggedIn) {
+      e.preventDefault();
+      toast.error("You need to be logged in to access your profile.");
+      navigate("/login");
+    } else {
+      setDropdownOpen(!dropdownOpen);
+    }
   };
 
   const toggleMenu = () => {
@@ -24,9 +31,8 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      // If not logged in, show a toast and redirect to the login page
       toast.error("You are not logged in.");
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
       return;
     }
 
@@ -41,9 +47,8 @@ const Navbar = () => {
 
       const data = await response.json();
       if (data.success) {
-        // Clear the token and navigate to the homepage
         localStorage.clear();
-        navigate("/"); // Redirect to the homepage
+        navigate("/");
         toast.success("Logged out successfully");
       } else {
         throw new Error("Logout failed");
@@ -54,44 +59,32 @@ const Navbar = () => {
     }
   };
 
-  const isLoggedIn = localStorage.getItem("token"); // Check if the user is logged in
-
-  const handleRestrictedLinkClick = (e) => {
-    if (!isLoggedIn) {
-      e.preventDefault(); // Prevent navigation
-      toast.error("You need to be logged in to access this page.");
-      navigate("/login"); // Redirect to login page
-    }
-  };
+  const isLoggedIn = localStorage.getItem("token");
 
   return (
     <nav className="nav-container">
-      {/* Logo */}
       <img src="../assets/rentalLogo.png" alt="logo" className="logo" />
 
-      {/* Hamburger Menu Button */}
       <div className="hamburger" onClick={toggleMenu}>
         {menuOpen ? <FiX className="menu-icon" /> : <FiMenu className="menu-icon" />}
       </div>
 
-      {/* Navbar Links */}
       <div className={`nav-link ${menuOpen ? "nav-active" : ""}`}>
         <Link className="link" to="/" onClick={toggleMenu}>Home</Link>
-        <Link className="link" to="/properties" onClick={handleRestrictedLinkClick}>Booking</Link>
+        <Link className="link" to="/properties" onClick={toggleMenu}>Booking</Link>
         <Link className="link" to="/about" onClick={toggleMenu}>About</Link>
         <Link className="link" to="/contact" onClick={toggleMenu}>Contact</Link>
-        <Link className="link" to="/VendorRegister" onClick={toggleMenu}>List Your Property</Link>
+        <Link className="link" to="/Vendor/VendorRegister" onClick={toggleMenu}>List Your Property</Link>
 
-        {/* Profile Icon & Dropdown */}
         <div className="icons" onClick={handleProfileClick}>
           <CgProfile className="profile-icon" />
-          {dropdownOpen && (
+          {isLoggedIn && dropdownOpen && (
             <div className="dropdown">
-              <Link to="/profile" onClick={handleRestrictedLinkClick}>My Account</Link>
-              <Link to="/bookings" onClick={handleRestrictedLinkClick}>Bookings</Link>
-              <Link to="/reviews" onClick={handleRestrictedLinkClick}>Reviews</Link>
-              <Link to="/liked" onClick={handleRestrictedLinkClick}>Liked</Link>
-              <Link to="#" onClick={onLogout}>Sign Out</Link> {/* Trigger logout on click */}
+              <Link to="/profile">My Account</Link>
+              <Link to="/bookings">Bookings</Link>
+              <Link to="/reviews">Reviews</Link>
+              <Link to="/liked">Liked</Link>
+              <Link to="#" onClick={onLogout}>Sign Out</Link>
             </div>
           )}
         </div>
