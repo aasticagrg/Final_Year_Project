@@ -3,13 +3,14 @@ import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
-import './style.css';
+// import './style.css';
 
 const ManageProperties = () => {
     const [properties, setProperties] = useState([]);
     const [editForm, setEditForm] = useState(null);
     const navigate = useNavigate();
 
+    // Fetch properties when component mounts
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -17,12 +18,19 @@ const ManageProperties = () => {
             setTimeout(() => navigate("/User/login"), 500);
             return;
         }
-        getProperties();
+        getProperties(token);
     }, [navigate]);
 
-    const getProperties = async () => {
+    // Get properties based on the vendor's token
+    const getProperties = async (token) => {
         try {
-            const response = await fetch(baseUrl + "getProperties.php");
+            const response = await fetch(`${baseUrl}getProperties.php`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
             const data = await response.json();
             if (data.success) {
                 setProperties(data.properties);
@@ -33,12 +41,15 @@ const ManageProperties = () => {
             toast.error("Error fetching properties");
         }
     };
+    
 
+    // Edit property
     const handleEdit = (property) => {
         setEditForm(property);
         navigate("/vendor/editProperty", { state: { property } });
     };
 
+    // Delete property
     const handleDelete = async (propertyId) => {
         const token = localStorage.getItem("token");
         try {
@@ -53,7 +64,7 @@ const ManageProperties = () => {
             const data = await response.json();
             if (data.success) {
                 toast.success("Property deleted successfully!");
-                getProperties(); // refresh properties after delete
+                getProperties(token); // refresh properties after delete
             } else {
                 toast.error(data.message || "Failed to delete property.");
             }

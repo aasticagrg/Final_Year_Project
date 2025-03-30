@@ -1,12 +1,278 @@
 
-.container {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: white;
-  z-index: 1000;
+/* Property listing page styling */
+.property-container {
+  max-width: 1200px;
+  margin: 60px auto 0;
+  padding: 20px;
 }
 
-.home-content {
-  padding-top: 80px; /* Adjust this value if needed */
+.search-section {
+  position: relative;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../public/assets/mountain.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 40px 0;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  flex: 2;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.date-picker {
+  flex: 2;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.guest-selector {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-button {
+  background-color: #5a6268;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.properties-content {
+  display: flex;
+  gap: 20px;
+}
+
+.filter-section {
+  width: 250px;
+}
+
+.filter-card {
+  background-color: white;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.filter-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.filter-group {
+  margin-bottom: 15px;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.filter-option input {
+  margin-right: 10px;
+}
+
+.budget-filter input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.clear-button, .apply-button {
+  padding: 5px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.clear-button {
+  background-color: #727C72;
+  border: 1px solid #ddd;
+}
+
+.apply-button {
+  background-color: #727C72;
+  border: 1px solid #ddd;
+}
+
+/* Property listing section */
+.property-list {
+  flex: 1;
+}
+
+.properties-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.properties-count {
+  font-size: 14px;
+  color: #555;
+}
+
+.sort-dropdown {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Property card styling */
+.property-card {
+  display: flex;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.property-image {
+  width: 300px;
+  height: 200px;
+  position: relative;
+}
+
+.property-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.property-details {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+}
+
+.property-info {
+  flex: 2;
+}
+
+.property-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.property-location {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.property-location i {
+  margin-right: 5px;
+}
+
+.property-rating {
+  display: flex;
+  color: gold;
+  margin-bottom: 10px;
+}
+
+.property-amenities {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.property-booking {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 15px;
+  border-left: 1px solid #eee;
+}
+
+.property-price {
+  text-align: right;
+}
+
+.price-amount {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.price-tax {
+  font-size: 12px;
+  color: #888;
+}
+
+.property-stars {
+  display: flex;
+  color: gold;
+  margin-bottom: 5px;
+}
+
+.booking-details {
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: right;
+}
+
+.availability-button {
+  background-color: #5a6268;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.no-properties {
+  text-align: center;
+  padding: 40px;
+  color: #666;
 }

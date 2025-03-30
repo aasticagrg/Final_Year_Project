@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import VendorSidebar from "../Sidebar";
 import VendorBooking from "../Booking";
+import ManageProperties from "../Property";
 
 
 import AddProperty from "../AddProperty";
@@ -13,6 +14,7 @@ const VendorHome = () => {
     const pages = [
         <VendorDashboard/>,
         <AddProperty />,
+        <ManageProperties/>,
         <VendorBooking />,
         
     ];

@@ -24,11 +24,7 @@ const PropertyCard = ({ property }) => {
             {/* Middle Section - Property Details */}
             <div className="property-info">
                 <div className="property-header">
-                    <div className="property-rating">
-                        {[...Array(3)].map((_, i) => (
-                            <FaStar key={i} color="#FFC107" />
-                        ))}
-                    </div>
+                    
                     <h3 className="property-name">{property.property_name || "No Name"}</h3>
                     <p className="property-location">
                         <FaMapMarkerAlt className="icon" /> {property.city || "Unknown City"}
@@ -44,10 +40,7 @@ const PropertyCard = ({ property }) => {
 
             {/* Right Section - Price & Button */}
             <div className="property-price">
-                <p className="rating">
-                    <strong>4.0</strong> <span>12 reviews</span>
-                </p>
-                <p className="stay-info">1 night • 2 adults</p>
+                    Max Adults: {property.peoples || "N/A"}
                 <p className="price">NPR {property.price_per_night || "N/A"}</p>
                 <p className="tax-info">Includes tax and charges</p>
                 <button className="availability-btn" onClick={() => navigate(`/property/${property.property_id}`)}>

@@ -10,6 +10,7 @@ import AddProperty from "./Vendor/AddProperty";
 import VendorHome from "./Vendor/Home";
 import ProfilePage from "./User/Profile";
 import Contact from "./User/Contact";
+import ManageProperties from "./Vendor/Property";
 
 
 function App() {
@@ -54,6 +55,10 @@ function App() {
     {
       path: "/User/Properties",
       element: <Properties/>
+    },
+    {
+      path: "/Vendor/Property",
+      element: <ManageProperties/>
     },
     {
       path: "*",
