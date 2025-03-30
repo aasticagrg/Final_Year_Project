@@ -1,65 +1,278 @@
+/* Page background */
+body {
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Main container styling */
 .add-property-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background: #fff;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Title styling */
 .add-property-title {
+  font-size: 28px;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #3498db;
+  font-weight: 600;
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
 }
 
-.vendor-info {
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
+/* Form styling */
 .add-property-form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
-.input-field {
+/* Full width elements */
+.add-property-form .full-width {
+  grid-column: span 2;
+}
+
+/* Labels */
+.add-property-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Text inputs */
+.add-property-form input[type="text"],
+.add-property-form input[type="number"] {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid #dce4ec;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border 0.3s;
 }
 
-.image-upload {
+.add-property-form input[type="text"]:focus,
+.add-property-form input[type="number"]:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Select inputs */
+.add-property-form select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #dce4ec;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 15px;
+}
+
+.add-property-form select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* File inputs */
+.add-property-form .file-input-container {
+  position: relative;
   margin-bottom: 15px;
 }
 
-.submit-button {
-  background: #007bff;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
+.add-property-form .file-input-label {
+  display: inline-block;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  padding: 12px 15px;
+  border: 1px dashed #dce4ec;
+  border-radius: 4px;
   cursor: pointer;
-}
-
-.submit-button:hover {
-  background: #0056b3;
-}
-
-.loading {
-  text-align: center;
-  padding: 50px;
-}
-
-.select-field {
   width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background: #fff;
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.add-property-form .file-input-label:hover {
+  background-color: #e9ecef;
+  border-color: #3498db;
+}
+
+.add-property-form input[type="file"] {
+  position: absolute;
+  left: -9999px;
+}
+
+.add-property-form .file-name {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* Button styling */
+.add-property-form button {
+  grid-column: span 2;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+}
+
+.add-property-form button:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .add-property-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .add-property-form .full-width,
+  .add-property-form button {
+    grid-column: span 1;
+  }
+  
+  .add-property-container {
+    padding: 20px;
+    margin: 20px;
+  }
+}
+
+/* Section headings */
+.form-section-title {
+  grid-column: span 2;
+  font-size: 18px;
+  color: #3498db;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eaecef;
+}
+
+/* Input groups */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-group label {
+  margin-bottom: 0;
+}
+
+/* Description textarea */
+.add-property-form textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #dce4ec;
+  border-radius: 4px;
+  font-size: 14px;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.add-property-form textarea:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Centered time container */
+.time-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+  grid-column: span 2;
+}
+
+.time-input {
+  flex: 1;
+  max-width: 250px;
+}
+
+/* Dashboard navigation styles */
+.dashboard-sidebar {
+  background-color: #3498db;
+  color: white;
+  padding: 20px 0;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.dashboard-sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 12px 25px;
+  transition: background-color 0.3s;
+}
+
+.dashboard-sidebar a:hover,
+.dashboard-sidebar a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-sidebar .icon {
+  margin-right: 10px;
+}
+
+
+
+/* Main wrapper for the whole application */
+.app-wrapper {
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+/* Custom styling for different sections */
+.basic-info-section {
+  background-color: #ffffff;
+  border-left: 4px solid #3498db;
+  padding-left: 15px;
+}
+
+.property-details-section {
+  background-color: #ffffff;
+  border-left: 4px solid #2ecc71;
+  padding-left: 15px;
+}
+
+.amenities-section {
+  background-color: #ffffff;
+  border-left: 4px solid #e74c3c;
+  padding-left: 15px;
+}
+
+.availability-section {
+  background-color: #ffffff;
+  border-left: 4px solid #f39c12;
+  padding-left: 15px;
+}
+
+.images-section {
+  background-color: #ffffff;
+  border-left: 4px solid #9b59b6;
+  padding-left: 15px;
 }

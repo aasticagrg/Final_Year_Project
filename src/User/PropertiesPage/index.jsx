@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropertyCard from '../components/PropertyCard'; 
-import Navbar from '../components/Navbar';  
-import SearchForm from '../components/SearchForm';  
+import PropertyCard from '../../components/PropertyCard'; 
+import Navbar from '../../components/Navbar';  
+import SearchForm from '../../components/SearchForm';  
 // import './style.css';
 
 const PropertiesPage = () => {

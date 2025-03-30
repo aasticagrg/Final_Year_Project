@@ -1,9 +1,9 @@
-import { baseUrl } from "../constants";
+import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import TextField from "../components/TextField";
+import Button from "../../components/Button";
+import TextField from "../../components/TextField";
 import "./style.css";
 
 const LoginPage = () => {
@@ -99,7 +99,7 @@ const LoginPage = () => {
                         </form>
                         <span className="register-text">
                             Don't have an account?{" "}
-                            <Link to={isVendor ? "/VendorRegister" : "/Register"} className="register-link">
+                            <Link to={isVendor ? "/Vendor/VendorRegister" : "/User/Register"} className="register-link">
                                 {isVendor ? "Register as Vendor" : "Register"}
                             </Link>
                         </span>

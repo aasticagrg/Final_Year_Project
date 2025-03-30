@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import Navbar from "../components/Navbar";
-import { baseUrl } from "../constants";
-import PropertyCard from "../components/PropertyCard";
+import Navbar from "../../components/Navbar";
+import { baseUrl } from "../../constants";
+import PropertyCard from "../../components/PropertyCard";
 import toast from "react-hot-toast";
 
 const Properties = () => {

@@ -1,7 +1,7 @@
 header{
   width: 100vw;
   height: 100vh;
-  background-image: url('../../public/assets/Home.jpg');
+  background-image: url('../../../public/assets/Home.jpg');
   background-position: bottom;
   background-size: cover;
   display: flex;

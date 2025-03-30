@@ -17,7 +17,7 @@ const Navbar = () => {
     if (!isLoggedIn) {
       e.preventDefault();
       toast.error("You need to be logged in to access your profile.");
-      navigate("/login");
+      navigate("/User/login");
     } else {
       setDropdownOpen(!dropdownOpen);
     }
@@ -32,7 +32,7 @@ const Navbar = () => {
 
     if (!token) {
       toast.error("You are not logged in.");
-      navigate("/login");
+      navigate("/User/login");
       return;
     }
 
@@ -71,17 +71,17 @@ const Navbar = () => {
 
       <div className={`nav-link ${menuOpen ? "nav-active" : ""}`}>
         <Link className="link" to="/" onClick={toggleMenu}>Home</Link>
-        <Link className="link" to="/properties" onClick={toggleMenu}>Booking</Link>
-        <Link className="link" to="/about" onClick={toggleMenu}>About</Link>
-        <Link className="link" to="/contact" onClick={toggleMenu}>Contact</Link>
+        <Link className="link" to="/User/Properties" onClick={toggleMenu}>Property</Link>
+        <Link className="link" to="/User/about" onClick={toggleMenu}>About</Link>
+        <Link className="link" to="/User/Contact" onClick={toggleMenu}>Contact</Link>
         <Link className="link" to="/Vendor/VendorRegister" onClick={toggleMenu}>List Your Property</Link>
 
         <div className="icons" onClick={handleProfileClick}>
           <CgProfile className="profile-icon" />
           {isLoggedIn && dropdownOpen && (
             <div className="dropdown">
-              <Link to="/profile">My Account</Link>
-              <Link to="/bookings">Bookings</Link>
+              <Link to="/User/profile">My Account</Link>
+              <Link to="/bookings">Booked</Link>
               <Link to="/reviews">Reviews</Link>
               <Link to="/liked">Liked</Link>
               <Link to="#" onClick={onLogout}>Sign Out</Link>

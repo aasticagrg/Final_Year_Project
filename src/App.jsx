@@ -1,85 +1,59 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-
-// Import all your pages
-import Home from './Home';
-import LoginPage from './Login';
-import RegisterPage from './Register';
-import PropertiesPage from "./PropertiesPage";
+import Home from "./User/Home";
+import LoginPage from './User/Login';
+import RegisterPage from './User/Register';
+import PropertiesPage from "./User/PropertiesPage";
 import VendorRegisterPage from "./Vendor/VendorRegister";
-import Properties from "./Properties";
+import Properties from "./User/Properties";
 import AddProperty from "./Vendor/AddProperty";
 import VendorHome from "./Vendor/Home";
-import ProfilePage from "./Profile";
-import Contact from "./Contact";
+import ProfilePage from "./User/Profile";
+import Contact from "./User/Contact";
 
-// Protected Route Component
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
-  
-  return token ? (
-    children
-  ) : (
-    <Navigate to="/Login" replace state={{ from: window.location.pathname }} />
-  );
-};
 
 function App() {
+  const token = localStorage.getItem("token");
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />
+      element: <Home/>
     },
     {
-      path: "/Contact",
-      element: <Contact />
+      path: "/User/Login",
+      element: <LoginPage/>
     },
     {
-      path: "/PropertiesPage",
-      element: <PropertiesPage />
+      path: "/User/Profile",
+      element: <ProfilePage/>
     },
     {
-      path: "/Properties",
-      element: <Properties />
+      path: "/User/Contact",
+      element: <Contact/>
     },
     {
       path: "/Vendor/VendorRegister",
-      element: <VendorRegisterPage />
+      element: <VendorRegisterPage/>
     },
     {
-      // Protected Routes
-      path: "/Profile",
-      element: (
-        <ProtectedRoute>
-          <ProfilePage />
-        </ProtectedRoute>
-      )
+      path: "/User/Register",
+      element: <RegisterPage/>
+    },
+    {
+      path: "/User/PropertiesPage",
+      element: <PropertiesPage/>
     },
     {
       path: "/Vendor/AddProperty",
-      element: (
-        <ProtectedRoute>
-          <AddProperty />
-        </ProtectedRoute>
-      )
+      element: <AddProperty/>
     },
     {
       path: "/Vendor/Home",
-      element: (
-        <ProtectedRoute>
-          <VendorHome />
-        </ProtectedRoute>
-      )
+      element: <VendorHome/>
     },
     {
-      // Non-Layout Routes
-      path: "/Login",
-      element: <LoginPage />
-    },
-    {
-      path: "/Register",
-      element: <RegisterPage />
+      path: "/User/Properties",
+      element: <Properties/>
     },
     {
       path: "*",
@@ -90,7 +64,7 @@ function App() {
   return (
     <>
       <Toaster />
-      <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </>
   );
 }

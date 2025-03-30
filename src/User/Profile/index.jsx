@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import { baseUrl } from "../constants";
+import Navbar from "../../components/Navbar";
+import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
 
 const ProfilePage = () => {

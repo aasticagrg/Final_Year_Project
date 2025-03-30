@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import Navbar from "../components/Navbar";
-import { baseUrl } from "../constants";
+import Navbar from "../../components/Navbar";
+import { baseUrl } from "../../constants";
 import './style.css';
 
 const Contact = () => {

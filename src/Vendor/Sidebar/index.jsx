@@ -17,6 +17,7 @@ const VendorSidebar = ({ active, setActive }) => {
     const menuOptions = [
         { title: "Dashboard", icon: <IoMdHome />, link: "/Vendor/Dashboard" },
         { title: "List Property", icon: <FaTable />, link: "/Vendor/AddProperty" },
+        { title: "Property", icon: <FaUsers />, link: "/Vendor/Property" },
         { title: "Booking", icon: <FaUsers />, link: "/Vendor/Booking" },
         { title: "Payments", icon: <MdPayments />, link: "/Vendor/payments" }
     ];
@@ -29,7 +30,8 @@ const VendorSidebar = ({ active, setActive }) => {
                 minHeight: "calc(100vh - 50px)",
                 transition: "width 0.3s ease",
                 transform: "translateX(0)",
-                padding: "10px"
+                padding: "10px", 
+                paddingTop: "60px"
             }}
         >
             {menuOptions.map((option, index) => {

@@ -56,7 +56,7 @@ const VendorRegisterPage = () => {
             
             if (data.success) {
                 toast.success(data.message);
-                navigate("/Login");
+                navigate("/User/Login");
             } else {
                 toast.error(data.message);
             }
@@ -153,7 +153,7 @@ const VendorRegisterPage = () => {
                     <Button className="custom-button" label="Sign Up" type="submit" />
                 </form>
                 <div className="login-link">
-                    Already have an account? <Link to="/Login">Login</Link>
+                    Already have an account? <Link to="/User/Login">Login</Link>
                 </div>
             </div>
         </div>
