@@ -31,7 +31,7 @@ const AdminSidebar = ({ active, setActive }) => {
                 transition: "width 0.3s ease",
                 transform: "translateX(0)",
                 padding: "10px", 
-                paddingTop: "60px"
+                // paddingTop: "60px"
             }}
         >
             {menuOptions.map((option, index) => {

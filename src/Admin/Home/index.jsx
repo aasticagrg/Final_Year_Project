@@ -31,7 +31,7 @@ const AdminHome = () => {
             </div>
             <div style={{
                 display: "flex",
-                paddingTop: "50px",
+                paddingTop: "80px",
                 overflow: "hidden",
             }}>
                 <AdminSidebar active={active} setActive={setActive} isExpanded={isExpanded} />
