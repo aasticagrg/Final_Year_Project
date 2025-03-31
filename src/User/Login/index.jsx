@@ -11,7 +11,7 @@ const LoginPage = () => {
         email: "",
         password: ""
     });
-    const [isVendor, setIsVendor] = useState(false);
+    const [role, setRole] = useState("user"); // Default role is "user"
     const navigate = useNavigate();
 
     const onLogin = async (e) => {
@@ -21,7 +21,7 @@ const LoginPage = () => {
             const formData = new FormData();
             formData.append("email", form.email);
             formData.append("password", form.password);
-            formData.append("role", isVendor ? "vendor" : "user");
+            formData.append("role", role); // Dynamic role selection
 
             const response = await fetch(baseUrl + "auth/login.php", {
                 method: "POST",
@@ -31,12 +31,6 @@ const LoginPage = () => {
             const data = await response.json();
 
             if (data.success) {
-                // Ensure the role matches the selected tab
-                if ((isVendor && data.role !== "vendor") || (!isVendor && data.role !== "user")) {
-                    toast.error("Invalid email or password for the selected role.");
-                    return;
-                }
-
                 // Store relevant data in localStorage
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("role", data.role);
@@ -48,7 +42,13 @@ const LoginPage = () => {
                 toast.success(data.message);
 
                 // Navigate to the respective dashboard
-                navigate(data.role === "vendor" ? "/Vendor/Home" : "/");
+                if (data.role === "admin") {
+                    navigate("/Admin/Home");
+                } else if (data.role === "vendor") {
+                    navigate("/Vendor/Home");
+                } else {
+                    navigate("/");
+                }
             } else {
                 toast.error(data.message);
             }
@@ -66,16 +66,22 @@ const LoginPage = () => {
                         <h2 className="login-heading">Log In to your account</h2>
                         <div className="login-tabs">
                             <div
-                                className={`login-tab ${!isVendor ? "active" : ""}`}
-                                onClick={() => setIsVendor(false)}
+                                className={`login-tab ${role === "user" ? "active" : ""}`}
+                                onClick={() => setRole("user")}
                             >
                                 User
                             </div>
                             <div
-                                className={`login-tab ${isVendor ? "active" : ""}`}
-                                onClick={() => setIsVendor(true)}
+                                className={`login-tab ${role === "vendor" ? "active" : ""}`}
+                                onClick={() => setRole("vendor")}
                             >
                                 Vendor
+                            </div>
+                            <div
+                                className={`login-tab ${role === "admin" ? "active" : ""}`}
+                                onClick={() => setRole("admin")}
+                            >
+                                Admin
                             </div>
                         </div>
                         <form className="login-form" onSubmit={onLogin}>
@@ -97,12 +103,14 @@ const LoginPage = () => {
                             />
                             <Button label="Login" type="submit" />
                         </form>
-                        <span className="register-text">
-                            Don't have an account?{" "}
-                            <Link to={isVendor ? "/Vendor/VendorRegister" : "/User/Register"} className="register-link">
-                                {isVendor ? "Register as Vendor" : "Register"}
-                            </Link>
-                        </span>
+                        {role !== "admin" && (
+                            <span className="register-text">
+                                Don't have an account?{" "}
+                                <Link to={role === "vendor" ? "/Vendor/VendorRegister" : "/User/Register"} className="register-link">
+                                    {role === "vendor" ? "Register as Vendor" : "Register"}
+                                </Link>
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>

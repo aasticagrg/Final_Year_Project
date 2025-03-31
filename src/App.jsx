@@ -11,6 +11,11 @@ import VendorHome from "./Vendor/Home";
 import ProfilePage from "./User/Profile";
 import Contact from "./User/Contact";
 import ManageProperties from "./Vendor/Property";
+import AdminHome from "./Admin/Home";
+import AdminDashboard from "./Admin/Dashboard";
+import AdminUser from "./Admin/User";
+import AdminVendor from "./Admin/Vendor";
+import AdminComplaint from "./Admin/Complaint";
 
 
 function App() {
@@ -59,6 +64,26 @@ function App() {
     {
       path: "/Vendor/Property",
       element: <ManageProperties/>
+    },
+    {
+      path: "/Admin/Home",
+      element: <AdminHome/>
+    },
+    {
+      path: "/Admin/User",
+      element: <AdminUser/>
+    },
+    {
+      path: "/Admin/Dashboard",
+      element: <AdminDashboard/>
+    },
+    {
+      path: "/Admin/Vendor",
+      element: <AdminVendor/>
+    },
+    {
+      path: "/Admin/Complaint",
+      element: <AdminComplaint/>
     },
     {
       path: "*",
