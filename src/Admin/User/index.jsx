@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
-import { Box, Button, Typography, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 const AdminUser = () => {
     const [users, setUsers] = useState([]);
@@ -18,7 +18,7 @@ const AdminUser = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(baseUrl + "getUsers.php", {
+            const response = await fetch(`${baseUrl}getUsers.php`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -52,8 +52,7 @@ const AdminUser = () => {
         
         try {
             const token = localStorage.getItem("token");
-            
-            const response = await fetch(baseUrl + "deleteUser.php", {
+            const response = await fetch(`${baseUrl}deleteUser.php`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +67,6 @@ const AdminUser = () => {
             
             if (data.success) {
                 toast.success(data.message);
-                // Remove the user from local state
                 setUsers(users.filter(user => user.user_id !== selectedUser.user_id));
                 handleCloseDialog();
             } else {
@@ -88,15 +86,19 @@ const AdminUser = () => {
         { field: 'user_address', headerName: 'Address', width: 200 },
         { field: 'role', headerName: 'Role', width: 120 },
         { 
-            field: 'user_verification', 
+            field: 'user_verification', // This field contains the image data
             headerName: 'Verification', 
             width: 150,
             renderCell: (params) => (
-                <Chip 
-                    label={params.value === "1" ? "Verified" : "Unverified"} 
-                    color={params.value === "1" ? "success" : "warning"} 
-                    size="small"
-                />
+                params.value && params.value.startsWith('data:image/') ? (
+                    <img 
+                        src={params.value} // Display the base64 image if it exists
+                        alt="Verification"
+                        style={{ width: 24, height: 24 }} // Adjust size as needed
+                    />
+                ) : (
+                    <>No Image</> // Display a fallback message if no image
+                )
             )
         },
         {
@@ -117,29 +119,28 @@ const AdminUser = () => {
     ];
 
     return (
-        <Box sx={{ width: '100%', height: '100%' }}>
-            <Typography variant="h5" component="h2" gutterBottom>
-                User Management
-            </Typography>
-            
-            <Box sx={{ width: '100%', height: 500 }}>
-                <DataGrid
-                    rows={users}
-                    columns={columns}
-                    getRowId={(row) => row.user_id}
-                    loading={loading}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 10 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10, 25]}
-                    disableRowSelectionOnClick
-                />
-            </Box>
+      <Box sx={{ width: '100%', height: '100%' }}>
+          <Typography variant="h5" component="h2" gutterBottom>
+              User Management
+          </Typography>
 
-            {/* Confirmation Dialog */}
-            <Dialog
+          <Box sx={{ width: '100%', height: 500 }}>
+              <DataGrid
+                  rows={users}
+                  columns={columns}
+                  getRowId={(row) => row.user_id}
+                  loading={loading}
+                  initialState={{
+                      pagination: {
+                          paginationModel: { page: 0, pageSize: 10 },
+                      },
+                  }}
+                  pageSizeOptions={[5, 10, 25]}
+                  disableRowSelectionOnClick
+              />
+          </Box>
+
+          <Dialog
                 open={openDialog}
                 onClose={handleCloseDialog}
                 aria-labelledby="alert-dialog-title"

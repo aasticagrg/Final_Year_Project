@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom"; 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
+
 import { baseUrl } from "../../constants";
 import "./style.css"; 
 
@@ -43,7 +45,7 @@ const PropertyCard = ({ property }) => {
                     Max Adults: {property.peoples || "N/A"}
                 <p className="price">NPR {property.price_per_night || "N/A"}</p>
                 <p className="tax-info">Includes tax and charges</p>
-                <button className="availability-btn" onClick={() => navigate(`/property/${property.property_id}`)}>
+                <button className="availability-btn" onClick={() => navigate(`/User/PropertyDetails/${property.property_id}`)}>
                     See Availability
                 </button>
             </div>

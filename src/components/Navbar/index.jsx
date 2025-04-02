@@ -63,7 +63,7 @@ const Navbar = () => {
 
   return (
     <nav className="nav-container">
-      <img src="../assets/rentalLogo.png" alt="logo" className="logo" />
+      <img src="/assets/rentalLogo.png" alt="logo" className="logo" />
 
       <div className="hamburger" onClick={toggleMenu}>
         {menuOpen ? <FiX className="menu-icon" /> : <FiMenu className="menu-icon" />}

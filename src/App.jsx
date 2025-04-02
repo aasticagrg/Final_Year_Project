@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { BookingProvider } from "./context"; // Import your BookingProvider
+
 import Home from "./User/Home";
 import LoginPage from './User/Login';
 import RegisterPage from './User/Register';
@@ -10,13 +12,14 @@ import AddProperty from "./Vendor/AddProperty";
 import VendorHome from "./Vendor/Home";
 import ProfilePage from "./User/Profile";
 import Contact from "./User/Contact";
+import PropertyDetails from "./User/PropertyDetail";
+import BookingConfirm from "./User/BookingConfirm";
 import ManageProperties from "./Vendor/Property";
 import AdminHome from "./Admin/Home";
 import AdminDashboard from "./Admin/Dashboard";
 import AdminUser from "./Admin/User";
 import AdminVendor from "./Admin/Vendor";
 import AdminComplaint from "./Admin/Complaint";
-
 
 function App() {
   const token = localStorage.getItem("token");
@@ -36,6 +39,14 @@ function App() {
     {
       path: "/User/Contact",
       element: <Contact/>
+    },
+    {
+      path: "/User/PropertyDetails/:id",
+      element: <PropertyDetails/>
+    },
+    {
+      path: "/User/BookingConfirm",
+      element: <BookingConfirm/>
     },
     {
       path: "/Vendor/VendorRegister",
@@ -92,10 +103,10 @@ function App() {
   ]);
 
   return (
-    <>
+    <BookingProvider> {/* Wrap your app with BookingProvider */}
       <Toaster />
-      <RouterProvider router={router}/>
-    </>
+      <RouterProvider router={router} />
+    </BookingProvider>
   );
 }
 

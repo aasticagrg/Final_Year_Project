@@ -38,7 +38,7 @@ const Properties = () => {
     
     useEffect(() => {
         if (!token) {
-            navigate("/login");
+            navigate("/User/login");
         }
         fetchProperties();
     }, []);
