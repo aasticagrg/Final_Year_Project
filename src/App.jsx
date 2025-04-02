@@ -14,6 +14,7 @@ import ProfilePage from "./User/Profile";
 import Contact from "./User/Contact";
 import PropertyDetails from "./User/PropertyDetail";
 import BookingConfirm from "./User/BookingConfirm";
+import UserPayment from "./User/Payment";
 import ManageProperties from "./Vendor/Property";
 import AdminHome from "./Admin/Home";
 import AdminDashboard from "./Admin/Dashboard";
@@ -47,6 +48,10 @@ function App() {
     {
       path: "/User/BookingConfirm",
       element: <BookingConfirm/>
+    },
+    {
+      path: "/User/Payment",
+      element: <UserPayment/>
     },
     {
       path: "/Vendor/VendorRegister",

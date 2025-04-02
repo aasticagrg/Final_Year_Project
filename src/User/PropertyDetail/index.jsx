@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BookingContext } from "../../context";
 import './style.css';
 
-const PropertyDetails = () => {
+const PropertyDetail = () => {
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -17,17 +17,17 @@ const PropertyDetails = () => {
     const params = useParams();
     const navigate = useNavigate();
 
-    const { setBookingDetails} = useContext(BookingContext);
+    // Use the booking context
+    const { setBookingDetails } = useContext(BookingContext);
     
     useEffect(() => {
         fetchPropertyData();
     }, [params.id]);
-    
-    // Calculate total price when dates change
+
     useEffect(() => {
         calculateTotalPrice();
     }, [checkInDate, checkOutDate, property]);
-    
+
     const fetchPropertyData = async () => {
         setLoading(true);
         try {
@@ -49,7 +49,6 @@ const PropertyDetails = () => {
             setLoading(false);
         }
     };
-    
     const getAllPropertyImages = () => {
         if (!property) return [];
         
@@ -64,7 +63,7 @@ const PropertyDetails = () => {
     
     const calculateTotalPrice = () => {
         setError("");
-        
+
         if (!checkInDate || !checkOutDate || !property) {
             setTotalPrice(0);
             return;
@@ -73,22 +72,19 @@ const PropertyDetails = () => {
         const checkIn = new Date(checkInDate);
         const checkOut = new Date(checkOutDate);
         
-        // Validate dates
         if (checkIn >= checkOut) {
             setError("Check-out date must be after check-in date");
             setTotalPrice(0);
             return;
         }
-        
-        // Calculate days difference
+
         const timeDiff = checkOut.getTime() - checkIn.getTime();
         const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
         
-        // Calculate total price
         const price = property.price_per_night * nights;
         setTotalPrice(price);
     };
-    
+
     const handleBookNow = () => {
         if (!checkInDate || !checkOutDate) {
             setError("Please select check-in and check-out dates");
@@ -98,19 +94,26 @@ const PropertyDetails = () => {
         if (error) {
             return;
         }
-        
+
+        // Set the booking details in context - FIXED STRUCTURE HERE
         setBookingDetails({
-            propertyName: property.property_name,
-            location: property.location,
-            city: property.city,
+            property: {
+                property_id: property.property_id,
+                property_name: property.property_name,
+                location: property.location,
+                city: property.city,
+                price_per_night: property.price_per_night,
+                max_guests: property.peoples
+            },
             checkInDate,
             checkOutDate,
             totalPrice,
-            days: Math.ceil((new Date(checkOutDate) - new Date(checkInDate)) / (1000 * 3600 * 24)) // Calculate number of days
+            days: Math.ceil((new Date(checkOutDate) - new Date(checkInDate)) / (1000 * 3600 * 24))
         });
+
         navigate("/User/BookingConfirm");
     };
-    
+
     if (loading) {
         return (
             <div className="loader-wrapper">
@@ -119,6 +122,7 @@ const PropertyDetails = () => {
             </div>
         );
     }
+
     
     const propertyImages = getAllPropertyImages();
     
@@ -311,4 +315,4 @@ const PropertyDetails = () => {
     );
 };
 
-export default PropertyDetails;
+export default PropertyDetail;

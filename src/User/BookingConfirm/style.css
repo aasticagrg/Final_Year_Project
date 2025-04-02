@@ -1,0 +1,250 @@
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 120px auto;
+  padding: 20px;
+}
+
+/* No booking container */
+.no-booking-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 40px;
+  text-align: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #e53935;
+}
+
+.error-message svg {
+  flex-shrink: 0;
+}
+
+/* Navbar */
+.navbar {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Booking Container */
+.booking-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.booking-content {
+  display: block;
+  width: 100%;
+}
+
+/* Property Details */
+.booking-property-details {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.property-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.property-location {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Booking Card */
+.booking-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.booking-card h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.booking-dates {
+  margin-bottom: 15px;
+}
+
+.booking-dates div {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+/* Price Summary */
+.price-summary {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.price-summary h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.price-summary div {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.price-summary div:nth-child(3) {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.price-summary div:nth-child(4) {
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Form Sections */
+.details-section,
+.arrival-section,
+.property-section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.details-section h3,
+.arrival-section h3,
+.property-section h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input Groups */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.input-hint {
+  color: #666;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.required {
+  color: #e53935;
+}
+
+.verification-preview {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #4a90e2;
+}
+
+/* Action Button */
+.action-button {
+  margin-top: 20px;
+}
+
+.action-button button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+.action-button button:hover {
+  background-color: #3a7bc8;
+}
+
+/* Back Button */
+.back-button {
+  background-color: transparent;
+  color: #4a90e2;
+  border: 1px solid #4a90e2;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.back-button:hover {
+  background-color: #f0f7ff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .booking-property-details,
+  .booking-card,
+  .price-summary,
+  .details-section,
+  .arrival-section,
+  .property-section {
+    margin-bottom: 15px;
+    padding: 20px;
+  }
+}
