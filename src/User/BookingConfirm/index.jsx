@@ -9,7 +9,7 @@ import "./style.css";
 
 const BookingConfirm = () => {
     const navigate = useNavigate();
-    const { bookingDetails, clearBookingDetails } = useContext(BookingContext);
+    const { bookingDetails, setBookingDetails, clearBookingDetails } = useContext(BookingContext);
     const [total, setTotal] = useState(0);
     const [userDetails, setUserDetails] = useState({
         name: "",
@@ -22,14 +22,20 @@ const BookingConfirm = () => {
     const [fullGuestName, setFullGuestName] = useState("");
 
     useEffect(() => {
-        // Check if booking details exist
         if (!bookingDetails || !bookingDetails.property) {
             return;
         }
         
-        // Calculate total based on property price and days
         const totalPrice = bookingDetails.property.price_per_night * bookingDetails.days;
         setTotal(totalPrice);
+
+        if (bookingDetails.arrivalTime) {
+            setArrivalTime(bookingDetails.arrivalTime);
+        }
+        
+        if (bookingDetails.fullGuestName) {
+            setFullGuestName(bookingDetails.fullGuestName);
+        }
 
         fetchUserDetails();
     }, [bookingDetails]);
@@ -58,8 +64,12 @@ const BookingConfirm = () => {
                     email: data.user.email || "",
                     user_address: data.user.user_address || "",
                     phone_no: data.user.phone_no || "",
-                    user_verification: data.user.user_verification || null // Fetch image from database
+                    user_verification: data.user.user_verification || null
                 });
+                
+                if (!fullGuestName) {
+                    setFullGuestName(data.user.name || "");
+                }
             } else {
                 toast.error(data.message);
             }
@@ -84,15 +94,25 @@ const BookingConfirm = () => {
     };
 
     const handleNext = (e) => {
-        e.preventDefault(); // Prevent default form submission behavior
+        e.preventDefault();
         
-        // Check if booking details actually exist
         if (!bookingDetails || !bookingDetails.property) {
             toast.error("Booking details not found");
             return;
         }
+        
+        if (!arrivalTime) {
+            toast.error("Please select your arrival time");
+            return;
+        }
+        
+        setBookingDetails({
+            ...bookingDetails,
+            userDetails: userDetails,
+            arrivalTime: arrivalTime,
+            fullGuestName: fullGuestName || userDetails.name
+        });
 
-        // Prepare payment details to send to payment page
         const paymentDetails = {
             checkInDate: bookingDetails.checkInDate,
             checkOutDate: bookingDetails.checkOutDate,
@@ -103,8 +123,7 @@ const BookingConfirm = () => {
             fullGuestName: fullGuestName || userDetails.name
         };
 
-        // Navigate to the payment page
-        navigate("/payment", { state: paymentDetails });
+        navigate("/User/Payment", { state: paymentDetails });
     };
 
     if (!bookingDetails || !bookingDetails.property) {
@@ -122,8 +141,7 @@ const BookingConfirm = () => {
                     </div>
                     <button 
                         className="back-button"
-                        onClick={() => navigate("/")}
-                    >
+                        onClick={() => navigate("/")}>
                         Back to Properties
                     </button>
                 </div>
@@ -136,7 +154,7 @@ const BookingConfirm = () => {
             <Navbar />
             <div className="booking-container">
                 <div className="booking-content">
-                <div>
+                    <div>
                         <div className="booking-property-details">
                             <h2 className="property-title">{bookingDetails.property.property_name}</h2>
                             <div className="property-location">
@@ -201,13 +219,13 @@ const BookingConfirm = () => {
                                         type="file" 
                                         onChange={handleFileChange} 
                                     />
-                                   {userDetails.user_verification ? (
+                                    {userDetails.user_verification ? (
                                         <div className="verification-preview">
                                             <p>Verification already uploaded</p>
                                             <img 
                                                 src={userDetails.user_verification} 
                                                 alt="Verification" 
-                                                style={{ maxWidth: '100px', height: 'auto' }} // Adjust these styles as necessary
+                                                style={{ maxWidth: '100px', height: 'auto' }}
                                             />
                                         </div>
                                     ) : (
@@ -244,7 +262,6 @@ const BookingConfirm = () => {
                                         <option value="16:00-17:00">4:00 PM - 5:00 PM</option>
                                         <option value="17:00-18:00">5:00 PM - 6:00 PM</option>
                                         <option value="18:00-19:00">6:00 PM - 7:00 PM</option>
-                                        <option value="18:00-19:00">6:00 PM - 7:00 PM</option>
                                         <option value="19:00-20:00">7:00 PM - 8:00 PM</option>
                                         <option value="21:00-22:00">9:00 PM - 10:00 PM</option>
                                         <option value="22:00-23:00">10:00 PM - 11:00 PM</option>
@@ -266,6 +283,12 @@ const BookingConfirm = () => {
                                         onChange={(e) => setFullGuestName(e.target.value)}
                                     />
                                 </div>
+                            </div>
+
+                            <div className="vendor-info-section">
+                                <h3>Vendor Information</h3>
+                                <p><strong>Name:</strong> {bookingDetails.property.vendor_name}</p>
+                                <p><strong>Phone:</strong> {bookingDetails.property.vendor_phone}</p>
                             </div>
 
                             <div className="action-button">

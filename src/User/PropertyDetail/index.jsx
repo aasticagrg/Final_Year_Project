@@ -49,6 +49,7 @@ const PropertyDetail = () => {
             setLoading(false);
         }
     };
+
     const getAllPropertyImages = () => {
         if (!property) return [];
         
@@ -60,7 +61,7 @@ const PropertyDetail = () => {
             property.pimage5
         ].filter(img => img);
     };
-    
+
     const calculateTotalPrice = () => {
         setError("");
 
@@ -95,7 +96,7 @@ const PropertyDetail = () => {
             return;
         }
 
-        // Set the booking details in context - FIXED STRUCTURE HERE
+        // Set the booking details in context
         setBookingDetails({
             property: {
                 property_id: property.property_id,
@@ -103,7 +104,10 @@ const PropertyDetail = () => {
                 location: property.location,
                 city: property.city,
                 price_per_night: property.price_per_night,
-                max_guests: property.peoples
+                max_guests: property.peoples,
+                vendor_id: property.vendor_id,
+                vendor_name: property.vendor_name,
+                vendor_phone: property.contact_no
             },
             checkInDate,
             checkOutDate,
@@ -123,7 +127,6 @@ const PropertyDetail = () => {
         );
     }
 
-    
     const propertyImages = getAllPropertyImages();
     
     return (
@@ -137,6 +140,7 @@ const PropertyDetail = () => {
                     </p>
                 </div>
                 
+                {/* Image Gallery Section */}
                 <div className="photos-gallery-section">
                     <div className="main-photo-wrapper">
                         <img 
@@ -158,7 +162,9 @@ const PropertyDetail = () => {
                     </div>
                 </div>
                 
+                {/* Main Content Layout */}
                 <div className="property-details-wrapper">
+                    {/* Left Column - About & Details */}
                     <div className="property-info-section">
                         <div className="description-wrapper">
                             <h2 className="info-section-heading">About this property</h2>
@@ -185,18 +191,111 @@ const PropertyDetail = () => {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Features & Amenities Section */}
+                        <h2 className="section-title">Features & Amenities</h2>
+                        <div className="features-amenities-container">
+                            {/* Room Configuration Section */}
+                            <div className="room-configuration-section">
+                                <h3 className="section-subheading">Room Configuration</h3>
+                                <div className="feature-item">
+                                    <span className="feature-icon">🛏️</span>
+                                    <span className="feature-label">Bedrooms:</span>
+                                    <span className="feature-value">{property?.bedroom}</span>
+                                </div>
+                                <div className="feature-item">
+                                    <span className="feature-icon">🚿</span>
+                                    <span className="feature-label">Bathrooms:</span>
+                                    <span className="feature-value">{property?.bathroom}</span>
+                                </div>
+                                <div className="feature-item">
+                                    <span className="feature-icon">🏠</span>
+                                    <span className="feature-label">Balconies:</span>
+                                    <span className="feature-value">{property?.balcony}</span>
+                                </div>
+                                <div className="feature-item">
+                                    <span className="feature-icon">🍳</span>
+                                    <span className="feature-label">Kitchen:</span>
+                                    <span className="feature-value">{property?.kitchen}</span>
+                                </div>
+                            </div>
+                            
+                            {/* Vendor Information Section - Placed beside Room Configuration */}
+                            <div className="vendor-info-section">
+                                <h3 className="section-subheading">Vendor Information</h3>
+                                <div className="feature-item">
+                                    <span className="feature-icon">👤</span>
+                                    <span className="feature-label">Name:</span>
+                                    <span className="feature-value">{property?.vendor_name}</span>
+                                </div>
+                                <div className="feature-item">
+                                    <span className="feature-icon">📞</span>
+                                    <span className="feature-label">Phone:</span>
+                                    <span className="feature-value">{property?.contact_no}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Amenities Section */}
+                        <div className="amenities-section">
+                            <h3 className="section-subheading">Amenities</h3>
+                            <div className="amenities-grid">
+                                <div className="amenity-item">
+                                    <span className="amenity-label">WiFi:</span>
+                                    <span className="amenity-value">{property?.wifi}</span>
+                                </div>
+                                <div className="amenity-item">
+                                    <span className="amenity-label">Utilities Included:</span>
+                                    <span className="amenity-value">{property?.utilities}</span>
+                                </div>
+                                <div className="amenity-item">
+                                    <span className="amenity-label">Parking:</span>
+                                    <span className="amenity-value">{property?.parking}</span>
+                                </div>
+                                <div className="amenity-item">
+                                    <span className="amenity-label">Swimming Pool:</span>
+                                    <span className="amenity-value">{property?.pool}</span>
+                                </div>
+                                <div className="amenity-item">
+                                    <span className="amenity-label">Pet Friendly:</span>
+                                    <span className="amenity-value">{property?.pet_friendly}</span>
+                                </div>
+                                <div className="amenity-item">
+                                    <span className="amenity-label">Baby Crib:</span>
+                                    <span className="amenity-value">{property?.crib}</span>
+                                </div>
+                            </div>
+                        </div>
                         
+                        {/* Rules Section */}
+                        <div className="rules-section">
+                            <h3 className="section-subheading">Rules</h3>
+                            <div className="rules-grid">
+                                <div className="rule-item">
+                                    <span className="rule-label">Check In:</span>
+                                    <span className="rule-value">14:00 pm</span>
+                                </div>
+                                <div className="rule-item">
+                                    <span className="rule-label">Check Out:</span>
+                                    <span className="rule-value">12:00 pm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Booking Box */}
+                    <div className="booking-sidebar">
                         <div className="booking-summary-box">
                             <div className="nightly-rate">
                                 <span className="rate-number">Rs. {property?.price_per_night}</span>
-                                <span className="rate-period">/ night</span>
+                                <span className="rate-period">/night</span>
                             </div>
                             
                             <div className="booking-form">
                                 <h3 className="booking-form-title">Book Your Stay</h3>
                                 
                                 <div className="booking-date-field">
-                                    <label htmlFor="check-in-date">Check-in date</label>
+                                    <label htmlFor="check-in-date">Check in date</label>
                                     <input 
                                         type="date" 
                                         id="check-in-date" 
@@ -207,7 +306,7 @@ const PropertyDetail = () => {
                                 </div>
                                 
                                 <div className="booking-date-field">
-                                    <label htmlFor="check-out-date">Check-out date</label>
+                                    <label htmlFor="check-out-date">Check out date</label>
                                     <input 
                                         type="date" 
                                         id="check-out-date" 
@@ -233,79 +332,6 @@ const PropertyDetail = () => {
                                 >
                                     Book Now
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="features-amenities-section">
-                        <h2 className="features-heading">Features & Amenities</h2>
-                        <div className="features-divider"></div>
-                        
-                        <div className="features-column">
-                            <h3 className="section-subheading">Room Configuration</h3>
-                            <div className="feature-row">
-                                <span className="feature-icon">🛏️</span>
-                                <span className="feature-label">Bedrooms:</span>
-                                <span className="feature-value">{property?.bedroom}</span>
-                            </div>
-                            <div className="feature-row">
-                                <span className="feature-icon">🚿</span>
-                                <span className="feature-label">Bathrooms:</span>
-                                <span className="feature-value">{property?.bathroom}</span>
-                            </div>
-                            <div className="feature-row">
-                                <span className="feature-icon">🏠</span>
-                                <span className="feature-label">Balconies:</span>
-                                <span className="feature-value">{property?.balcony}</span>
-                            </div>
-                            <div className="feature-row">
-                                <span className="feature-icon">🍳</span>
-                                <span className="feature-label">Kitchen:</span>
-                                <span className="feature-value">{property?.kitchen}</span>
-                            </div>
-                        </div>
-                        
-                        <div className="amenities-column">
-                            <h3 className="section-subheading">Amenities</h3>
-                            <div className="amenities-grid">
-                                <div className="amenity-item">
-                                    <span className="amenity-name">WiFi:</span>
-                                    <span className="amenity-value">{property?.wifi}</span>
-                                </div>
-                                <div className="amenity-item">
-                                    <span className="amenity-name">Utilities Included:</span>
-                                    <span className="amenity-value">{property?.utilities}</span>
-                                </div>
-                                <div className="amenity-item">
-                                    <span className="amenity-name">Parking:</span>
-                                    <span className="amenity-value">{property?.parking}</span>
-                                </div>
-                                <div className="amenity-item">
-                                    <span className="amenity-name">Swimming Pool:</span>
-                                    <span className="amenity-value">{property?.pool}</span>
-                                </div>
-                                <div className="amenity-item">
-                                    <span className="amenity-name">Pet Friendly:</span>
-                                    <span className="amenity-value">{property?.pet_friendly}</span>
-                                </div>
-                                <div className="amenity-item">
-                                    <span className="amenity-name">Baby Crib Available:</span>
-                                    <span className="amenity-value">{property?.crib}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="rules-section">
-                            <h3 className="section-subheading">Rules</h3>
-                            <div className="rules-container">
-                                <div className="rule-item">
-                                    <span className="rule-name">Check In</span>
-                                    <span className="rule-value">{property?.check_in_time}</span>
-                                </div>
-                                <div className="rule-item">
-                                    <span className="rule-name">Check Out</span>
-                                    <span className="rule-value">{property?.check_out_time}</span>
-                                </div>
                             </div>
                         </div>
                     </div>
