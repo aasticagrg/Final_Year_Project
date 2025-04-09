@@ -23,9 +23,6 @@ const BookingSuccess = () => {
                     
                     <h2>Booking Successful!</h2>
                     
-                    <p className="booking-id">
-                        Booking ID: <span>{bookingId || "N/A"}</span>
-                    </p>
                     
                     <p className="success-message">
                         Your booking has been successfully confirmed. You will receive a confirmation email shortly.

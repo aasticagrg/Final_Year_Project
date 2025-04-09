@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
-import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Modal } from "@mui/material";
+import {
+    Box, Button, Typography, TextField, Modal, Stack
+} from "@mui/material";
 
 const AdminUser = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [openDialog, setOpenDialog] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedImage, setSelectedImage] = useState(null); // Add state for selected image
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         getUsers();
-    }, [searchQuery]); // Re-fetch users whenever searchQuery changes
+    }, [searchQuery]);
 
     const getUsers = async () => {
         setLoading(true);
@@ -26,7 +26,7 @@ const AdminUser = () => {
                 }
             });
             const data = await response.json();
-            
+
             if (data.success) {
                 setUsers(data.users);
             } else {
@@ -40,166 +40,223 @@ const AdminUser = () => {
         }
     };
 
-    const handleOpenDeleteDialog = (user) => {
-        setSelectedUser(user);
-        setOpenDialog(true);
-    };
-
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
-
-    const handleDeleteUser = async () => {
-        if (!selectedUser) return;
-        
+    const updateAccountStatus = async (user_id, status) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}deleteUser.php`, {
+            const response = await fetch(`${baseUrl}updateUserStatus.php`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    user_id: selectedUser.user_id
+                    user_id,
+                    account_status: status
                 })
             });
-            
+
             const data = await response.json();
-            
             if (data.success) {
                 toast.success(data.message);
-                setUsers(users.filter(user => user.user_id !== selectedUser.user_id));
-                handleCloseDialog();
+                getUsers();
             } else {
-                toast.error(data.message || "Failed to remove user");
+                toast.error(data.message);
             }
         } catch (error) {
-            toast.error("Something went wrong");
-            console.error(error);
+            toast.error("Error updating account status");
+        }
+    };
+
+    const updateVerificationStatus = async (user_id, status) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`${baseUrl}updateVerificationStatus.php`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    user_id,
+                    verification_status: status
+                })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                toast.success(data.message);
+                getUsers();
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error("Error updating verification status");
         }
     };
 
     const columns = [
-        { field: 'user_id', headerName: 'USER ID', width: 100 },
+        { field: 'user_id', headerName: 'USER ID', width: 80 },
         { field: 'name', headerName: 'Name', width: 150 },
         { field: 'email', headerName: 'Email', width: 200 },
-        { field: 'phone_no', headerName: 'Phone', width: 150 },
-        { field: 'user_address', headerName: 'Address', width: 200 },
-        { field: 'role', headerName: 'Role', width: 120 },
+        { field: 'phone_no', headerName: 'Phone', width: 130 },
+        { field: 'user_address', headerName: 'Address', width: 180 },
+        { field: 'role', headerName: 'Role', width: 100 },
         {
             field: 'user_verification',
-            headerName: 'Verification',
-            width: 150,
+            headerName: 'Verification Image',
+            width: 160,
             renderCell: (params) => {
-                const imageUrl = params.value ? `${baseUrl}${params.value}` : ""; // Construct the image URL
-        
-                return (
-                    <div className="verification-image">
-                        {imageUrl ? (
-                            <img 
-                                src={imageUrl} // Use the constructed URL
-                                alt="User Verification"
-                                style={{ width: 40, height: 40, cursor: 'pointer' }}
-                                onClick={() => setSelectedImage(imageUrl)} // Show image in larger view
-                            />
-                        ) : (
-                            <span>No Image</span> // Show message if no image
-                        )}
-                    </div>
+                const imageUrl = params.value ? `${baseUrl}${params.value}` : "";
+                return imageUrl ? (
+                    <img
+                        src={imageUrl}
+                        alt="Verification"
+                        style={{ width: 60, height: 40, cursor: 'pointer' }}
+                        onClick={() => setSelectedImage(imageUrl)}
+                    />
+                ) : (
+                    <span>No Image</span>
                 );
             }
         },
         {
-            field: 'actions',
-            headerName: 'Actions',
+            field: 'account_status',
+            headerName: 'Account Status',
             width: 150,
             renderCell: (params) => (
-                <Button
-                    variant="contained"
-                    size="small"
-                    color="error"
-                    onClick={() => handleOpenDeleteDialog(params.row)}
-                >
-                    Remove User
-                </Button>
+                <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                    {params.value === 'active' ? 'Active' : 'Deactivated'}
+                </Typography>
+            )
+        },
+        {
+            field: 'verification_status',
+            headerName: 'Verification Status',
+            width: 180,
+            renderCell: (params) => (
+                <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                    {params.value === 'verified' ? 'Verified' : 'Not Verified'}
+                </Typography>
+            )
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            width: 340,
+            renderCell: (params) => (
+                <Stack direction="row" spacing={1} sx={{ justifyContent: 'center' }}>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        color="warning"
+                        onClick={() => updateAccountStatus(params.row.user_id, 'active')}
+                        sx={{
+                            width: '80px',
+                            fontSize: '10px',
+                            '&:hover': {
+                                backgroundColor: '#ff9800',
+                                color: '#fff',
+                                transform: 'scale(1.05)', // Subtle zoom effect
+                            },
+                        }}
+                    >
+                        ACTIVATE
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        color="error"
+                        onClick={() => updateAccountStatus(params.row.user_id, 'deactivated')}
+                        sx={{
+                            width: '80px',
+                            fontSize: '10px',
+                            '&:hover': {
+                                backgroundColor: '#f44336',
+                                color: '#fff',
+                                transform: 'scale(1.05)', // Subtle zoom effect
+                            },
+                        }}
+                    >
+                        DEACTIVATE
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        color="warning"
+                        onClick={() => updateVerificationStatus(params.row.user_id, 'verified')}
+                        sx={{
+                            width: '80px',
+                            fontSize: '10px',
+                            '&:hover': {
+                                backgroundColor: '#ff9800',
+                                color: '#fff',
+                                transform: 'scale(1.05)', // Subtle zoom effect
+                            },
+                        }}
+                    >
+                        VERIFY
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
+                        color="error"
+                        onClick={() => updateVerificationStatus(params.row.user_id, 'not verified')}
+                        sx={{
+                            width: '80px',
+                            fontSize: '10px',
+                            '&:hover': {
+                                backgroundColor: '#aa1409',
+                                color: '#fff',
+                                transform: 'scale(1.05)', // Subtle zoom effect
+                            },
+                        }}
+                    >
+                        REJECT
+                    </Button>
+                </Stack>
             )
         }
     ];
 
     return (
-      <Box sx={{ width: '100%', height: '100%' }}>
-          <Typography variant="h5" component="h2" gutterBottom>
-              User Management
-          </Typography>
+        <Box sx={{ width: '100%', height: '100%', fontWeight: 'bold' }}>
+            <Typography variant="h5" component="h4" gutterBottom>
+                User Management
+            </Typography>
 
-          {/* Search Bar */}
-          <TextField
-              label="Search by Name"
-              variant="outlined"
-              fullWidth
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              sx={{ mb: 2 }}
-          />
+            <TextField
+                label="Search by Name"
+                variant="outlined"
+                fullWidth
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                sx={{ mb: 2 }}
+            />
 
-          <Box sx={{ width: '100%', height: 500 }}>
-              <DataGrid
-                  rows={users}
-                  columns={columns}
-                  getRowId={(row) => row.user_id}
-                  loading={loading}
-                  initialState={{
-                      pagination: {
-                          paginationModel: { page: 0, pageSize: 10 },
-                      },
-                  }}
-                  pageSizeOptions={[5, 10, 25]}
-                  disableRowSelectionOnClick
-              />
-          </Box>
-
-          {/* Image Modal */}
-          <Modal open={!!selectedImage} onClose={() => setSelectedImage(null)}>
-            <Box sx={{
-                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                bgcolor: 'background.paper', boxShadow: 24, p: 2, outline: 'none'
-            }}>
-                <img src={selectedImage} alt="User Verification" style={{ maxWidth: '100%', maxHeight: '80vh' }} />
+            <Box sx={{ height: 500, width: '100%' }}>
+                <DataGrid
+                    rows={users}
+                    columns={columns}
+                    getRowId={(row) => row.user_id}
+                    loading={loading}
+                    pageSizeOptions={[5, 10, 25]}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 10 },
+                        },
+                    }}
+                    disableRowSelectionOnClick
+                />
             </Box>
-          </Modal>
 
-          <Dialog
-                open={openDialog}
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Confirm User Removal"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to remove this user? This action cannot be undone and all user data will be permanently deleted.
-                        {selectedUser && (
-                            <Box sx={{ mt: 2 }}>
-                                <Typography component="div" variant="body2">
-                                    <strong>Name:</strong> {selectedUser.name}
-                                </Typography>
-                                <Typography component="div" variant="body2">
-                                    <strong>Email:</strong> {selectedUser.email}
-                                </Typography>
-                            </Box>
-                        )}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog}>Cancel</Button>
-                    <Button onClick={handleDeleteUser} color="error" autoFocus>
-                        Remove User
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <Modal open={!!selectedImage} onClose={() => setSelectedImage(null)}>
+                <Box sx={{
+                    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                    bgcolor: 'background.paper', boxShadow: 24, p: 2, outline: 'none'
+                }}>
+                    <img src={selectedImage} alt="User Verification" style={{ maxWidth: '100%', maxHeight: '80vh' }} />
+                </Box>
+            </Modal>
         </Box>
     );
 };
