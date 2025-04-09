@@ -1,7 +1,8 @@
-import { IoMdHome } from "react-icons/io";
-import { FaTable, FaUsers } from "react-icons/fa";
-import { MdPayments } from "react-icons/md";
+
 import { useState, useEffect } from "react";
+import { IoNewspaper, IoHome } from "react-icons/io5";
+import { IoIosPeople } from "react-icons/io";
+import { FaPeopleCarryBox } from "react-icons/fa6";
 
 const AdminSidebar = ({ active, setActive }) => {
     const [isExpanded, setIsExpanded] = useState(window.innerWidth > 768);
@@ -15,10 +16,10 @@ const AdminSidebar = ({ active, setActive }) => {
     }, []);
 
     const menuOptions = [
-        { title: "Dashboard", icon: <IoMdHome />, link: "/Admin/Dashboard" },
-        { title: "Users", icon: <FaUsers />, link: "/Admin/User" },
-        { title: "Vendors", icon: <FaUsers />, link: "/Admin/Vendor" },
-        { title: "Complaints", icon: <FaUsers />, link: "/Admin/Complaint" }
+        { title: "Dashboard", icon: <IoHome />, link: "/Admin/Dashboard" },
+        { title: "Users", icon: <IoIosPeople />, link: "/Admin/User" },
+        { title: "Vendors", icon: <FaPeopleCarryBox />, link: "/Admin/Vendor" },
+        { title: "Complaints", icon: <IoNewspaper />, link: "/Admin/Complaint" }
       
     ];
 
@@ -26,11 +27,12 @@ const AdminSidebar = ({ active, setActive }) => {
         <div
             style={{
                 width: isExpanded ? "200px" : "50px", // Expand for desktop, collapse for mobile
-                backgroundColor: "#5B99C2",
+                backgroundColor: "#1B1B1B",
                 minHeight: "calc(100vh - 50px)",
                 transition: "width 0.3s ease",
                 transform: "translateX(0)",
                 padding: "10px", 
+                fontWeight: "400"
                 // paddingTop: "60px"
             }}
         >
@@ -49,8 +51,8 @@ const AdminSidebar = ({ active, setActive }) => {
                             display: "flex",
                             backgroundColor: isActive ? "lightgray" : "transparent",
                             alignItems: "center",
-                            gap: "10px",
-                            padding: "10px",
+                            gap: "20px",
+                            padding: "20px",
                             fontSize: "18px",
                         }}
                     >
