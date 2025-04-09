@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom"; // Import navigate
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
 import "./style.css";
 
 const ProfilePage = () => {
-    const navigate = useNavigate(); // Initialize navigate
-    const [initialUser, setInitialUser] = useState(null); // Initialize initialUser state
+    const navigate = useNavigate();
+    const [initialUser, setInitialUser] = useState(null);
     const [user, setUser] = useState({
         name: "",
         phone_no: "",
@@ -16,6 +16,8 @@ const ProfilePage = () => {
         user_verification: null
     });
     const [loading, setLoading] = useState(true);
+    const [newFileSelected, setNewFileSelected] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState(null);
 
     // Fetch user details from the server
     const getUserDetails = useCallback(async () => {
@@ -42,17 +44,17 @@ const ProfilePage = () => {
 
             const data = await response.json();
 
-            console.log("API Response:", data);  // Log the response to debug
-
             if (data.success) {
-                setUser(data.user); // Set the user data in state
-                setInitialUser(data.user); // Set the initial user data
+                setUser(data.user);
+                setInitialUser(data.user);
+                // Reset file selection state
+                setNewFileSelected(false);
+                setPreviewUrl(null);
             } else {
                 toast.error(data.message);
             }
         } catch (error) {
             toast.error("Failed to get user details: " + error.message);
-            console.error("Error fetching user details:", error);
         } finally {
             setLoading(false);
         }
@@ -61,6 +63,15 @@ const ProfilePage = () => {
     useEffect(() => {
         getUserDetails();
     }, [getUserDetails]);
+
+    // Cleanup function for URL objects
+    useEffect(() => {
+        return () => {
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]);
 
     // Handle verification document upload
     const handleVerificationUpload = (e) => {
@@ -78,11 +89,16 @@ const ProfilePage = () => {
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUser({ ...user, user_verification: reader.result });
-            };
-            reader.readAsDataURL(file);
+            // Create a preview URL
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+            const objectUrl = URL.createObjectURL(file);
+            setPreviewUrl(objectUrl);
+            
+            // Store the file object for upload
+            setUser(prev => ({ ...prev, user_verification: file }));
+            setNewFileSelected(true);
         }
     };
 
@@ -98,7 +114,7 @@ const ProfilePage = () => {
             user.name === initialUser.name &&
             user.phone_no === initialUser.phone_no &&
             user.user_address === initialUser.user_address &&
-            user.user_verification === initialUser.user_verification
+            !newFileSelected
         ) {
             toast("No changes detected.");
             return;
@@ -117,7 +133,8 @@ const ProfilePage = () => {
             formData.append('phone_no', user.phone_no);
             formData.append('user_address', user.user_address);
             
-            if (user.user_verification && user.user_verification !== initialUser.user_verification) {
+            // Only append the file if a new one was selected
+            if (newFileSelected && user.user_verification instanceof File) {
                 formData.append('user_verification', user.user_verification);
             }
 
@@ -129,17 +146,12 @@ const ProfilePage = () => {
                 body: formData
             });
 
-            // Check if response is valid JSON
-            const contentType = response.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                throw new Error("Server didn't return JSON");
-            }
-
             const data = await response.json();
 
             if (data.success) {
                 toast.success("Profile updated successfully!");
-                setInitialUser(user);
+                // Refresh user data to get updated image path
+                getUserDetails();
             } else {
                 toast.error(data.message || "Failed to update profile");
             }
@@ -232,14 +244,22 @@ const ProfilePage = () => {
                                         accept="image/*"
                                         onChange={handleVerificationUpload}
                                     />
-                                    {user.user_verification && (
+                                    
+                                    {/* Show preview of newly selected file */}
+                                    {previewUrl && (
                                         <img 
-                                            src={user.user_verification} 
+                                            src={previewUrl}
+                                            alt="New verification document" 
+                                            style={{ maxWidth: '200px', marginTop: '10px', display: 'block' }}
+                                        />
+                                    )}
+                                    
+                                    {/* Show existing verification document from server */}
+                                    {!previewUrl && user.user_verification && typeof user.user_verification === 'string' && (
+                                        <img 
+                                            src={`${baseUrl}${user.user_verification}`}
                                             alt="Verification document" 
-                                            style={{ 
-                                                maxWidth: '200px', 
-                                                marginTop: '10px' 
-                                            }} 
+                                            style={{ maxWidth: '200px', marginTop: '10px', display: 'block' }}
                                         />
                                     )}
                                 </div>

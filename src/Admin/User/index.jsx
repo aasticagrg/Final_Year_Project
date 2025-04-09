@@ -2,23 +2,25 @@ import { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
-import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Modal } from "@mui/material";
 
 const AdminUser = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedImage, setSelectedImage] = useState(null); // Add state for selected image
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [searchQuery]); // Re-fetch users whenever searchQuery changes
 
     const getUsers = async () => {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`${baseUrl}getUsers.php`, {
+            const response = await fetch(`${baseUrl}getUsers.php?search=${searchQuery}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -85,21 +87,28 @@ const AdminUser = () => {
         { field: 'phone_no', headerName: 'Phone', width: 150 },
         { field: 'user_address', headerName: 'Address', width: 200 },
         { field: 'role', headerName: 'Role', width: 120 },
-        { 
-            field: 'user_verification', // This field contains the image data
-            headerName: 'Verification', 
+        {
+            field: 'user_verification',
+            headerName: 'Verification',
             width: 150,
-            renderCell: (params) => (
-                params.value && params.value.startsWith('data:image/') ? (
-                    <img 
-                        src={params.value} // Display the base64 image if it exists
-                        alt="Verification"
-                        style={{ width: 24, height: 24 }} // Adjust size as needed
-                    />
-                ) : (
-                    <>No Image</> // Display a fallback message if no image
-                )
-            )
+            renderCell: (params) => {
+                const imageUrl = params.value ? `${baseUrl}${params.value}` : ""; // Construct the image URL
+        
+                return (
+                    <div className="verification-image">
+                        {imageUrl ? (
+                            <img 
+                                src={imageUrl} // Use the constructed URL
+                                alt="User Verification"
+                                style={{ width: 40, height: 40, cursor: 'pointer' }}
+                                onClick={() => setSelectedImage(imageUrl)} // Show image in larger view
+                            />
+                        ) : (
+                            <span>No Image</span> // Show message if no image
+                        )}
+                    </div>
+                );
+            }
         },
         {
             field: 'actions',
@@ -124,6 +133,16 @@ const AdminUser = () => {
               User Management
           </Typography>
 
+          {/* Search Bar */}
+          <TextField
+              label="Search by Name"
+              variant="outlined"
+              fullWidth
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{ mb: 2 }}
+          />
+
           <Box sx={{ width: '100%', height: 500 }}>
               <DataGrid
                   rows={users}
@@ -139,6 +158,16 @@ const AdminUser = () => {
                   disableRowSelectionOnClick
               />
           </Box>
+
+          {/* Image Modal */}
+          <Modal open={!!selectedImage} onClose={() => setSelectedImage(null)}>
+            <Box sx={{
+                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                bgcolor: 'background.paper', boxShadow: 24, p: 2, outline: 'none'
+            }}>
+                <img src={selectedImage} alt="User Verification" style={{ maxWidth: '100%', maxHeight: '80vh' }} />
+            </Box>
+          </Modal>
 
           <Dialog
                 open={openDialog}
