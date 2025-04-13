@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import VendorSidebar from "../Sidebar";
-import VendorBooking from "../Booking";
+
 import ManageProperties from "../Property";
 
 
 import AddProperty from "../AddProperty";
 import VendorDashboard from "../Dashboard";
+import ManageBookings from "../Booking";
 
 
 const VendorHome = () => {
@@ -15,7 +16,7 @@ const VendorHome = () => {
         <VendorDashboard/>,
         <AddProperty />,
         <ManageProperties/>,
-        <VendorBooking />,
+        <ManageBookings/>
         
     ];
 
