@@ -110,7 +110,7 @@ const AddProperty = () => {
             if (result.success) {
                 toast.success("Property added successfully!");
                 // Optionally navigate to dashboard
-                navigate('/vendor/dashboard');
+                navigate('/vendor/Home');
             } else {
                 toast.error(result.message || "Failed to add property.");
             }

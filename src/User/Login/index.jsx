@@ -20,7 +20,7 @@ useEffect(() => {
   const token = localStorage.getItem("token");
   if (token) {
     // Check if token is valid
-    fetch(baseUrl + "auth/verify-token.php", {
+    fetch(baseUrl + "auth/verifyToken.php", {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${token}`
