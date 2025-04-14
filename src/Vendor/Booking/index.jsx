@@ -7,7 +7,8 @@ import {
   Box,
   TextField,
   Modal,
-  Typography
+  Typography,
+  Button,
 } from "@mui/material";
 
 const ManageBookings = () => {
@@ -81,12 +82,50 @@ const ManageBookings = () => {
     }
   };
 
+  const cancelBooking = async (booking_id) => {
+    const confirmCancel = window.confirm("Are you sure you want to cancel this booking?");
+    if (!confirmCancel) return;
+
+    try {
+      const response = await fetch(`${baseUrl}cancelBookings.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ booking_id }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success("Booking cancelled successfully.");
+        fetchBookings(localStorage.getItem("token")); // refresh
+      } else {
+        toast.error(data.message || "Failed to cancel booking.");
+      }
+    } catch (error) {
+      toast.error("Error cancelling booking.");
+    }
+  };
+
   const columns = [
     { field: "booking_id", headerName: "Booking ID", width: 100 },
     { field: "property_name", headerName: "Property", width: 200 },
     { field: "check_in_date", headerName: "Check-In", width: 120 },
     { field: "check_out_date", headerName: "Check-Out", width: 120 },
-    { field: "booking_status", headerName: "Status", width: 120 },
+    {
+      field: "booking_status",
+      headerName: "Status",
+      width: 120,
+      renderCell: (params) => (
+        <Typography
+          variant="body2"
+          color={params.value === "cancelled" ? "error" : "primary"}
+        >
+          {params.value.charAt(0).toUpperCase() + params.value.slice(1)}
+        </Typography>
+      ),
+    },
     { field: "total_price", headerName: "Total Price", width: 120 },
     { field: "arrival_time", headerName: "Arrival", width: 120 },
     { field: "full_guest_name", headerName: "Guest Name", width: 150 },
@@ -118,6 +157,27 @@ const ManageBookings = () => {
         );
       },
     },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 150,
+      renderCell: (params) => (
+        params.row.booking_status === "booked" ? (
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            onClick={() => cancelBooking(params.row.booking_id)}
+          >
+            Cancel Booking
+          </Button>
+        ) : (
+          <Typography variant="caption" color="textSecondary">
+            No actions
+          </Typography>
+        )
+      ),
+    },
   ];
 
   return (
@@ -144,7 +204,7 @@ const ManageBookings = () => {
         />
       </div>
 
-      {/* Modal for image */}
+      {/* Modal for full-size image */}
       <Modal open={!!selectedImage} onClose={() => setSelectedImage(null)}>
         <Box
           sx={{
