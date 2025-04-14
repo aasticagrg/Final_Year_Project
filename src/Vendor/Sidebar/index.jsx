@@ -19,7 +19,7 @@ const VendorSidebar = ({ active, setActive }) => {
         { title: "List Property", icon: <FaTable />, link: "/Vendor/AddProperty" },
         { title: "Property", icon: <FaUsers />, link: "/Vendor/Property" },
         { title: "Booking", icon: <FaUsers />, link: "/Vendor/Booking" },
-        { title: "Payments", icon: <MdPayments />, link: "/Vendor/payments" }
+        { title: "Payments", icon: <MdPayments />, link: "/Vendor/Payment" }
     ];
 
     return (

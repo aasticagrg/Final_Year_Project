@@ -4,7 +4,7 @@ import VendorSidebar from "../Sidebar";
 
 import ManageProperties from "../Property";
 
-
+import VendorPayments from "../Payment";
 import AddProperty from "../AddProperty";
 import VendorDashboard from "../Dashboard";
 import ManageBookings from "../Booking";
@@ -16,7 +16,8 @@ const VendorHome = () => {
         <VendorDashboard/>,
         <AddProperty />,
         <ManageProperties/>,
-        <ManageBookings/>
+        <ManageBookings/>,
+        <VendorPayments/>
         
     ];
 
