@@ -1,7 +1,7 @@
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import TextField from "../../components/TextField";
 import "./style.css";
@@ -9,48 +9,49 @@ import "./style.css";
 const LoginPage = () => {
     const [form, setForm] = useState({
         email: "",
-        password: ""
+        password: "",
     });
     const [role, setRole] = useState("user"); // Default role is "user"
     const navigate = useNavigate();
 
-    // Check if already logged in
-    // Add this to your LoginPage component
-useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    // Check if token is valid
-    fetch(baseUrl + "auth/verifyToken.php", {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Token verification:", data);
-        if (data.success) {
-          console.log("Token is valid");
-          // Navigate based on role
-          const role = localStorage.getItem("role");
-          if (role === "admin") {
-            navigate("/Admin/Home");
-          } else if (role === "vendor") {
-            navigate("/Vendor/Home");
-          } else {
-            navigate("/");
-          }
-        } else {
-          console.log("Token is invalid");
-          localStorage.removeItem("token");
-          localStorage.removeItem("role");
+    useEffect(() => {
+        // Check if the token exists in localStorage
+        const token = localStorage.getItem("token");
+        if (token) {
+            // Check if the token is valid by calling the backend
+            fetch(baseUrl + "auth/verifyToken.php", {
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Token is valid, store user role and navigate
+                        localStorage.setItem("role", data.data.role); // Store the role in localStorage
+                        const role = data.data.role;
+
+                        if (role === "admin") {
+                            navigate("/Admin/Home");
+                        } else if (role === "vendor") {
+                            navigate("/Vendor/Home");
+                        } else {
+                            navigate("/");
+                        }
+                    } else {
+                        // Token is invalid, remove it from localStorage
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("role");
+                        toast.error("Invalid or expired token.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Token verification failed", error);
+                    toast.error("Something went wrong.");
+                });
         }
-      })
-      .catch(error => {
-        console.error("Error verifying token:", error);
-      });
-  }
-}, [navigate]);
+    }, [navigate]);
 
     const onLogin = async (e) => {
         try {
@@ -61,32 +62,21 @@ useEffect(() => {
             formData.append("password", form.password);
             formData.append("role", role); // Dynamic role selection
 
-            // Log the request being made
-            console.log("Login request to:", baseUrl + "auth/login.php");
-            
             const response = await fetch(baseUrl + "auth/login.php", {
                 method: "POST",
                 body: formData,
             });
 
             const data = await response.json();
-            console.log("Login response:", data);
 
             if (data.success) {
-                // Store relevant data in localStorage
+                // Store the token and role in localStorage
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("role", data.role);
-                
-                // Log the token being stored
-                console.log("Token stored in localStorage:", data.token);
-
-                if (data.role === "vendor" && data.vendor) {
-                    localStorage.setItem("vendor", JSON.stringify(data.vendor));
-                }
 
                 toast.success(data.message);
 
-                // Navigate to the respective dashboard
+                // Navigate to the respective dashboard based on role
                 if (data.role === "admin") {
                     navigate("/Admin/Home");
                 } else if (data.role === "vendor") {
@@ -121,12 +111,6 @@ useEffect(() => {
                                 onClick={() => setRole("vendor")}
                             >
                                 Vendor
-                            </div>
-                            <div
-                                className={`login-tab ${role === "admin" ? "active" : ""}`}
-                                onClick={() => setRole("admin")}
-                            >
-                                Admin
                             </div>
                         </div>
                         <form className="login-form" onSubmit={onLogin}>

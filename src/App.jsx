@@ -29,89 +29,90 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home/>
+      element: <Home />
     },
     {
       path: "/User/Login",
-      element: <LoginPage/>
-    },
-    {
-      path: "/User/Profile",
-      element: <ProfilePage/>
-    },
-    {
-      path: "/User/Contact",
-      element: <Contact/>
-    },
-    {
-      path: "/User/PropertyDetails/:id",
-      element: <PropertyDetails/>
-    },
-    {
-      path: "/User/BookingConfirm",
-      element: <BookingConfirm/>
-    },
-    {
-      path: "/User/Payment",
-      element: <UserPayment/>
-    },
-    {
-      path: "/User/BookingSuccess",
-      element: <BookingSuccess/>
-    },
-    {
-      path: "/Vendor/VendorRegister",
-      element: <VendorRegisterPage/>
+      element: <LoginPage />
     },
     {
       path: "/User/Register",
-      element: <RegisterPage/>
+      element: <RegisterPage />
     },
     {
       path: "/User/PropertiesPage",
-      element: <PropertiesPage/>
-    },
-    {
-      path: "/Vendor/AddProperty",
-      element: <AddProperty/>
-    },
-    {
-      path: "/Vendor/Home",
-      element: <VendorHome/>
+      element: <PropertiesPage />
     },
     {
       path: "/User/Properties",
-      element: <Properties/>
+      element: <Properties />
+    },
+    {
+      path: "/User/PropertyDetails/:id",
+      element: <PropertyDetails />
+    },
+    {
+      path: "/User/Contact",
+      element: <Contact />
+    },
+    {
+      path: "/User/Profile",
+      element: token ? <ProfilePage /> : <LoginPage />
+    },
+    {
+      path: "/User/BookingConfirm",
+      element: token ? <BookingConfirm /> : <LoginPage />
+    },
+    {
+      path: "/User/Payment",
+      element: token ? <UserPayment /> : <LoginPage />
+    },
+    {
+      path: "/User/BookingSuccess",
+      element: token ? <BookingSuccess /> : <LoginPage />
+    },
+    {
+      path: "/Vendor/VendorRegister",
+      element: <VendorRegisterPage />
+    },
+    {
+      path: "/Vendor/Home",
+      element: token ? <VendorHome /> : <LoginPage />
+    },
+    {
+      path: "/Vendor/AddProperty",
+      element: token ? <AddProperty /> : <LoginPage />
     },
     {
       path: "/Vendor/Property",
-      element: <ManageProperties/>
+      element: token ? <ManageProperties /> : <LoginPage />
     },
     {
       path: "/Admin/Home",
-      element: <AdminHome/>
+      element: token ? <AdminHome /> : <LoginPage />
     },
     {
       path: "/Admin/User",
-      element: <AdminUser/>
+      element: token ? <AdminUser /> : <LoginPage />
     },
     {
       path: "/Admin/Dashboard",
-      element: <AdminDashboard/>
+      element: token ? <AdminDashboard /> : <LoginPage />
     },
     {
       path: "/Admin/Vendor",
-      element: <AdminVendor/>
+      element: token ? <AdminVendor /> : <LoginPage />
     },
     {
       path: "/Admin/Complaint",
-      element: <AdminComplaint/>
+      element: token ? <AdminComplaint /> : <LoginPage />
     },
     {
       path: "*",
       element: <div>Page Not Found!!!</div>
     }
   ]);
+  
 
   return (
     <BookingProvider> {/* Wrap your app with BookingProvider */}

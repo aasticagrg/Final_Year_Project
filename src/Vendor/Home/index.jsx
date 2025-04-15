@@ -1,56 +1,47 @@
 import { useState } from "react";
-import Navbar from "../../components/Navbar";
 import VendorSidebar from "../Sidebar";
 
 import ManageProperties from "../Property";
-
 import VendorPayments from "../Payment";
 import AddProperty from "../AddProperty";
 import VendorDashboard from "../Dashboard";
 import ManageBookings from "../Booking";
 
-
 const VendorHome = () => {
-    const [isExpanded, setIsExpanded] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(true); // Default to expanded
+    const [active, setActive] = useState(0);
+
+    // Page components
     const pages = [
-        <VendorDashboard/>,
+        <VendorDashboard />,
         <AddProperty />,
-        <ManageProperties/>,
-        <ManageBookings/>,
-        <VendorPayments/>
-        
+        <ManageProperties />,
+        <ManageBookings />,
+        <VendorPayments />
     ];
 
+    const sidebarWidth = isExpanded ? 200 : 60; // Sidebar width based on isExpanded state
 
-    const [active, setActive] = useState(0)
-    return (<>
-        <div>
-            <div style={{
-                position: "fixed",
-                width: "100%",
-                zIndex: "100",
-            }}>
-                <Navbar showMenu={true} onMenuClick={() => setIsExpanded(!isExpanded)} />
-            </div>
-            <div style={{
-                display: "flex",
-                paddingTop: "50px",
-                overflow: "hidden",
-            }}>
+    return (
+        <>
+            <div style={{ display: "flex"}}>
+                {/* Vendor Sidebar */}
                 <VendorSidebar active={active} setActive={setActive} isExpanded={isExpanded} />
-                {
-                    <div style={{
-                        padding: "20px",
-                        overflowY: "hidden",
-                    }}>
 
-                        {pages[active]}
-                    </div>
-                }
+                {/* Main Content */}
+                <div
+                    style={{
+                        marginLeft: `${sidebarWidth}px`, // Adjust content margin according to sidebar width
+                        padding: "80px 30px", // Padding for the content area
+                        width: "100%",
+                        transition: "margin-left 0.3s ease", // Smooth transition for margin changes
+                    }}
+                >
+                    {pages[active]} {/* Render the active page */}
+                </div>
             </div>
-        </div>
-
-    </>);
-}
+        </>
+    );
+};
 
 export default VendorHome;

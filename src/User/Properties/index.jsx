@@ -38,13 +38,17 @@ const Properties = () => {
     });
 
     useEffect(() => {
-        if (!token) {
-            navigate("/User/login");
-        }
         fetchProperties();
     }, []);
 
     const fetchProperties = async () => {
+        // Check token inside fetchProperties to avoid redirect issues
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/User/login");
+            return;
+        }
+
         try {
             const response = await fetch(`${baseUrl}getProperty.php`);
             const data = await response.json();
