@@ -1,24 +1,42 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { IoMdHome } from "react-icons/io";
-import { FaTable, FaUsers } from "react-icons/fa";
-import { MdPayments } from "react-icons/md";
+import { FaTable, FaCalendarCheck } from "react-icons/fa";
+import { MdPayments, MdHomeWork } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-import { onLogout } from "../../components/Logout"; // adjust path as needed
+import { onLogout } from "../../components/Logout";
+import { baseUrl } from "../../constants";
 
-const VendorSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
+const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
+    const [vendor, setVendor] = useState(null);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        fetch(`${baseUrl}getVendorDetails.php`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) setVendor(data.vendor);
+            })
+            .catch(err => console.error("Error fetching vendor details:", err));
+    }, []);
+
     const menuOptions = [
-        { title: "Dashboard", icon: <IoMdHome />, link: "/Vendor/Dashboard" },
-        { title: "List Property", icon: <FaTable />, link: "/Vendor/AddProperty" },
-        { title: "Property", icon: <FaUsers />, link: "/Vendor/Property" },
-        { title: "Booking", icon: <FaUsers />, link: "/Vendor/Booking" },
-        { title: "Payments", icon: <MdPayments />, link: "/Vendor/Payment" },
+        { title: "Dashboard", icon: <IoMdHome /> },
+        { title: "List Property", icon: <FaTable /> },
+        { title: "Property", icon: <MdHomeWork /> },
+        { title: "Booking", icon: <FaCalendarCheck /> },
+        { title: "Payments", icon: <MdPayments /> },
     ];
 
     const sidebarWidth = isExpanded ? "200px" : "60px";
-
     const fontStyle = {
         fontFamily: "Montserrat, sans-serif",
         fontStyle: "normal",
@@ -30,7 +48,7 @@ const VendorSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
             style={{
                 ...fontStyle,
                 width: sidebarWidth,
-                backgroundColor: "#2C3E50",  // Charcoal blue-gray
+                backgroundColor: "#2C3E50",
                 minHeight: "100vh",
                 transition: "width 0.3s ease",
                 padding: "10px 5px",
@@ -51,23 +69,46 @@ const VendorSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
                             ...fontStyle,
                             fontWeight: "500",
                             fontSize: "20px",
-                            marginBottom: "20px",
+                            marginBottom: "10px",
                         }}
                     >
                         EasyRent Vendor Hub
                     </div>
                 )}
+
+                {/* Vendor Name (Set Active to Profile Page) */}
+                <div
+                    onClick={() => setActive(5)} // Set active to the Profile Page (index 5)
+                    style={{
+                        cursor: "pointer",
+                        backgroundColor: "#34495E",
+                        padding: "8px 12px",
+                        borderRadius: "5px",
+                        marginBottom: "15px",
+                        fontSize: isExpanded ? "16px" : "14px",
+                        textAlign: "center",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                    }}
+                    title={vendor?.vendor_name || "Vendor"}
+                >
+                    {isExpanded
+                        ? vendor?.vendor_name || "Loading..."
+                        : vendor?.vendor_name?.charAt(0) || "?"}
+                </div>
+
                 <div
                     style={{
                         height: "1px",
-                        backgroundColor: "#BDC3C7",  // Light gray separator
+                        backgroundColor: "#BDC3C7",
                         margin: "10px 0",
                     }}
                 />
             </div>
 
             {/* Menu Options */}
-            <div style={{ flexGrow: 0 }}>
+            <div style={{ flexGrow: 1 }}>
                 {menuOptions.map((option, index) => {
                     const isActive = active === index;
                     return (
@@ -80,7 +121,7 @@ const VendorSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
                                 cursor: "pointer",
                                 width: "100%",
                                 color: isActive ? "#2C3E50" : "white",
-                                backgroundColor: isActive ? "#A9C6E7" : "transparent",  // Highlight active item
+                                backgroundColor: isActive ? "#A9C6E7" : "transparent",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: isExpanded ? "flex-start" : "center",
@@ -97,42 +138,39 @@ const VendorSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
                         </button>
                     );
                 })}
-
-                {/* Logout Button */}
-                <button
-                    onClick={() => onLogout(navigate)}
-                    style={{
-                        ...fontStyle,
-                        backgroundColor: "#2C6B5B",  // Dark green for logout button
-                        color: "white",
-                        border: "none",
-                        padding: "10px",
-                        borderRadius: "5px",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: isExpanded ? "flex-start" : "center",
-                        gap: "10px",
-                        fontSize: "16px",
-                        width: "100%",
-                        marginTop: "10px",
-                    }}
-                >
-                    <FiLogOut />
-                    {isExpanded && <span>Logout</span>}
-                </button>
             </div>
 
-            {/* Spacer to push collapse button to bottom */}
-            <div style={{ flexGrow: 1 }} />
+            {/* Logout Button */}
+            <button
+                onClick={() => onLogout(navigate)}
+                style={{
+                    ...fontStyle,
+                    backgroundColor: "#2C6B5B",
+                    color: "white",
+                    border: "none",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: isExpanded ? "flex-start" : "center",
+                    gap: "10px",
+                    fontSize: "16px",
+                    width: "100%",
+                    marginBottom: "10px",
+                }}
+            >
+                <FiLogOut />
+                {isExpanded && <span>Logout</span>}
+            </button>
 
-            {/* Collapse/Expand Button */}
-            <div style={{ marginTop: "10px" }}>
+            {/* Expand/Collapse Button */}
+            <div style={{ marginTop: "auto" }}>
                 <button
                     onClick={() => setIsExpanded(prev => !prev)}
                     style={{
                         ...fontStyle,
-                        backgroundColor: "#344087",  // Darker blue for collapse/expand button
+                        backgroundColor: "#344087",
                         color: "white",
                         border: "none",
                         width: "100%",

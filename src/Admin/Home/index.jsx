@@ -19,7 +19,7 @@ const AdminHome = () => {
     const sidebarWidth = isExpanded ? 200 : 60;
 
     return (
-        <div style={{ display: "flex", overflow: "hidden" }}>
+        <div style={{ display: "flex" }}>
             <AdminSidebar
                 active={active}
                 setActive={setActive}
