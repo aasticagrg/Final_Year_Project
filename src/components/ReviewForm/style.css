@@ -24,7 +24,7 @@
 
 .submit-button {
   margin-top: 14px;
-  background-color: #1e40af;
+  background-color: #727C72;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -35,5 +35,5 @@
 }
 
 .submit-button:hover {
-  background-color: #1c3aa9;
+  background-color: #555b55;
 }

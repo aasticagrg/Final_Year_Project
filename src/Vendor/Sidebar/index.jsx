@@ -5,6 +5,7 @@ import { FaTable, FaCalendarCheck } from "react-icons/fa";
 import { MdPayments, MdHomeWork } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { onLogout } from "../../components/Logout";
+import { MdOutlineRateReview } from "react-icons/md";
 import { baseUrl } from "../../constants";
 
 const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
@@ -34,6 +35,8 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
         { title: "Property", icon: <MdHomeWork /> },
         { title: "Booking", icon: <FaCalendarCheck /> },
         { title: "Payments", icon: <MdPayments /> },
+        { title: "Reviews", icon: <MdOutlineRateReview /> },
+
     ];
 
     const sidebarWidth = isExpanded ? "200px" : "60px";
@@ -78,7 +81,7 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
 
                 {/* Vendor Name (Set Active to Profile Page) */}
                 <div
-                    onClick={() => setActive(5)} // Set active to the Profile Page (index 5)
+                    onClick={() => setActive(6)} // Set active to the Profile Page (index 5)
                     style={{
                         cursor: "pointer",
                         backgroundColor: "#34495E",

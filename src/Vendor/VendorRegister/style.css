@@ -154,7 +154,7 @@
   transition: background-color 0.2s;
 }
 
-button:hover {
+.custom-button:hover {
   background-color: #36404e;
 }
 

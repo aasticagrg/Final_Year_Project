@@ -20,6 +20,7 @@ const PropertyDetail = () => {
     const [error, setError] = useState("");
     const [bookedDates, setBookedDates] = useState([]);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [showAllReviews, setShowAllReviews] = useState(false);
     const { id } = useParams();
 
     const params = useParams();
@@ -108,6 +109,7 @@ const PropertyDetail = () => {
 
     const handleBookNow = () => {
         if (!checkInDate || !checkOutDate) {
+            toast.error("Please select check-in and check-out dates");
             setError("Please select check-in and check-out dates");
             return;
         }
@@ -138,7 +140,12 @@ const PropertyDetail = () => {
     const handleReviewSubmission = () => {
         // After review is submitted, trigger a refresh of the reviews
         setRefreshTrigger((prev) => prev + 1); // Increment the trigger value to re-fetch reviews
-      };
+        toast.success("Review submitted successfully!");
+    };
+
+    const toggleReviews = () => {
+        setShowAllReviews(!showAllReviews);
+    };
 
     if (loading) {
         return (
@@ -174,7 +181,7 @@ const PropertyDetail = () => {
                 <div className="photos-gallery-section">
                     <div className="main-photo-wrapper">
                         <img 
-                            src={baseUrl + propertyImages[selectedImageIndex]} 
+                            src={baseUrl + propertyImages[selectedImageIndex] || "/placeholder.svg"} 
                             alt={property?.property_name} 
                             className="featured-property-photo" 
                         />
@@ -183,7 +190,7 @@ const PropertyDetail = () => {
                         {propertyImages.map((img, index) => (
                             <img 
                                 key={index}
-                                src={baseUrl + img} 
+                                src={baseUrl + img || "/placeholder.svg"} 
                                 alt={`${property?.property_name} ${index + 1}`}
                                 className={`thumbnail-photo ${selectedImageIndex === index ? 'selected' : ''}`}
                                 onClick={() => setSelectedImageIndex(index)}
@@ -304,22 +311,31 @@ const PropertyDetail = () => {
                 <div className="property-review-section">
                     <h2 className="section-title">Ratings & Reviews</h2>
                     
-                    <ReviewList 
-                        propertyId={id} 
-                        refreshTrigger={refreshTrigger} // Pass refreshTrigger here
+                    <div className={`reviews-container ${showAllReviews ? 'expanded' : ''}`}>
+                        <ReviewList 
+                            propertyId={id} 
+                            refreshTrigger={refreshTrigger}
+                            limitReviews={!showAllReviews ? 3 : 0}
                         />
+                        
+                        <div className="see-all-reviews-container">
+                            <button 
+                                className="see-all-reviews-button" 
+                                onClick={toggleReviews}
+                            >
+                                {showAllReviews ? 'Show Less Reviews' : 'See All Reviews'}
+                            </button>
+                        </div>
+                    </div>
       
+                    {property && (
                     <ReviewForm
-                        propertyId={property?.property_id}
-                        onReviewSubmitted={handleReviewSubmission}  // Use handleReviewSubmission here
+                        propertyId={property.property_id}
+                        onReviewSubmitted={handleReviewSubmission}
                     />
-
-
-
+                    )}
                 </div>
             </div>
-           
-
         </>
     );
 };

@@ -23,6 +23,7 @@ import ManageBookings from "./Vendor/Booking";
 import VendorDashboard from "./Vendor/Dashboard";
 import VendorPayments from "./Vendor/Payment";
 import VendorProfilePage from "./Vendor/Profile";
+import VendorReviews from "./Vendor/Review";
 
 // Admin
 import AdminHome from "./Admin/Home";
@@ -47,10 +48,10 @@ function App() {
                     <Route path="/User/Properties" element={<Properties />} />
                     <Route path="/User/PropertyDetails/:id" element={<PropertyDetails />} />
                     <Route path="/User/Contact" element={<Contact />} />
-                    <Route path="/User/Profile" element={token ? <ProfilePage /> : <LoginPage />} />
-                    <Route path="/User/BookingConfirm" element={token ? <BookingConfirm /> : <LoginPage />} />
-                    <Route path="/User/Payment" element={token ? <UserPayment /> : <LoginPage />} />
-                    <Route path="/User/BookingSuccess" element={token ? <BookingSuccess /> : <LoginPage />} />
+                    <Route path="/User/Profile" element={ <ProfilePage /> } />
+                    <Route path="/User/BookingConfirm" element={ <BookingConfirm />}/>
+                    <Route path="/User/Payment" element={ <UserPayment /> } />
+                    <Route path="/User/BookingSuccess" element={ <BookingSuccess /> } />
 
                     {/* Vendor */}
                     <Route path="/Vendor/VendorRegister" element={<VendorRegisterPage />} />
@@ -60,6 +61,7 @@ function App() {
                     <Route path="/Vendor/Dashboard" element={token ? <VendorDashboard /> : <LoginPage />} />
                     <Route path="/Vendor/Payment" element={token ? <VendorPayments /> : <LoginPage />} />
                     <Route path="/Vendor/Profile" element={token ? <VendorProfilePage /> : <LoginPage />} />
+                    <Route path="/Vendor/Review" element={token ? <VendorReviews /> : <LoginPage />} />
 
                     {/* Admin */}
                     <Route path="/Admin/Home" element={token ? <AdminHome /> : <LoginPage />} />

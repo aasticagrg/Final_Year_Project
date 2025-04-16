@@ -195,8 +195,6 @@
   background-color: #eef4f7;
 }
 
-
-
 /* Rules Section */
 .rules-section {
   margin-top: 30px;
@@ -207,7 +205,6 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
   background-color: #eef4f7;
-  
 }
 
 /* Booking Sidebar */
@@ -315,6 +312,7 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
 .property-review-section {
   margin-top: 40px;
   padding: 20px;
@@ -322,6 +320,54 @@
   border-radius: 10px;
 }
 
+/* Reviews Container */
+.reviews-container {
+  position: relative;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.reviews-container.expanded {
+  max-height: 5000px; /* Large enough to contain all reviews */
+}
+
+.see-all-reviews-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.see-all-reviews-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.see-all-reviews-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Delete Button Styling */
+.delete-button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #e0e0e0;
+}
 
 /* Loader */
 .loader-wrapper {
@@ -347,23 +393,39 @@
   100% { transform: rotate(360deg); }
 }
 
+/* Animation for reviews expansion */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.review-card {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 900px) {
   .property-details-wrapper {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
   
   .booking-sidebar {
-      position: static;
+    position: static;
   }
 }
 
 @media (max-width: 600px) {
   .features-amenities-container {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
   
   .amenities-grid, .rules-grid {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 }

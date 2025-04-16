@@ -106,3 +106,31 @@
 .availability-btn:hover {
   background-color: #388E3C;
 }
+
+.property-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stars {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.star {
+  color: #ccc;
+  margin: 0 2px;
+  font-size: 18px;
+}
+
+.star.filled {
+  color: #FFD700; /* Gold */
+}
+
+.rating-text {
+  font-size: 14px;
+  color: #333;
+}
+

@@ -8,17 +8,12 @@ const ReviewForm = ({ propertyId, onReviewSubmitted }) => {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isRatingValid, setIsRatingValid] = useState(true); // Add state to validate rating
+  const [isRatingValid, setIsRatingValid] = useState(true); 
   const token = localStorage.getItem('token');
 
   const handleSubmit = async (e) => {
-    console.log('handleSubmit function called!');
     e.preventDefault();
-    console.log('Current rating:', rating);
-    console.log('Current reviewText:', reviewText);
-    console.log('Current propertyId:', propertyId);
 
-    // Validate rating
     if (!rating || !reviewText.trim()) {
       toast.error('Please fill in all fields.');
       return;
@@ -50,10 +45,14 @@ const ReviewForm = ({ propertyId, onReviewSubmitted }) => {
 
       if (data.success) {
         toast.success('Review submitted successfully!');
-        onReviewSubmitted(); // Refresh UI after review submission
+        // Reset form after successful submission
         setRating(0);
         setReviewText('');
-        setIsRatingValid(true); // Reset rating validation state
+        
+        // Notify parent component that a review was submitted
+        if (onReviewSubmitted) {
+          onReviewSubmitted();
+        }
       } else {
         toast.error(data.message || 'Failed to submit review.');
       }
@@ -61,7 +60,7 @@ const ReviewForm = ({ propertyId, onReviewSubmitted }) => {
       console.error('Error:', error);
       toast.error('Something went wrong!');
     } finally {
-      setLoading(false); // Stop loading animation
+      setLoading(false); 
     }
   };
 

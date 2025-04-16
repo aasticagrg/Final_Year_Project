@@ -18,6 +18,7 @@ const BookingConfirm = () => {
         user_address: "",
         user_verification: null
     });
+    const [verificationFile, setVerificationFile] = useState(null);
     const [arrivalTime, setArrivalTime] = useState("");
     const [fullGuestName, setFullGuestName] = useState("");
 
@@ -87,10 +88,16 @@ const BookingConfirm = () => {
     };
 
     const handleFileChange = (e) => {
-        setUserDetails({
-            ...userDetails,
-            user_verification: e.target.files[0]
-        });
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setVerificationFile(file);
+            
+            // Store the file in userDetails to maintain file upload functionality
+            setUserDetails({
+                ...userDetails,
+                user_verification: file
+            });
+        }
     };
 
     const handleNext = (e) => {
@@ -106,6 +113,7 @@ const BookingConfirm = () => {
             return;
         }
         
+        // Create booking details with both the userDetails (including verification file)
         setBookingDetails({
             ...bookingDetails,
             userDetails: userDetails,
@@ -148,6 +156,23 @@ const BookingConfirm = () => {
             </>
         );
     }
+
+    // Function to display the verification image - handling both existing image path and new file
+    const getVerificationImage = () => {
+        // For new file upload
+        if (verificationFile) {
+            return URL.createObjectURL(verificationFile);
+        }
+        
+        // For existing image from database
+        if (typeof userDetails.user_verification === 'string' && userDetails.user_verification) {
+            return baseUrl + userDetails.user_verification;
+        }
+        
+        return null;
+    };
+
+    const verificationImage = getVerificationImage();
 
     return (
         <>
@@ -217,19 +242,22 @@ const BookingConfirm = () => {
                                     <label>Image of License or Citizenship</label>
                                     <input 
                                         type="file" 
+                                        accept="image/*"
                                         onChange={handleFileChange} 
                                     />
-                                    {userDetails.user_verification ? (
+                                    {verificationImage ? (
                                         <div className="verification-preview">
-                                            <p>Verification already uploaded</p>
+                                            <p>{verificationFile ? "New verification image selected" : "Existing verification document"}</p>
                                             <img 
-                                                src={userDetails.user_verification} 
-                                                alt="Verification" 
-                                                style={{ maxWidth: '100px', height: 'auto' }}
+                                                src={verificationImage}
+                                                alt="Verification document" 
+                                                style={{ maxWidth: '200px', height: 'auto', marginTop: '10px' }}
                                             />
                                         </div>
                                     ) : (
-                                        <p>No verification image available. Please upload a file.</p>
+                                        <div className="no-verification">
+                                            <p>No verification image available. Please upload a file.</p>
+                                        </div>
                                     )}
                                 </div>
 

@@ -6,6 +6,7 @@ import AddProperty from "../AddProperty";
 import VendorDashboard from "../Dashboard";
 import ManageBookings from "../Booking";
 import VendorProfilePage from "../Profile";
+import VendorReviews from "../Review";
 
 const VendorHome = () => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -18,7 +19,9 @@ const VendorHome = () => {
         <ManageProperties />,
         <ManageBookings />,
         <VendorPayments />,
-        <VendorProfilePage />  // Vendor Profile page at index 5
+        <VendorReviews/>,
+        <VendorProfilePage />// Vendor Profile page at index 5
+        
     ];
 
     const sidebarWidth = isExpanded ? 200 : 60;

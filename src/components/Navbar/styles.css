@@ -7,8 +7,10 @@ body {
 
 /* Navbar Container */
 .nav-container {
-  width: 100%;
+  width: 99%;
   height: 80px;
+  font-family: "Montserrat", sans-serif;
+        
   background-color: white;
   position: fixed;
   top: 0;
@@ -92,9 +94,9 @@ body {
   font-weight: 500;
   text-transform: capitalize;
   transition: background 0.3s;
-}
+} */
 
-.auth-button:hover {
+ .auth-button:hover {
   background-color: #555;
 }
 
