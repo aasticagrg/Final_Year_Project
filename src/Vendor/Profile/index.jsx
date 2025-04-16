@@ -155,6 +155,9 @@ const VendorProfilePage = () => {
             
             case 'verified':
                 return <span className="badge badge-verified">Verified</span>;
+
+            case 'rejected':
+            return <span className="badge badge-rejected">Rejected</span>;
             
             default:
                 return <span className="badge badge-not-submitted">Not Verified</span>;

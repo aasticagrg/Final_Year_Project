@@ -1,10 +1,12 @@
 import { useEffect, useState, useContext } from "react";
 import Navbar from "../../components/Navbar";
 import { baseUrl } from "../../constants";
-import toast from "react-hot-toast";
+import { toast } from 'react-hot-toast';
 import { useNavigate, useParams } from "react-router-dom";
 import { BookingContext } from "../../context";
 import DatePicker from "react-datepicker";
+import ReviewForm from "../../components/ReviewForm";
+import ReviewList from "../../components/ReviewList";
 import "react-datepicker/dist/react-datepicker.css";
 import './style.css';
 
@@ -17,6 +19,9 @@ const PropertyDetail = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [error, setError] = useState("");
     const [bookedDates, setBookedDates] = useState([]);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const { id } = useParams();
+
     const params = useParams();
     const navigate = useNavigate();
 
@@ -129,6 +134,11 @@ const PropertyDetail = () => {
 
         navigate("/User/BookingConfirm");
     };
+   
+    const handleReviewSubmission = () => {
+        // After review is submitted, trigger a refresh of the reviews
+        setRefreshTrigger((prev) => prev + 1); // Increment the trigger value to re-fetch reviews
+      };
 
     if (loading) {
         return (
@@ -291,7 +301,25 @@ const PropertyDetail = () => {
                         </div>
                     </div>
                 </div>
+                <div className="property-review-section">
+                    <h2 className="section-title">Ratings & Reviews</h2>
+                    
+                    <ReviewList 
+                        propertyId={id} 
+                        refreshTrigger={refreshTrigger} // Pass refreshTrigger here
+                        />
+      
+                    <ReviewForm
+                        propertyId={property?.property_id}
+                        onReviewSubmitted={handleReviewSubmission}  // Use handleReviewSubmission here
+                    />
+
+
+
+                </div>
             </div>
+           
+
         </>
     );
 };
