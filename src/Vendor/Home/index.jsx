@@ -7,6 +7,7 @@ import VendorDashboard from "../Dashboard";
 import ManageBookings from "../Booking";
 import VendorProfilePage from "../Profile";
 import VendorReviews from "../Review";
+import VendorRevenuePage from "../Revenue";
 
 const VendorHome = () => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -20,7 +21,8 @@ const VendorHome = () => {
         <ManageBookings />,
         <VendorPayments />,
         <VendorReviews/>,
-        <VendorProfilePage />// Vendor Profile page at index 5
+        <VendorRevenuePage/>,
+        <VendorProfilePage />// Vendor Profile page at index 7
         
     ];
 

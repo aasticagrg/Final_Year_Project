@@ -24,6 +24,7 @@ import VendorDashboard from "./Vendor/Dashboard";
 import VendorPayments from "./Vendor/Payment";
 import VendorProfilePage from "./Vendor/Profile";
 import VendorReviews from "./Vendor/Review";
+import VendorRevenuePage from "./Vendor/Revenue";
 
 // Admin
 import AdminHome from "./Admin/Home";
@@ -62,6 +63,7 @@ function App() {
                     <Route path="/Vendor/Payment" element={token ? <VendorPayments /> : <LoginPage />} />
                     <Route path="/Vendor/Profile" element={token ? <VendorProfilePage /> : <LoginPage />} />
                     <Route path="/Vendor/Review" element={token ? <VendorReviews /> : <LoginPage />} />
+                    <Route path="/Vendor/Revenue" element={token ? <VendorRevenuePage /> : <LoginPage />} />
 
                     {/* Admin */}
                     <Route path="/Admin/Home" element={token ? <AdminHome /> : <LoginPage />} />

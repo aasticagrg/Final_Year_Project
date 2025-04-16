@@ -6,6 +6,7 @@ import { MdPayments, MdHomeWork } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { onLogout } from "../../components/Logout";
 import { MdOutlineRateReview } from "react-icons/md";
+import { GoGraph } from "react-icons/go";
 import { baseUrl } from "../../constants";
 
 const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
@@ -36,7 +37,7 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
         { title: "Booking", icon: <FaCalendarCheck /> },
         { title: "Payments", icon: <MdPayments /> },
         { title: "Reviews", icon: <MdOutlineRateReview /> },
-
+        { title: "Revenue", icon: <GoGraph /> },
     ];
 
     const sidebarWidth = isExpanded ? "200px" : "60px";
@@ -62,6 +63,8 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
                 left: 0,
                 top: 0,
                 zIndex: 100,
+                overflowY: "auto", // Add scrolling if needed
+                height: "100vh", // Ensure it takes full height
             }}
         >
             {/* Header */}
@@ -81,7 +84,7 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
 
                 {/* Vendor Name (Set Active to Profile Page) */}
                 <div
-                    onClick={() => setActive(6)} // Set active to the Profile Page (index 5)
+                    onClick={() => setActive(7)} // Set active to the Profile Page (index 5)
                     style={{
                         cursor: "pointer",
                         backgroundColor: "#34495E",
@@ -111,7 +114,7 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
             </div>
 
             {/* Menu Options */}
-            <div style={{ flexGrow: 1 }}>
+            <div style={{ flexGrow: 0 }}>  {/* Changed from flexGrow: 1 to stop excessive stretching */}
                 {menuOptions.map((option, index) => {
                     const isActive = active === index;
                     return (
@@ -130,7 +133,7 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
                                 justifyContent: isExpanded ? "flex-start" : "center",
                                 gap: "10px",
                                 padding: "10px",
-                                margin: "8px 0",
+                                margin: "5px 0", // Reduced margin from 8px to 5px
                                 fontSize: "16px",
                                 borderRadius: "5px",
                                 transition: "background-color 0.3s ease",
@@ -143,32 +146,33 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
                 })}
             </div>
 
-            {/* Logout Button */}
-            <button
-                onClick={() => onLogout(navigate)}
-                style={{
-                    ...fontStyle,
-                    backgroundColor: "#2C6B5B",
-                    color: "white",
-                    border: "none",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: isExpanded ? "flex-start" : "center",
-                    gap: "10px",
-                    fontSize: "16px",
-                    width: "100%",
-                    marginBottom: "10px",
-                }}
-            >
-                <FiLogOut />
-                {isExpanded && <span>Logout</span>}
-            </button>
+            {/* Logout and Collapse Buttons in a container with auto margin top */}
+            <div style={{ marginTop: "auto", paddingTop: "10px" }}>
+                {/* Logout Button */}
+                <button
+                    onClick={() => onLogout(navigate)}
+                    style={{
+                        ...fontStyle,
+                        backgroundColor: "#2C6B5B",
+                        color: "white",
+                        border: "none",
+                        padding: "10px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: isExpanded ? "flex-start" : "center",
+                        gap: "10px",
+                        fontSize: "16px",
+                        width: "100%",
+                        marginBottom: "10px",
+                    }}
+                >
+                    <FiLogOut />
+                    {isExpanded && <span>Logout</span>}
+                </button>
 
-            {/* Expand/Collapse Button */}
-            <div style={{ marginTop: "auto" }}>
+                {/* Expand/Collapse Button */}
                 <button
                     onClick={() => setIsExpanded(prev => !prev)}
                     style={{
@@ -180,6 +184,7 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
                         padding: "10px",
                         cursor: "pointer",
                         borderRadius: "5px",
+                        marginBottom: "10px", // Added margin to ensure it's not right at the bottom
                     }}
                 >
                     {isExpanded ? "Collapse" : "Expand"}
