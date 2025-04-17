@@ -32,6 +32,8 @@ const VendorRevenuePage = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [viewMode, setViewMode] = useState('weekly'); // 'weekly' or 'monthly'
+  const [originalChartData, setOriginalChartData] = useState([]); // Store original monthly data
 
   const token = localStorage.getItem('token');
 
@@ -66,14 +68,18 @@ const VendorRevenuePage = () => {
           data.revenue_data.map((item) => ({
             ...item,
             id: item.booking_id, // required for DataGrid
-            // Set default values for null fields to prevent errors
-            total_amount: item.total_amount ? item.total_amount : 0,
+            // Ensure total_amount is a number with fallback to 0
+            total_amount: item.total_amount ? parseFloat(item.total_amount) : 0,
             payment_status: item.payment_status || 'Unknown',
             booking_status: item.booking_status || 'Unknown'
           }))
         );
-        // Process chart data to be weekly instead of monthly
-        processChartData(data.chart_data);
+        
+        // Store the original monthly chart data
+        setOriginalChartData(data.chart_data);
+        
+        // Process chart data according to current view mode
+        processChartData(data.chart_data, viewMode);
       } else {
         console.error('Backend error:', data.message);
       }
@@ -84,40 +90,53 @@ const VendorRevenuePage = () => {
     }
   };
 
-  // New function to process chart data into weekly format
-  const processChartData = (monthlyData) => {
+  // Process chart data into weekly or monthly format
+  const processChartData = (monthlyData, mode) => {
     // If no data, set empty array
     if (!monthlyData || monthlyData.length === 0) {
       setChartData([]);
       return;
     }
 
-    // For this example, we'll convert monthly data to simulated weekly data
-    // In a real implementation, you would want your backend to return weekly data
-    const weeklyData = [];
-    
-    monthlyData.forEach(monthItem => {
-      // Split each month into 4 weeks with distributed revenue
-      const monthTotal = parseFloat(monthItem.total);
-      const monthParts = monthItem.month.split('-');
-      const year = monthParts[0];
-      const month = monthParts[1];
+    if (mode === 'monthly') {
+      // Use monthly data directly
+      setChartData(monthlyData.map(item => ({
+        period: item.month,
+        total: parseFloat(item.total) || 0
+      })));
+    } else {
+      // Convert monthly data to simulated weekly data
+      const weeklyData = [];
       
-      // Create 4 weeks for each month
-      for (let week = 1; week <= 4; week++) {
-        const weekLabel = `${year}-${month} W${week}`;
-        // Distribute the monthly total somewhat randomly across weeks
-        const weekFactor = 0.7 + Math.random() * 0.6; // Random factor between 0.7 and 1.3
-        const weekValue = Math.round((monthTotal / 4) * weekFactor);
+      monthlyData.forEach(monthItem => {
+        // Split each month into 4 weeks with distributed revenue
+        const monthTotal = parseFloat(monthItem.total) || 0;
+        const monthParts = monthItem.month.split('-');
+        const year = monthParts[0];
+        const month = monthParts[1];
         
-        weeklyData.push({
-          week: weekLabel,
-          total: weekValue
-        });
-      }
-    });
-    
-    setChartData(weeklyData);
+        // Create 4 weeks for each month
+        for (let week = 1; week <= 4; week++) {
+          const weekLabel = `${year}-${month} W${week}`;
+          // Distribute the monthly total somewhat randomly across weeks
+          const weekFactor = 0.7 + Math.random() * 0.6; // Random factor between 0.7 and 1.3
+          const weekValue = Math.round((monthTotal / 4) * weekFactor);
+          
+          weeklyData.push({
+            period: weekLabel,
+            total: weekValue
+          });
+        }
+      });
+      
+      setChartData(weeklyData);
+    }
+  };
+
+  // Switch between weekly and monthly view
+  const toggleViewMode = (mode) => {
+    setViewMode(mode);
+    processChartData(originalChartData, mode);
   };
 
   useEffect(() => {
@@ -135,6 +154,18 @@ const VendorRevenuePage = () => {
     return 'unknown';
   };
 
+  // Safe format function for currency
+  const safeCurrencyFormat = (value) => {
+    // If value is undefined, null, or not a number
+    if (value === undefined || value === null || isNaN(parseFloat(value))) {
+      return 'NRs 0';
+    }
+    
+    // Ensure the value is treated as a number
+    const numValue = parseFloat(value);
+    return `NRs ${numValue.toLocaleString('en-IN')}`;
+  };
+
   // Columns definition for MUI DataGrid
   const columns = [
     { field: 'booking_id', headerName: 'Booking ID', width: 120 },
@@ -147,9 +178,11 @@ const VendorRevenuePage = () => {
       headerName: 'Amount', 
       width: 120, 
       type: 'number',
-      valueFormatter: (params) => {
-        return params.value ? `NRs ${params.value}` : 'NRs 0';
-      } 
+      renderCell: (params) => (
+        <div>
+          {safeCurrencyFormat(params.value)}
+        </div>
+      )
     },
     { 
       field: 'payment_status', 
@@ -175,14 +208,14 @@ const VendorRevenuePage = () => {
   ];
 
   // Prepare chart data for react-chartjs-2
-  const chartLabels = chartData.map(item => item.week);
+  const chartLabels = chartData.map(item => item.period);
   const chartValues = chartData.map(item => item.total);
 
   const chartDataConfig = {
     labels: chartLabels,
     datasets: [
       {
-        label: 'Weekly Revenue',
+        label: `${viewMode === 'weekly' ? 'Weekly' : 'Monthly'} Revenue`,
         data: chartValues,
         borderColor: '#4576b5',
         backgroundColor: 'rgba(69, 118, 181, 0.1)',
@@ -217,7 +250,7 @@ const VendorRevenuePage = () => {
       },
       title: {
         display: true,
-        text: 'Weekly Revenue',
+        text: `${viewMode === 'weekly' ? 'Weekly' : 'Monthly'} Revenue`,
         font: {
           family: "'Roboto', sans-serif",
           size: 18,
@@ -242,7 +275,9 @@ const VendorRevenuePage = () => {
         displayColors: false,
         callbacks: {
           label: function(context) {
-            return `Revenue: ₹${context.raw}`;
+            // Safely format the value
+            const value = context.raw || 0;
+            return `Revenue: NRs ${value.toLocaleString('en-IN')}`;
           }
         }
       }
@@ -271,7 +306,7 @@ const VendorRevenuePage = () => {
             size: 12
           },
           callback: function(value) {
-            return 'NRs ' + value;
+            return 'NRs ' + value.toLocaleString('en-IN');
           }
         }
       }
@@ -288,16 +323,20 @@ const VendorRevenuePage = () => {
   };
 
   const formatCurrency = (amount) => {
+    // Handle undefined/null values
+    if (amount === undefined || amount === null) return 'NRs. 0';
+    
+    const numAmount = parseFloat(amount);
+    if (isNaN(numAmount)) return 'NRs. 0';
+    
     const formatted = new Intl.NumberFormat('en-IN', {
       style: 'decimal',
       maximumFractionDigits: 0
-    }).format(amount || 0);
+    }).format(numAmount);
   
     return `NRs. ${formatted}`;
   };
   
-  
-
   return (
     <div className="revenue-container">
       <h2 className="page-title">Vendor Revenue</h2>
@@ -370,7 +409,23 @@ const VendorRevenuePage = () => {
       </div>
 
       <div className="chart-container">
-        <h3 className="section-title">Weekly Revenue Trend</h3>
+        <div className="chart-header">
+          <h3 className="section-title">Revenue Trend</h3>
+          <div className="view-toggle">
+            <button 
+              className={`toggle-btn ${viewMode === 'weekly' ? 'active' : ''}`}
+              onClick={() => toggleViewMode('weekly')}
+            >
+              Weekly
+            </button>
+            <button 
+              className={`toggle-btn ${viewMode === 'monthly' ? 'active' : ''}`}
+              onClick={() => toggleViewMode('monthly')}
+            >
+              Monthly
+            </button>
+          </div>
+        </div>
         <div className="chart-wrapper">
           {chartData.length > 0 ? (
             <Line data={chartDataConfig} options={chartOptions} />
