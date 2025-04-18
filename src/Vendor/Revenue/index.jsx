@@ -34,6 +34,8 @@ const VendorRevenuePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [viewMode, setViewMode] = useState('weekly'); // 'weekly' or 'monthly'
   const [originalChartData, setOriginalChartData] = useState([]); // Store original monthly data
+  const [properties, setProperties] = useState([]); // Store list of properties
+  const [selectedProperty, setSelectedProperty] = useState(''); // Store selected property
 
   const token = localStorage.getItem('token');
 
@@ -43,9 +45,23 @@ const VendorRevenuePage = () => {
       // Changed to GET request with URL parameters instead of POST with body
       let url = `${baseUrl}getVendorRevenue.php`;
       
-      // Add date params to URL if they exist
+      // Build query parameters
+      const params = new URLSearchParams();
+      
+      // Add date params if they exist
       if (startDate && endDate) {
-        url += `?start_date=${encodeURIComponent(startDate)}&end_date=${encodeURIComponent(endDate)}`;
+        params.append('start_date', startDate);
+        params.append('end_date', endDate);
+      }
+      
+      // Add property filter if selected
+      if (selectedProperty) {
+        params.append('property_name', selectedProperty);
+      }
+      
+      // Append params to URL if any exist
+      if (params.toString()) {
+        url += `?${params.toString()}`;
       }
       
       const res = await fetch(url, {
@@ -80,6 +96,11 @@ const VendorRevenuePage = () => {
         
         // Process chart data according to current view mode
         processChartData(data.chart_data, viewMode);
+        
+        // Store the list of properties if available
+        if (data.properties && Array.isArray(data.properties)) {
+          setProperties(data.properties);
+        }
       } else {
         console.error('Backend error:', data.message);
       }
@@ -360,10 +381,23 @@ const VendorRevenuePage = () => {
             className="date-input"
           />
         </div>
+        <div className="filter-group">
+          <label>Property:</label>
+          <select
+            value={selectedProperty}
+            onChange={(e) => setSelectedProperty(e.target.value)}
+            className="property-select"
+          >
+            <option value="">All Properties</option>
+            {properties.map((property, index) => (
+              <option key={index} value={property}>{property}</option>
+            ))}
+          </select>
+        </div>
         <button 
           onClick={fetchRevenue} 
           className="filter-button"
-          disabled={isLoading || !startDate || !endDate}
+          disabled={isLoading || (!startDate && !endDate && !selectedProperty)}
         >
           {isLoading ? "Loading..." : "Apply Filter"}
         </button>
