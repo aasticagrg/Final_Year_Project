@@ -28,11 +28,17 @@ const VendorDashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${baseUrl}getVendorDashboard.php`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await response.json();
-      setDashboardData(data.data);
+      try {
+        const response = await fetch(`${baseUrl}getVendorDashboard.php`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json();
+        console.log("Dashboard data:", data.data);
+        console.log("Recent bookings:", data.data.recent_bookings);
+        setDashboardData(data.data);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
     };
 
     fetchDashboardData();
@@ -152,15 +158,38 @@ const VendorDashboard = () => {
     }],
   };
 
+  // Super robust columns definition with direct renderCell
   const columns = [
     { field: "booking_id", headerName: "Booking ID", width: 150 },
     { field: "property_name", headerName: "Property", width: 200 },
     { field: "user_name", headerName: "Guest Name", width: 200 },
-    { field: "booking_status", headerName: "Status", width: 150}, 
+    { 
+      field: "booking_status", 
+      headerName: "Status", 
+      width: 150,
+      renderCell: (params) => {
+        return <div>{params.value || params.value === 0 ? params.value : "Null"}</div>;
+      }
+    }, 
     { field: "check_in_date", headerName: "Check In", width: 150}, 
     { field: "check_out_date", headerName: "Check Out", width: 150}, 
-    { field: "payment_status", headerName: "Payment Status", width: 150}
+    { 
+      field: "payment_status", 
+      headerName: "Payment Status", 
+      width: 150,
+      renderCell: (params) => {
+        return <div>{params.value || params.value === 0 ? params.value : "Null"}</div>;
+      }
+    }
   ];
+
+  // Make sure each booking has an ID for DataGrid
+  const bookingsWithIds = recent_bookings.map((booking) => {
+    return {
+      id: booking.booking_id,
+      ...booking
+    };
+  });
 
   return (
     <Box className="vd-container">
@@ -168,7 +197,7 @@ const VendorDashboard = () => {
 
       <Grid container spacing={3} className="vd-stats-grid">
         <Grid item xs={12} md={3}><StatCard title="Total Properties" value={total_properties} icon={<FaHome />} /></Grid>
-        <Grid item xs={12} md={3}><StatCard title="Total Earnings" value={`₹${total_earnings}`} icon={<FaMoneyBillWave />} /></Grid>
+        <Grid item xs={12} md={3}><StatCard title="Total Earnings" value={`NRs ${total_earnings}`} icon={<FaMoneyBillWave />} /></Grid>
         <Grid item xs={12} md={3}><StatCard title="Total Bookings" value={total_bookings} icon={<FaChartLine />} /></Grid>
         <Grid item xs={12} md={3}><StatCard title="Average Rating" value={average_rating} icon={<FaStar />} /></Grid>
       </Grid>
@@ -237,7 +266,14 @@ const VendorDashboard = () => {
           <Typography className="vd-section-title" variant="h6">Recent Bookings</Typography>
           <Divider sx={{ mb: 2 }} />
           <div className="vd-datagrid" style={{ height: 400, width: '100%' }}>
-            <DataGrid rows={recent_bookings} columns={columns} pageSize={5} getRowId={(row) => row.booking_id} />
+            <DataGrid 
+              rows={bookingsWithIds} 
+              columns={columns} 
+              pageSize={5}
+
+              rowsPerPageOptions={[5, 10, 25]}
+              disableSelectionOnClick
+            />
           </div>
         </CardContent>
       </Card>
@@ -245,13 +281,17 @@ const VendorDashboard = () => {
       <Card className="vd-table-card">
         <CardContent>
           <Typography className="vd-section-title" variant="h6">Recent Reviews</Typography>
-          {recent_reviews.map((review) => (
-            <Box key={review.review_id} className="vd-review-box">
-              <Typography variant="body2"><strong>{review.user_name}</strong> rated {review.rating} stars</Typography>
-              <Typography variant="body2">{review.review_text}</Typography>
-              <Typography variant="body2" color="textSecondary">{review.created_at}</Typography>
-            </Box>
-          ))}
+          {recent_reviews.length > 0 ? (
+            recent_reviews.map((review) => (
+              <Box key={review.review_id} className="vd-review-box">
+                <Typography variant="body2"><strong>{review.user_name}</strong> rated {review.rating} stars</Typography>
+                <Typography variant="body2">{review.review_text}</Typography>
+                <Typography variant="body2" color="textSecondary">{review.created_at}</Typography>
+              </Box>
+            ))
+          ) : (
+            <Typography variant="body2" color="textSecondary">No reviews available</Typography>
+          )}
         </CardContent>
       </Card>
     </Box>

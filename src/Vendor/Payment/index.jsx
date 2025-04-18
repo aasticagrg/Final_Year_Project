@@ -68,7 +68,6 @@ const VendorPayments = () => {
     { field: 'user_name', headerName: 'User Name', width: 150 },
     { field: 'user_email', headerName: 'Email', width: 200 },
     { field: 'user_phone', headerName: 'Phone', width: 130 },
-
     {
       field: 'payment_status',
       headerName: 'Status',
@@ -78,6 +77,7 @@ const VendorPayments = () => {
           size="small"
           value={editedStatus[params.row.payment_id] || params.row.payment_status}
           onChange={(e) => handleStatusChange(params.row.payment_id, e.target.value)}
+          disabled={params.row.method === 'online'}
         >
           <MenuItem value="pending">Pending</MenuItem>
           <MenuItem value="completed">Completed</MenuItem>
@@ -93,6 +93,7 @@ const VendorPayments = () => {
           variant="contained"
           size="small"
           onClick={() => saveStatus(params.row.payment_id)}
+          disabled={params.row.method === 'online'}
         >
           Save
         </Button>
