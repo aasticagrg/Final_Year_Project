@@ -44,7 +44,7 @@ const ReviewForm = ({ propertyId, onReviewSubmitted }) => {
       const data = await res.json();
 
       if (data.success) {
-        toast.success('Review submitted successfully!');
+        
         // Reset form after successful submission
         setRating(0);
         setReviewText('');

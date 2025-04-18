@@ -8,13 +8,9 @@ const ReviewList = ({ propertyId, refreshTrigger, limitReviews = 0 }) => {
   const [reviews, setReviews] = useState([]);
   const [avgRating, setAvgRating] = useState(null);
   const [count, setCount] = useState(0);
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   const fetchReviews = async () => {
-    if (!propertyId) {
-      console.error('Property ID is not provided');
-      return; // Exit early if propertyId is not available
-    }
-
     try {
       const res = await fetch(`${baseUrl}getPropertyReviews.php?property_id=${propertyId}`);
       const data = await res.json();
@@ -23,16 +19,14 @@ const ReviewList = ({ propertyId, refreshTrigger, limitReviews = 0 }) => {
         setAvgRating(data.average_rating);
         setCount(data.total_reviews);
       } else {
-        throw new Error(data.message); // if the data doesn't contain success
+        toast.error(data.message || 'Failed to load reviews');
       }
-    } catch (err) {
-      console.error('Error fetching reviews:', err);
+    } catch {
       toast.error("Failed to load reviews. Please try again.");
     }
   };
 
   const handleDelete = async (reviewId) => {
-    // Use toast.promise instead of window.confirm
     toast.promise(
       (async () => {
         const res = await fetch(`${baseUrl}deleteReview.php`, {
@@ -45,7 +39,7 @@ const ReviewList = ({ propertyId, refreshTrigger, limitReviews = 0 }) => {
         });
         const data = await res.json();
         if (data.success) {
-          fetchReviews(); // Refresh the reviews after deleting
+          fetchReviews();
           return data;
         } else {
           throw new Error(data.message || 'Failed to delete review');
@@ -63,9 +57,25 @@ const ReviewList = ({ propertyId, refreshTrigger, limitReviews = 0 }) => {
     if (propertyId) {
       fetchReviews();
     }
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetch(`${baseUrl}getUserDetails.php`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setLoggedInUserId(data.user.user_id);
+          }
+        })
+        .catch(() => {});
+    }
   }, [propertyId, refreshTrigger]);
 
-  // Display limited reviews if limitReviews is set
   const displayedReviews = limitReviews > 0 ? reviews.slice(0, limitReviews) : reviews;
 
   return (
@@ -82,14 +92,16 @@ const ReviewList = ({ propertyId, refreshTrigger, limitReviews = 0 }) => {
           <div className="review-header">
             <span className="review-user">{review.user_name}</span>
             <StarRating rating={review.rating} editable={false} />
-            <div className="review-actions">
-              <button 
-                onClick={() => handleDelete(review.review_id)} 
-                className="delete-button"
-              >
-                Delete
-              </button>
-            </div>
+            {loggedInUserId === review.user_id && (
+              <div className="review-actions">
+                <button 
+                  onClick={() => handleDelete(review.review_id)} 
+                  className="delete-button"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
           <p className="review-text">{review.review_text}</p>
           <span className="review-date">

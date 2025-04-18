@@ -1,8 +1,9 @@
-header{
+/* Keep your existing header styles */
+header {
   width: 100vw;
-  height: 100vh;
+  height: 80vh;
   background-image: url('../../../public/assets/Home.jpg');
-  background-position: bottom;
+  background-position: center;
   background-size: cover;
   display: flex;
   align-items: center;
@@ -10,10 +11,108 @@ header{
 }
 
 .header-content {
-  color: whitesmoke;
-  text-align: center;
-
+  color:whitesmoke;
+  text-align:center;
+  z-index: 2;
 }
-.header-content h2{
-  font-size: 5vmin;
+
+.header-content h2 {
+  font-size: 52px;
+  font-weight: 700;
+  font-family: "Dancing Script", cursive;
+  font-weight: bolder;
+  margin-bottom: -1rem;
+  
+ 
+}
+.header-content p {
+  font-size: 20px;
+  margin-bottom: -2rem;
+  font-family: "Barlow Condensed", sans-serif;
+  justify-content: center;
+  
+  /* line-height: 1.5; */
+}
+.search-form-wrapper {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  padding: 8px 12px; 
+  width: auto;
+  height: 100px; 
+  display: flex;
+}
+
+
+/* Popular Section Styles */
+.popular-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.section-header h2 {
+  font-size: 28px;
+  color: #333;
+  margin: 0;
+}
+
+.see-all {
+  color: #4a6741;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.property-card-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Loading and Error States */
+.loading, .error-message {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 18px;
+}
+
+.error-message {
+  color: #d32f2f;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .property-grid {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .property-grid {
+      grid-template-columns: 1fr;
+  }
+  
+  .header-content h2 {
+      font-size: 7vmin;
+  }
 }

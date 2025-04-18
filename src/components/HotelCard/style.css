@@ -1,0 +1,150 @@
+/* Hotel Card Container */
+.hotel-card {
+  width: 360px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  font-family: 'Arial', sans-serif;
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hotel Image Container */
+.hotel-image {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.hotel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hotel Information */
+.hotel-info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hotel Name */
+.hotel-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 6px 0;
+}
+
+/* Hotel Location */
+.hotel-location {
+  font-size: 14px;
+  color: #0071c2;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.location-icon {
+  color: #0071c2;
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+/* Rating Container */
+.rating-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.stars {
+  display: flex;
+  margin-right: 8px;
+}
+
+.star {
+  color: #e0e0e0;
+  margin-right: 2px;
+  font-size: 16px;
+}
+
+.star.filled {
+  color: #febb02;
+}
+
+.review-count {
+  font-size: 14px;
+  color: #666;
+  margin-left: 5px;
+}
+
+/* Hotel Description */
+.hotel-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: auto;
+  max-height: 63px; /* Approximately 3 lines of text */
+}
+
+/* Hide show more since it's not in the design */
+.show-more {
+  display: none;
+}
+
+/* Reserve Button */
+.reserve-button {
+  width: 100%;
+  padding: 12px 0;
+  background-color: white;
+  color: #0071c2;
+  border: 1px solid #0071c2;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.reserve-button:hover {
+  background-color: #f5f9fc;
+}
+
+/* Error Message */
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  background-color: #f8d7da;
+  margin: 16px;
+  width: 450px;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 480px) {
+  .hotel-card {
+    width: 100%;
+    margin: 16px 0;
+  }
+  
+  .hotel-image {
+    height: 220px;
+  }
+  
+  .error-message {
+    width: 100%;
+  }
+}
