@@ -11,8 +11,8 @@ header {
 }
 
 .header-content {
-  color:whitesmoke;
-  text-align:center;
+  color: whitesmoke;
+  text-align: center;
   z-index: 2;
 }
 
@@ -22,17 +22,15 @@ header {
   font-family: "Dancing Script", cursive;
   font-weight: bolder;
   margin-bottom: -1rem;
-  
- 
 }
+
 .header-content p {
   font-size: 20px;
   margin-bottom: -2rem;
   font-family: "Barlow Condensed", sans-serif;
   justify-content: center;
-  
-  /* line-height: 1.5; */
 }
+
 .search-form-wrapper {
   position: absolute;
   bottom: 80px;
@@ -42,17 +40,16 @@ header {
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  padding: 8px 12px; 
+  padding: 8px 12px;
   width: auto;
-  height: 100px; 
+  height: 100px;
   display: flex;
 }
 
-
-/* Popular Section Styles */
+/* Popular Section Styles with Animation */
 .popular-section {
   max-width: 1200px;
-  margin: 60px auto;
+  margin: 120px auto;
   padding: 0 20px;
 }
 
@@ -67,6 +64,23 @@ header {
   font-size: 28px;
   color: #333;
   margin: 0;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.section-header h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #4a6741;
+  transition: width 0.3s ease;
+}
+
+.section-header:hover h2::after {
+  width: 100px;
 }
 
 .see-all {
@@ -74,18 +88,45 @@ header {
   text-decoration: none;
   font-weight: 500;
   font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.see-all:hover {
+  color: #2c402a;
+}
+
+.see-all::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #4a6741;
+  transition: width 0.3s ease;
+}
+
+.see-all:hover::after {
+  width: 100%;
 }
 
 .property-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 20px;
 }
 
 .property-card-wrapper {
   border-radius: 8px;
   overflow: hidden;
   height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.property-card-wrapper:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* Loading and Error States */
@@ -100,19 +141,418 @@ header {
   color: #d32f2f;
 }
 
-/* Responsive Adjustments */
+/* Destination Section with Carousel */
+.destination-section {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.destination-title {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.destination-title h2 {
+  font-size: 32px;
+  color: #333;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.destination-title h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: #4a6741;
+}
+
+/* Carousel Styles */
+.destination-list {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 20px 0;
+  gap: 20px;
+}
+
+.destination-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Style for the destination wrapper */
+.destination-wrapper {
+  min-width: 280px;
+  transition: transform 0.4s ease;
+}
+
+/* Enhance the existing DestinationCard styles */
+.destination-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  height: 100%;
+}
+
+.destination-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.destination-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.destination-card:hover .destination-image {
+  transform: scale(1.1);
+}
+
+.destination-content {
+  padding: 15px;
+}
+
+.destination-content h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.description {
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 14px;
+}
+
+.count {
+  margin-bottom: 12px;
+  color: #727C72;
+  font-size: 14px;
+}
+
+.explore-btn {
+  width: 240px;
+  background-color: whitesmoke;
+  color: #727C72;
+  border: 1px solid #727C72;
+  border-radius: 20px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.explore-btn:hover {
+  background-color: #bec9be;
+}
+
+/* Carousel navigation buttons */
+.carousel-nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.carousel-nav button {
+  background-color: lightslategray;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.carousel-nav button:hover {
+  background-color: #727C72;
+  color: white;
+}
+
+.carousel-nav button svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Tour Activity Badge */
+.tour-activity-badge {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+/* Carousel indicators */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.carousel-indicator {
+  width: 30px;
+  height: 3px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicator.active {
+  background-color: #4a6741;
+  width: 50px;
+}
+
+/* NEW STYLES FOR FEATURED SECTIONS */
+.featured-section {
+  max-width: 1200px;
+  margin: 100px auto;
+  padding: 0 20px;
+}
+
+.featured-container {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.featured-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.featured-image-wrapper {
+  height: 400px;
+  flex: 1;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.featured-image-wrapper:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.featured-image-wrapper:hover .featured-image {
+  transform: scale(1.05);
+}
+
+.featured-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.featured-content h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #333;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.featured-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #4a6741;
+  transition: width 0.3s ease;
+}
+
+.featured-content:hover h2::after {
+  width: 100px;
+}
+
+.featured-content p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+}
+
+/* NEW STYLES FOR CATEGORIES SECTION */
+.categories-section {
+  max-width: 1200px;
+  margin: 100px auto;
+  padding: 0 20px;
+}
+
+.categories-section h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: #333;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.categories-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #4a6741;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.category-card {
+  position: relative;
+  height: 250px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  text-decoration: none;
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.category-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.category-card:hover .category-image {
+  transform: scale(1.1);
+}
+
+.category-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.category-card:hover .category-overlay {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.8));
+}
+
+.category-overlay h3 {
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Animation classes */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Add this to your existing responsive CSS */
 @media (max-width: 992px) {
   .property-grid {
-      grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .destination-wrapper {
+    min-width: 240px;
+  }
+  
+  .featured-container {
+    flex-direction: column;
+  }
+  
+  /* Fix for reverse container - maintain the correct order in column layout */
+  .featured-container.reverse {
+    flex-direction: column-reverse;
+  }
+  
+  .featured-image-wrapper, .featured-content {
+    width: 100%;
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .property-grid {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
   
   .header-content h2 {
-      font-size: 7vmin;
+    font-size: 7vmin;
+  }
+  
+  .destination-wrapper {
+    min-width: 200px;
+  }
+  
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .featured-content h2 {
+    font-size: 26px;
   }
 }
