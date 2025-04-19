@@ -72,7 +72,7 @@ const Navbar = () => {
                   <Link to="/User/profile">My Account</Link>
                   <Link to="/bookings">Booked</Link>
                   <Link to="/reviews">Reviews</Link>
-                  <Link to="/liked">Liked</Link>
+                  <Link to="/User/Liked">Liked</Link>
                   <Link to="#" onClick={handleLogout}>Sign Out</Link>
                 </div>
               )}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
 import HotelCard from '../../components/HotelCard';
 import SearchForm from "../../components/SearchForm";
@@ -11,6 +12,18 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+    const navigate = useNavigate();
+
+    const handleSearch = ({ city, checkIn, checkOut, price }) => {
+        const queryParams = new URLSearchParams();
+    
+        if (city) queryParams.append("city", city);
+        if (checkIn) queryParams.append("checkIn", checkIn);
+        if (checkOut) queryParams.append("checkOut", checkOut);
+        if (price) queryParams.append("price", price);
+    
+        navigate(`/User/Properties?${queryParams.toString()}`);
+    };
     
     const carouselRef = useRef(null);
     
@@ -124,8 +137,9 @@ const Home = () => {
                     <p>From cozy city apartments to serene mountain retreats, explore handpicked stays that turn every trip into a memory worth keeping.</p>
 
                     <div className="search-form-wrapper">
-                        <SearchForm />
+                        <SearchForm onSearch={handleSearch} />
                     </div>
+
                 </div>
             </header>
 

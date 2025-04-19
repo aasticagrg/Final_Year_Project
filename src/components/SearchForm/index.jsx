@@ -1,97 +1,75 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { baseUrl } from "../../constants"; // Import useNavigate for page redirection
-import './style.css';
+import { useState } from "react";
+import "./style.css";
 
-const SearchForm = () => {
-  const [destination, setDestination] = useState('');
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
-  const [priceRange, setPriceRange] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const navigate = useNavigate(); // Use useNavigate to handle redirection
+const SearchForm = ({ onSearch }) => {
+    const [city, setCity] = useState("");
+    const [checkIn, setCheckIn] = useState("");
+    const [checkOut, setCheckOut] = useState("");
+    const [price, setPrice] = useState("");
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    setLoading(true);
-    setError('');
+        const searchData = {
+            city,
+            checkIn,
+            checkOut,
+            price
+        };
 
-    const searchParams = new URLSearchParams({
-      destination,
-      checkInDate,
-      checkOutDate,
-      priceRange,
-    });
+        if (onSearch) {
+            onSearch(searchData); // used by homepage
+        } else {
+            console.log("No onSearch handler provided:", searchData); 
+            // fallback behavior if needed
+        }
+    };
 
-    try {
-      console.log('Fetching data with params: ', searchParams.toString()); // Debug: Check API request
-
-      const response = await fetch(`${baseUrl}search.php?${searchParams}`);
-      const data = await response.json();
-
-      console.log('API Response: ', data); // Debug: Check API response
-
-      if (data.length === 0) {
-        setError('No properties found matching your criteria.');
-      } else {
-        // Store the properties data in localStorage
-        localStorage.setItem('properties', JSON.stringify(data));
-        
-        // Redirect to the PropertiesPage
-        navigate('/PropertiesPage');
-      }
-    } catch (err) {
-      setError('Failed to fetch properties. Please try again.');
-      console.error('Error fetching properties: ', err); // Debug: Check the error
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="search-container">
-      <form onSubmit={handleSearch} className="search-form">
-        <input
-          type="text"
-          placeholder="Where are you going?"
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
-          className="search-input"
-        />
-        
-        <input
-          type="date"
-          placeholder="Check-in Date"
-          value={checkInDate}
-          onChange={(e) => setCheckInDate(e.target.value)}
-          className="search-input"
-        />
-        
-        <input
-          type="date"
-          placeholder="Check-out Date"
-          value={checkOutDate}
-          onChange={(e) => setCheckOutDate(e.target.value)}
-          className="search-input"
-        />
-        
-        <input
-          type="text"
-          placeholder="Price Range"
-          value={priceRange}
-          onChange={(e) => setPriceRange(e.target.value)}
-          className="search-input"
-        />
-        
-        <button type="submit" className="search-button">Search</button>
-      </form>
-
-      {loading && <p>Loading properties...</p>}
-      {error && <p className="error-message">{error}</p>}
-    </div>
-  );
+    return (
+        <form className="search-form-horizontal" onSubmit={handleSubmit}>
+            <div className="search-input">
+                <label htmlFor="city">City</label>
+                <input
+                    id="city"
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder="Enter city"
+                />
+            </div>
+            <div className="search-input">
+                <label htmlFor="check-in">Check-in</label>
+                <input
+                    id="check-in"
+                    type="date"
+                    value={checkIn}
+                    onChange={(e) => setCheckIn(e.target.value)}
+                />
+            </div>
+            <div className="search-input">
+                <label htmlFor="check-out">Check-out</label>
+                <input
+                    id="check-out"
+                    type="date"
+                    value={checkOut}
+                    onChange={(e) => setCheckOut(e.target.value)}
+                />
+            </div>
+            <div className="search-input">
+                <label htmlFor="price">Your Price</label>
+                <input
+                    id="price"
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="Enter price"
+                />
+            </div>
+            <button type="submit" className="searchbox-button">
+                Search
+            </button>
+        </form>
+    );
 };
 
 export default SearchForm;

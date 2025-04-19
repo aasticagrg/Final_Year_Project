@@ -1,15 +1,23 @@
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 
 import { baseUrl } from "../../constants";
-import "./style.css"; 
+import "./style.css";
 
 const PropertyCard = ({ property }) => {
     const navigate = useNavigate();
     const [averageRating, setAverageRating] = useState(null);
     const [totalReviews, setTotalReviews] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);
 
+    // Load liked status from localStorage
+    useEffect(() => {
+        const liked = JSON.parse(localStorage.getItem("likedProperties") || "[]");
+        setIsLiked(liked.includes(property.property_id));
+    }, [property.property_id]);
+
+    // Fetch property ratings
     useEffect(() => {
         const fetchRating = async () => {
             try {
@@ -29,6 +37,21 @@ const PropertyCard = ({ property }) => {
         }
     }, [property?.property_id]);
 
+    // Toggle like (♡/♥) and update localStorage
+    const toggleLike = () => {
+        const liked = JSON.parse(localStorage.getItem("likedProperties") || "[]");
+        let updated;
+
+        if (isLiked) {
+            updated = liked.filter(id => id !== property.property_id);
+        } else {
+            updated = [...liked, property.property_id];
+        }
+
+        localStorage.setItem("likedProperties", JSON.stringify(updated));
+        setIsLiked(!isLiked);
+    };
+
     if (!property) {
         return <p className="error-message">Property data is missing.</p>;
     }
@@ -37,11 +60,17 @@ const PropertyCard = ({ property }) => {
         <div className="property-card">
             {/* Left Section - Property Image */}
             <div className="property-image">
-                <img 
-                    src={property.pimage1 ? baseUrl + property.pimage1 : "default-image.jpg"} 
-                    alt={property.property_name || "Property Image"} 
+                <img
+                    src={property.pimage1 ? baseUrl + property.pimage1 : "default-image.jpg"}
+                    alt={property.property_name || "Property Image"}
                 />
-                <button className="wishlist-btn">♡</button>
+                <button 
+                    className={`wishlist-btn ${isLiked ? "liked" : ""}`} 
+                    onClick={toggleLike}
+                    aria-label="Toggle Wishlist"
+                >
+                    {isLiked ? "♥" : "♡"}
+                </button>
             </div>
 
             {/* Middle Section - Property Details */}
@@ -54,15 +83,14 @@ const PropertyCard = ({ property }) => {
                 </div>
                 <p className="property-description">{property.description || "No description available."}</p>
                 <p className="property-amenities">
-                    {property.bhk || "N/A"} BHK | {property.bedroom || "N/A"} Bedroom | 
-                    {property.bathroom || "N/A"} Bathroom | {property.kitchen || "N/A"} Kitchen | 
+                    {property.bhk || "N/A"} BHK | {property.bedroom || "N/A"} Bedroom |
+                    {property.bathroom || "N/A"} Bathroom | {property.kitchen || "N/A"} Kitchen |
                     {property.balcony || "N/A"} Balcony
                 </p>
             </div>
 
             {/* Right Section - Price & Button */}
             <div className="property-price">
-                {/* ⭐ Rating Section */}
                 {averageRating !== null && (
                     <div className="property-rating">
                         <span className="stars">
@@ -80,8 +108,8 @@ const PropertyCard = ({ property }) => {
                 <div>Max Adults: {property.peoples || "N/A"}</div>
                 <p className="price">NPR {property.price_per_night || "N/A"}</p>
                 <p className="tax-info">Includes tax and charges</p>
-                <button 
-                    className="availability-btn" 
+                <button
+                    className="availability-btn"
                     onClick={() => navigate(`/User/PropertyDetails/${property.property_id}`)}
                 >
                     See Availability

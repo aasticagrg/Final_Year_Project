@@ -1,84 +1,93 @@
-/* components/SearchForm.css */
-.search-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 0 15px;
-}
-
-.search-form {
+.search-form-horizontal {
   display: flex;
-  flex-direction: row;
-  background-color: white;
-  border-radius: 5px;
-  overflow: hidden;
-  height: 60px; /* Increased height */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  background-color: #fff;
+  border-radius: 50px;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: nowrap;
+  height: 80px;
+  gap: 10px;
 }
 
 .search-input {
   flex: 1;
+  height: 30px;
+  position: relative;
+  padding: 0 15px;
+  border-right: 1px solid #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  min-width: auto;
+}
+
+.search-input:last-of-type {
+  border-right: none;
+}
+
+.search-input label {
+  font-size: 11px;
+  color: #777;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.search-input input {
   border: none;
-  padding: 0 20px;
-  font-size: 16px;
+  background: transparent;
+  font-size: 14px;
+  padding: 0;
+  width: 100%;
+  color: #333;
   outline: none;
-  border-right: 1px solid #e0e0e0;
-  height: 100%; /* Make input fill the container height */
 }
 
-.search-input::placeholder {
-  color: #888;
+.search-input input::placeholder {
+  color: #999;
 }
 
-/* Fix calendar appearance */
-input[type="date"] {
-  padding-right: 10px;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  margin-left: 10px;
-}
-
-/* Make date inputs show properly with calendar icons */
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 1;
-}
-
-.search-button {
-  background-color: #4CAF50;
+.searchbox-button {
+  background-color: #727C72;
   color: white;
   border: none;
-  padding: 0 30px;
-  font-size: 16px;
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  white-space: nowrap;
-  width: 60%;
-  height: 100%; /* Make button fill the container height */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
+  height: 40px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
 .search-button:hover {
-  background-color: #45a049;
+  background-color: #516a69;
 }
 
-/* Responsive design */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .search-form {
+  .search-form-horizontal {
     flex-direction: column;
     height: auto;
+    border-radius: 20px;
+    padding: 15px;
   }
   
   .search-input {
+    width: 100%;
+    padding: 10px 0;
     border-right: none;
-    border-bottom: 1px solid #e0e0e0;
-    height: 60px;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  
+  .search-input:last-of-type {
+    border-bottom: none;
   }
   
   .search-button {
-    padding: 15px;
+    width: 100%;
+    margin-top: 10px;
   }
 }

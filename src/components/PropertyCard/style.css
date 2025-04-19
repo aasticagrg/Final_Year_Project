@@ -133,4 +133,35 @@
   font-size: 14px;
   color: #333;
 }
+.wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid #ddd;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.wishlist-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.wishlist-btn.liked {
+  color: red;
+  border-color: red;
+  background-color: #ffe6e6;
+}
+
+
 

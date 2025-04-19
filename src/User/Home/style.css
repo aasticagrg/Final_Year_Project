@@ -37,12 +37,7 @@ header {
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   padding: 8px 12px;
-  width: auto;
-  height: 100px;
   display: flex;
 }
 
@@ -246,7 +241,7 @@ header {
 }
 
 .explore-btn {
-  width: 240px;
+  width: 98%;
   background-color: whitesmoke;
   color: #727C72;
   border: 1px solid #727C72;
@@ -295,20 +290,6 @@ header {
   height: 24px;
 }
 
-/* Tour Activity Badge */
-.tour-activity-badge {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 2;
-}
 
 /* Carousel indicators */
 .carousel-indicators {

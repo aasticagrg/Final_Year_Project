@@ -1,20 +1,22 @@
 import { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./style.css";
 import Navbar from "../../components/Navbar";
+import SearchForm from "../../components/SearchForm";
 import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
 import PropertyCard from "../../components/PropertyCard";
 
 const Properties = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const token = localStorage.getItem("token");
 
     const [properties, setProperties] = useState([]);
     const [favorites, setFavorites] = useState({});
     const [sortOption, setSortOption] = useState("");
     const [filters, setFilters] = useState({
-        budget: "",
+        price: "",
         facilities: {
             parking: false,
             wifi: false,
@@ -30,27 +32,93 @@ const Properties = () => {
         }
     });
 
-    const [searchParams, setSearchParams] = useState({
-        location: "",
-        checkIn: "",
-        checkOut: "",
-        guests: "1 guest, 1 room"
+    const [query, setQuery] = useState({
+        city: "",
+        category: "",
+        check_in: "",
+        check_out: "",
+        price: ""
     });
 
     useEffect(() => {
-        fetchProperties();
-    }, []);
+        const params = new URLSearchParams(location.search);
+        const city = params.get("city") || "";
+        const category = params.get("category") || "";
+        const check_in = params.get("check_in") || "";
+        const check_out = params.get("check_out") || "";
+        const price = params.get("price") || "";
+
+        setQuery({ city, category, check_in, check_out, price });
+
+        const filterString = buildFilterQueryFrom({ city, category, check_in, check_out, price, ...filters });
+        fetch(`${baseUrl}getProperty.php?${filterString}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setProperties(data.properties);
+                } else {
+                    toast.error(data.message);
+                }
+            })
+            .catch(() => {
+                toast.error("Failed to fetch properties");
+            });
+    }, [location]);
+
+    useEffect(() => {
+        if (
+            query.city ||
+            query.category ||
+            query.check_in ||
+            query.check_out ||
+            query.price ||
+            filters.price ||
+            Object.values(filters.facilities).includes(true) ||
+            Object.values(filters.rating).includes(true)
+        ) {
+            fetchProperties();
+        }
+    }, [filters, query]);
+
+    const buildFilterQueryFrom = (customQuery) => {
+        const urlParams = new URLSearchParams();
+
+        if (customQuery.city) urlParams.append("city", customQuery.city);
+        if (customQuery.category) urlParams.append("category", customQuery.category);
+        if (customQuery.check_in) urlParams.append("check_in", customQuery.check_in);
+        if (customQuery.check_out) urlParams.append("check_out", customQuery.check_out);
+        if (customQuery.price) urlParams.append("price", customQuery.price);
+        if (customQuery.budget) urlParams.append("budget", customQuery.budget);
+
+        const facilities = customQuery.facilities || {};
+        Object.entries(facilities).forEach(([key, value]) => {
+            if (value) urlParams.append(key, "1");
+        });
+
+        const rating = customQuery.rating || {};
+        const selectedRatings = Object.entries(rating)
+            .filter(([_, checked]) => checked)
+            .map(([key]) => {
+                const map = { one: 1, two: 2, three: 3, four: 4, five: 5 };
+                return map[key];
+            });
+
+        if (selectedRatings.length > 0) {
+            urlParams.append("rating", selectedRatings.join(","));
+        }
+
+        return urlParams.toString();
+    };
 
     const fetchProperties = async () => {
-        // Check token inside fetchProperties to avoid redirect issues
-        const token = localStorage.getItem("token");
         if (!token) {
             navigate("/User/login");
             return;
         }
 
         try {
-            const response = await fetch(`${baseUrl}getProperty.php`);
+            const filterString = buildFilterQueryFrom({ ...query, ...filters });
+            const response = await fetch(`${baseUrl}getProperty.php?${filterString}`);
             const data = await response.json();
 
             if (data.success) {
@@ -59,7 +127,7 @@ const Properties = () => {
                 toast.error(data.message);
             }
         } catch (error) {
-            toast.error("Something went wrong while fetching properties.");
+            toast.error("Error fetching properties.");
         }
     };
 
@@ -80,16 +148,16 @@ const Properties = () => {
         }));
     };
 
-    const handleBudgetChange = (value) => {
+    const handlePriceChange = (value) => {
         setFilters(prev => ({
             ...prev,
-            budget: value
+            price: value
         }));
     };
 
     const clearFilters = () => {
-        setFilters({
-            budget: "",
+        const clearedFilters = {
+            price: "",
             facilities: {
                 parking: false,
                 wifi: false,
@@ -103,26 +171,59 @@ const Properties = () => {
                 four: false,
                 five: false
             }
+        };
+    
+        setFilters(clearedFilters);
+        setQuery({
+            city: "",
+            category: "",
+            check_in: "",
+            check_out: "",
+            price: ""
         });
+    
+        // Remove URL search params
+        navigate("/User/Properties");
+    
+        // Refetch all properties without filters
+        const filterString = buildFilterQueryFrom({
+            city: "",
+            category: "",
+            check_in: "",
+            check_out: "",
+            price: "",
+            ...clearedFilters
+        });
+    
+        fetch(`${baseUrl}getProperty.php?${filterString}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setProperties(data.properties);
+                } else {
+                    toast.error(data.message);
+                }
+            })
+            .catch(() => {
+                toast.error("Failed to fetch properties");
+            });
+    };
+    
+
+    const handleSearch = (searchData) => {
+        const params = new URLSearchParams();
+
+        if (searchData.city) params.append("city", searchData.city);
+        if (searchData.checkIn) params.append("check_in", searchData.checkIn);
+        if (searchData.checkOut) params.append("check_out", searchData.checkOut);
+        if (searchData.price) params.append("price", searchData.price);
+
+        navigate(`/User/Properties?${params.toString()}`);
     };
 
-    const handleSearchChange = (e) => {
-        const { name, value } = e.target;
-        setSearchParams(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        console.log("Searching with params:", searchParams);
-    };
-
-    // 👉 Sort properties based on dropdown selection
     const sortedProperties = useMemo(() => {
         const sorted = [...properties];
-    
+
         if (sortOption === "price-low") {
             sorted.sort((a, b) => a.price_per_night - b.price_per_night);
         } else if (sortOption === "price-high") {
@@ -130,60 +231,36 @@ const Properties = () => {
         } else if (sortOption === "rating") {
             sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         }
-    
+
         return sorted;
     }, [sortOption, properties]);
 
     return (
         <>
             <Navbar />
+            <header className="header-head">
+                    <div className="search-form">
+                        <SearchForm onSearch={handleSearch} />
+                    </div>
+            </header>
+            
             <div className="property-container">
-                <div className="search-section">
-                    <form onSubmit={handleSearch} className="search-box">
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Where are you going?"
-                            name="location"
-                            value={searchParams.location}
-                            onChange={handleSearchChange}
-                        />
-                        <input
-                            type="text"
-                            className="date-picker"
-                            placeholder="Check-in date - Check-out date"
-                            name="dates"
-                            value={`${searchParams.checkIn} - ${searchParams.checkOut}`}
-                            onChange={handleSearchChange}
-                        />
-                        <input
-                            type="text"
-                            className="guest-selector"
-                            placeholder="1 guest, 1 room"
-                            name="guests"
-                            value={searchParams.guests}
-                            onChange={handleSearchChange}
-                        />
-                        <button type="submit" className="search-button">Search</button>
-                    </form>
-                </div>
-
                 <div className="properties-content">
                     <div className="filter-section">
                         <div className="filter-card">
                             <div className="filter-title">Filter by:</div>
                             <div className="budget-filter">
-                                <label>Your budget:</label>
+                                <label>Your price range:</label>
                                 <input
-                                    type="text"
-                                    placeholder="Enter your budget"
-                                    value={filters.budget}
-                                    onChange={(e) => handleBudgetChange(e.target.value)}
+                                    type="number"
+                                    placeholder="Enter your price"
+                                    value={filters.price}
+                                    onChange={(e) => handlePriceChange(e.target.value)}
                                 />
                                 <div className="filter-buttons">
                                     <button className="clear-button" onClick={clearFilters}>Clear</button>
-                                    <button className="apply-button">Apply</button>
                                 </div>
+
                             </div>
                         </div>
 
@@ -201,7 +278,6 @@ const Properties = () => {
                                         <label htmlFor={facility}>{facility.charAt(0).toUpperCase() + facility.slice(1)}</label>
                                     </div>
                                 ))}
-                                <button className="clear-button">Show all</button>
                             </div>
                         </div>
 

@@ -6,9 +6,9 @@ import { BookingProvider } from "./context";
 import Home from "./User/Home";
 import LoginPage from "./User/Login";
 import RegisterPage from "./User/Register";
-import PropertiesPage from "./User/PropertiesPage";
 import Properties from "./User/Properties";
 import PropertyDetails from "./User/PropertyDetail";
+import Liked from "./User/Liked";
 import Contact from "./User/Contact";
 import ProfilePage from "./User/Profile";
 import BookingConfirm from "./User/BookingConfirm";
@@ -45,7 +45,6 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/User/Login" element={<LoginPage />} />
                     <Route path="/User/Register" element={<RegisterPage />} />
-                    <Route path="/User/PropertiesPage" element={<PropertiesPage />} />
                     <Route path="/User/Properties" element={<Properties />} />
                     <Route path="/User/PropertyDetails/:id" element={<PropertyDetails />} />
                     <Route path="/User/Contact" element={<Contact />} />
@@ -53,6 +52,7 @@ function App() {
                     <Route path="/User/BookingConfirm" element={ <BookingConfirm />}/>
                     <Route path="/User/Payment" element={ <UserPayment /> } />
                     <Route path="/User/BookingSuccess" element={ <BookingSuccess /> } />
+                    <Route path="/User/Liked" element={<Liked />} />
 
                     {/* Vendor */}
                     <Route path="/Vendor/VendorRegister" element={<VendorRegisterPage />} />
