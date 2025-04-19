@@ -108,13 +108,22 @@ const PropertyDetail = () => {
     };
 
     const handleBookNow = () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+    
+        if (!user) {
+            toast.error("You need to login to book a property!");
+            navigate("/User/Login");
+            return;
+        }
+    
         if (!checkInDate || !checkOutDate) {
             toast.error("Please select check-in and check-out dates");
             setError("Please select check-in and check-out dates");
             return;
         }
-
+    
         if (error) return;
+    
 
         setBookingDetails({
             property: {

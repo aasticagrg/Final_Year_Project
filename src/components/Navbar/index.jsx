@@ -70,8 +70,8 @@ const Navbar = () => {
               {dropdownOpen && (
                 <div className="dropdown">
                   <Link to="/User/profile">My Account</Link>
-                  <Link to="/bookings">Booked</Link>
-                  <Link to="/reviews">Reviews</Link>
+                  <Link to="/User/Booked">Booked</Link>
+                  <Link to="/User/Reviews">Reviews</Link>
                   <Link to="/User/Liked">Liked</Link>
                   <Link to="#" onClick={handleLogout}>Sign Out</Link>
                 </div>

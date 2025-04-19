@@ -9,6 +9,8 @@ import RegisterPage from "./User/Register";
 import Properties from "./User/Properties";
 import PropertyDetails from "./User/PropertyDetail";
 import Liked from "./User/Liked";
+import BookedPage from "./User/Booked";
+import UserReviewPage from "./User/Reviews";
 import Contact from "./User/Contact";
 import ProfilePage from "./User/Profile";
 import BookingConfirm from "./User/BookingConfirm";
@@ -53,6 +55,8 @@ function App() {
                     <Route path="/User/Payment" element={ <UserPayment /> } />
                     <Route path="/User/BookingSuccess" element={ <BookingSuccess /> } />
                     <Route path="/User/Liked" element={<Liked />} />
+                    <Route path="/User/Booked" element={ <BookedPage />} />
+                    <Route path="/User/Reviews" element={<UserReviewPage />} />
 
                     {/* Vendor */}
                     <Route path="/Vendor/VendorRegister" element={<VendorRegisterPage />} />
