@@ -4,6 +4,7 @@ import AdminDashboard from "../Dashboard";
 import AdminUser from "../User";
 import AdminVendor from "../Vendor";
 import AdminComplaint from "../Complaint";
+import AdminProperty from "../Property";
 
 
 const AdminHome = () => {
@@ -12,6 +13,7 @@ const AdminHome = () => {
 
     const pages = [
         <AdminDashboard />,
+        <AdminProperty />,
         <AdminUser />,
         <AdminVendor />,
         <AdminComplaint />,

@@ -11,6 +11,7 @@ const AdminSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
 
     const menuOptions = [
         { title: "Dashboard", icon: <IoHome />, link: "/Admin/Dashboard" },
+        { title: "Listed Property", icon: <IoHome />, link: "/Admin/Property" },
         { title: "Users", icon: <IoIosPeople />, link: "/Admin/User" },
         { title: "Vendors", icon: <FaPeopleCarryBox />, link: "/Admin/Vendor" },
         { title: "Reach Outs", icon: <IoNewspaper />, link: "/Admin/Complaint" },

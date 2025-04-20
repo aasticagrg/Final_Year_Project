@@ -35,6 +35,7 @@ import AdminDashboard from "./Admin/Dashboard";
 import AdminUser from "./Admin/User";
 import AdminVendor from "./Admin/Vendor";
 import AdminComplaint from "./Admin/Complaint";
+import AdminProperty from "./Admin/Property";
 
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
                     <Route path="/Admin/User" element={token ? <AdminUser /> : <LoginPage />} />
                     <Route path="/Admin/Vendor" element={token ? <AdminVendor /> : <LoginPage />} />
                     <Route path="/Admin/Complaint" element={token ? <AdminComplaint /> : <LoginPage />} />
+                    <Route path="/Admin/Property" element={token ? <AdminProperty /> : <LoginPage />} />
                    
 
                     {/* Fallback */}
