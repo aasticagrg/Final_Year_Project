@@ -135,7 +135,8 @@ const AdminUser = () => {
             width: 180,
             renderCell: (params) => (
                 <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                    {params.value === 'verified' ? 'Verified' : 'Not Verified'}
+                    {params.value === 'verified' ? 'Verified' :
+                        params.value === 'rejected' ? 'Rejected' : 'Not Verified'}
                 </Typography>
             )
         },
@@ -143,78 +144,95 @@ const AdminUser = () => {
             field: 'actions',
             headerName: 'Actions',
             width: 340,
-            renderCell: (params) => (
-                <Stack direction="row" spacing={1} sx={{ justifyContent: 'center' }}>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        color="warning"
-                        onClick={() => updateAccountStatus(params.row.user_id, 'active')}
-                        sx={{
-                            width: '80px',
-                            fontSize: '10px',
-                            '&:hover': {
-                                backgroundColor: '#ff9800',
-                                color: '#fff',
-                                transform: 'scale(1.05)', // Subtle zoom effect
-                            },
-                        }}
-                    >
-                        ACTIVATE
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        color="error"
-                        onClick={() => updateAccountStatus(params.row.user_id, 'deactivated')}
-                        sx={{
-                            width: '80px',
-                            fontSize: '10px',
-                            '&:hover': {
-                                backgroundColor: '#f44336',
-                                color: '#fff',
-                                transform: 'scale(1.05)', // Subtle zoom effect
-                            },
-                        }}
-                    >
-                        DEACTIVATE
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        color="warning"
-                        onClick={() => updateVerificationStatus(params.row.user_id, 'verified')}
-                        sx={{
-                            width: '80px',
-                            fontSize: '10px',
-                            '&:hover': {
-                                backgroundColor: '#ff9800',
-                                color: '#fff',
-                                transform: 'scale(1.05)', // Subtle zoom effect
-                            },
-                        }}
-                    >
-                        VERIFY
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        size="small"
-                        color="error"
-                        onClick={() => updateVerificationStatus(params.row.user_id, 'not verified')}
-                        sx={{
-                            width: '80px',
-                            fontSize: '10px',
-                            '&:hover': {
-                                backgroundColor: '#aa1409',
-                                color: '#fff',
-                                transform: 'scale(1.05)', // Subtle zoom effect
-                            },
-                        }}
-                    >
-                        REJECT
-                    </Button>
-                </Stack>
-            )
+            renderCell: (params) => {
+                const { user_id, account_status, verification_status } = params.row;
+
+                return (
+                    <Stack direction="row" spacing={1} sx={{ justifyContent: 'center' }}>
+                        {/* Show ACTIVATE only when deactivated */}
+                        {account_status === 'deactivated' && (
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                color="warning"
+                                onClick={() => updateAccountStatus(user_id, 'active')}
+                                sx={{
+                                    width: '80px',
+                                    fontSize: '10px',
+                                    '&:hover': {
+                                        backgroundColor: '#ff9800',
+                                        color: '#fff',
+                                        transform: 'scale(1.05)',
+                                    },
+                                }}
+                            >
+                                ACTIVATE
+                            </Button>
+                        )}
+
+                        {/* Show DEACTIVATE only when active */}
+                        {account_status === 'active' && (
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                color="error"
+                                onClick={() => updateAccountStatus(user_id, 'deactivated')}
+                                sx={{
+                                    width: '80px',
+                                    fontSize: '10px',
+                                    '&:hover': {
+                                        backgroundColor: '#f44336',
+                                        color: '#fff',
+                                        transform: 'scale(1.05)',
+                                    },
+                                }}
+                            >
+                                DEACTIVATE
+                            </Button>
+                        )}
+
+                        {/* Show VERIFY/REJECT only when not verified */}
+                        {verification_status === 'not verified' && (
+                            <>
+                                <Button
+                                    variant="outlined"
+                                    size="small"
+                                    color="warning"
+                                    onClick={() => updateVerificationStatus(user_id, 'verified')}
+                                    sx={{
+                                        width: '80px',
+                                        fontSize: '10px',
+                                        '&:hover': {
+                                            backgroundColor: '#ff9800',
+                                            color: '#fff',
+                                            transform: 'scale(1.05)',
+                                        },
+                                    }}
+                                >
+                                    VERIFY
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    size="small"
+                                    color="error"
+                                    onClick={() => updateVerificationStatus(user_id, 'rejected')}
+                                    sx={{
+                                        width: '80px',
+                                        fontSize: '10px',
+                                        '&:hover': {
+                                            backgroundColor: '#aa1409',
+                                            color: '#fff',
+                                            transform: 'scale(1.05)',
+                                        },
+                                    }}
+                                >
+                                    REJECT
+                                </Button>
+                            </>
+                        )}
+                    </Stack>
+                );
+            }
         }
     ];
 

@@ -75,8 +75,8 @@ const VendorProfilePage = () => {
                 toast.error("File size should be less than 5MB");
                 return;
             }
-            if (!file.type.startsWith('image/')) {
-                toast.error("Please upload an image file");
+            if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+                toast.error("Please upload a valid image file (JPG, PNG).");
                 return;
             }
 
@@ -91,6 +91,19 @@ const VendorProfilePage = () => {
     };
 
     const updateVendorProfile = async () => {
+        if (!vendor.vendor_name.trim()) {
+            toast.error("Vendor name cannot be empty.");
+            return;
+        }
+        if (!vendor.contact_no.trim()) {
+            toast.error("Phone number cannot be empty.");
+            return;
+        }
+        if (!vendor.vendor_address.trim()) {
+            toast.error("Address cannot be empty.");
+            return;
+        }
+
         if (!initialVendor) {
             toast.error("Vendor data not loaded properly");
             return;
@@ -110,6 +123,12 @@ const VendorProfilePage = () => {
         if (!token) {
             toast.error("You need to be logged in!");
             navigate("/vendor/login");
+            return;
+        }
+
+        // Prevent profile update if the vendor is verified and a new file is selected
+        if (vendor.verification_status === 'verified' && newFileSelected) {
+            toast.error("You cannot update the verification document once verified.");
             return;
         }
 
@@ -152,13 +171,12 @@ const VendorProfilePage = () => {
 
     const getVerificationBadge = (status) => {
         switch(status) {
-            
             case 'verified':
                 return <span className="badge badge-verified">Verified</span>;
 
             case 'rejected':
-            return <span className="badge badge-rejected">Rejected</span>;
-            
+                return <span className="badge badge-rejected">Rejected</span>;
+
             default:
                 return <span className="badge badge-not-submitted">Not Verified</span>;
         }
@@ -232,8 +250,13 @@ const VendorProfilePage = () => {
                                 accept="image/*"
                                 onChange={handleVerificationUpload}
                                 className="file-input"
+                                disabled={vendor.verification_status === 'verified'}
                             />
-                            <small className="form-text">Upload an image file less than 5MB</small>
+                            <small className="form-text">
+                                {vendor.verification_status === 'verified' 
+                                    ? "Your account is verified. You cannot upload a new document unless verification is reset." 
+                                    : "Upload an image file less than 5MB"}
+                            </small>
 
                             <div className="document-preview">
                                 {previewUrl && (

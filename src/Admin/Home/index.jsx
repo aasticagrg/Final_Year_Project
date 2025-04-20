@@ -5,6 +5,7 @@ import AdminUser from "../User";
 import AdminVendor from "../Vendor";
 import AdminComplaint from "../Complaint";
 
+
 const AdminHome = () => {
     const [isExpanded, setIsExpanded] = useState(true); // default true so Home aligns
     const [active, setActive] = useState(0);
@@ -14,6 +15,7 @@ const AdminHome = () => {
         <AdminUser />,
         <AdminVendor />,
         <AdminComplaint />,
+        
     ];
 
     const sidebarWidth = isExpanded ? 200 : 60;

@@ -14,7 +14,7 @@ const ProfilePage = () => {
         user_address: "",
         email: "",
         user_verification: null,
-        verification_status: "" // added
+        verification_status: ""
     });
     const [loading, setLoading] = useState(true);
     const [newFileSelected, setNewFileSelected] = useState(false);
@@ -31,9 +31,7 @@ const ProfilePage = () => {
 
             setLoading(true);
             const response = await fetch(`${baseUrl}getUserDetails.php`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             });
 
             const contentType = response.headers.get("content-type");
@@ -114,6 +112,11 @@ const ProfilePage = () => {
             return;
         }
 
+        if (user.verification_status === 'verified' && newFileSelected) {
+            toast.error("You cannot update the verification document once verified.");
+            return;
+        }
+
         try {
             const formData = new FormData();
             formData.append('name', user.name);
@@ -125,9 +128,7 @@ const ProfilePage = () => {
 
             const response = await fetch(`${baseUrl}updateUserDetails.php`, {
                 method: "POST",
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
+                headers: { 'Authorization': `Bearer ${token}` },
                 body: formData
             });
 
@@ -139,7 +140,6 @@ const ProfilePage = () => {
                 toast.error(data.message || "Failed to update profile");
             }
         } catch (error) {
-            console.error("Error updating profile:", error);
             toast.error("Failed to update profile: " + error.message);
         }
     };
@@ -239,7 +239,13 @@ const ProfilePage = () => {
                                         type="file"
                                         accept="image/*"
                                         onChange={handleVerificationUpload}
+                                        disabled={user.verification_status === 'verified'}
                                     />
+                                    <small className="form-text">
+                                        {user.verification_status === 'verified'
+                                            ? "You are verified. You cannot upload a new document."
+                                            : "Upload a new image file for verification."}
+                                    </small>
 
                                     {previewUrl && (
                                         <img

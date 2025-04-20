@@ -13,7 +13,8 @@ const AdminSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
         { title: "Dashboard", icon: <IoHome />, link: "/Admin/Dashboard" },
         { title: "Users", icon: <IoIosPeople />, link: "/Admin/User" },
         { title: "Vendors", icon: <FaPeopleCarryBox />, link: "/Admin/Vendor" },
-        { title: "Complaints", icon: <IoNewspaper />, link: "/Admin/Complaint" }
+        { title: "Reach Outs", icon: <IoNewspaper />, link: "/Admin/Complaint" },
+        
     ];
 
     const sidebarWidth = isExpanded ? "200px" : "60px";
