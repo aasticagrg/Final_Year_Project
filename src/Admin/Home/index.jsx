@@ -5,6 +5,7 @@ import AdminUser from "../User";
 import AdminVendor from "../Vendor";
 import AdminComplaint from "../Complaint";
 import AdminProperty from "../Property";
+import AdminBookingPayments from "../Bookings";
 
 
 const AdminHome = () => {
@@ -16,6 +17,7 @@ const AdminHome = () => {
         <AdminProperty />,
         <AdminUser />,
         <AdminVendor />,
+        <AdminBookingPayments />,
         <AdminComplaint />,
         
     ];

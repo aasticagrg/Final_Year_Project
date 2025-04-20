@@ -36,6 +36,7 @@ import AdminUser from "./Admin/User";
 import AdminVendor from "./Admin/Vendor";
 import AdminComplaint from "./Admin/Complaint";
 import AdminProperty from "./Admin/Property";
+import AdminBookingPayments from "./Admin/Bookings";
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
                     <Route path="/Admin/Vendor" element={token ? <AdminVendor /> : <LoginPage />} />
                     <Route path="/Admin/Complaint" element={token ? <AdminComplaint /> : <LoginPage />} />
                     <Route path="/Admin/Property" element={token ? <AdminProperty /> : <LoginPage />} />
+                    <Route path="/Admin/Bookings" element={token ? <AdminBookingPayments /> : <LoginPage />} />
                    
 
                     {/* Fallback */}
