@@ -37,6 +37,8 @@ import AdminVendor from "./Admin/Vendor";
 import AdminComplaint from "./Admin/Complaint";
 import AdminProperty from "./Admin/Property";
 import AdminBookingPayments from "./Admin/Bookings";
+import AdminRevenue from "./Admin/Revenue";
+import AdminReport from "./Admin/Report";
 
 
 function App() {
@@ -81,6 +83,8 @@ function App() {
                     <Route path="/Admin/Complaint" element={token ? <AdminComplaint /> : <LoginPage />} />
                     <Route path="/Admin/Property" element={token ? <AdminProperty /> : <LoginPage />} />
                     <Route path="/Admin/Bookings" element={token ? <AdminBookingPayments /> : <LoginPage />} />
+                    <Route path="/Admin/Revenue" element={token ? <AdminRevenue /> : <LoginPage />} />
+                    <Route path="/Admin/Report" element={token ? <AdminReport /> : <LoginPage />} />
                    
 
                     {/* Fallback */}

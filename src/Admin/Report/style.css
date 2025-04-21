@@ -1,0 +1,190 @@
+/* AdminReport.css */
+
+.admin-report-container {
+  padding: 30px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.report-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #1a3353;
+  border-bottom: 2px solid #e0e7ff;
+  padding-bottom: 10px;
+}
+
+/* Summary Cards */
+.summary-cards {
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.summary-title {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.summary-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a3353;
+}
+
+/* Filters Section */
+.filters-section {
+  background-color: white;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.filter-input,
+.filter-dropdown {
+  margin-bottom: 8px;
+}
+
+.filter-dropdown .MuiSelect-select {
+  min-width: 200px;
+}
+
+.filter-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.apply-filters-button {
+  padding: 10px 24px;
+  font-weight: 500;
+  border-radius: 6px;
+  text-transform: none;
+  font-size: 15px;
+  background-color: #3182ce;
+  box-shadow: 0 4px 6px rgba(49, 130, 206, 0.2);
+  transition: all 0.2s ease;
+}
+
+.apply-filters-button:hover {
+  background-color: #2c5282;
+  box-shadow: 0 6px 8px rgba(44, 82, 130, 0.3);
+}
+
+/* Data Grids */
+.data-grid-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 30px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a3353;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.data-grid {
+  width: 100%;
+  border: none !important;
+  /* Auto height for DataGrid */
+  height: auto !important;
+  min-height: 200px !important; /* Minimum height to show a few rows */
+}
+
+/* Override MUI DataGrid default height behavior */
+.data-grid .MuiDataGrid-root {
+  height: auto !important;
+}
+
+.data-grid .MuiDataGrid-main {
+  height: auto !important;
+}
+
+.data-grid .MuiDataGrid-virtualScroller {
+  height: auto !important;
+}
+
+.data-grid .MuiDataGrid-columnHeaders {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+/* Make rows more visible with alternating colors */
+.data-grid .MuiDataGrid-row:nth-of-type(odd) {
+  background-color: #f9fafb;
+}
+
+/* Add a max height only when there are many rows */
+.data-grid-max-height {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+/* Review Modal */
+.review-modal .modal-title {
+  background-color: #f3f4f6;
+  padding: 16px 24px;
+  color: #1a3353;
+  font-weight: 600;
+}
+
+.modal-content {
+  padding: 24px;
+}
+
+.property-name {
+  color: #1a3353;
+  margin-bottom: 8px;
+}
+
+.rating {
+  color: #6b7280;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.review-text {
+  background-color: #f9fafb;
+  padding: 16px;
+  border-radius: 6px;
+  border-left: 4px solid #3182ce;
+}
+
+.modal-actions {
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.close-button {
+  text-transform: none;
+  font-weight: 500;
+  padding: 6px 16px;
+}

@@ -16,6 +16,9 @@ const AdminSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
         { title: "Vendors", icon: <FaPeopleCarryBox />, link: "/Admin/Vendor" },
         { title: "Bookings", icon: <IoHome />, link: "/Admin/Bookings" },
         { title: "Reach Outs", icon: <IoNewspaper />, link: "/Admin/Complaint" },
+        { title: "Revenue", icon: <IoNewspaper />, link: "/Admin/Revenue" },
+        { title: "Report", icon: <IoNewspaper />, link: "/Admin/Report" },
+
         
     ];
 

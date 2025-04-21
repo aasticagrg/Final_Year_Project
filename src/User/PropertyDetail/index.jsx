@@ -25,7 +25,7 @@ const PropertyDetail = () => {
 
     const params = useParams();
     const navigate = useNavigate();
-
+    
     const { setBookingDetails } = useContext(BookingContext);
 
     useEffect(() => {
@@ -107,24 +107,39 @@ const PropertyDetail = () => {
         setTotalPrice(price);
     };
 
+    const checkUserAuthentication = () => {
+        // Check for any token that might indicate user is logged in
+        const token = localStorage.getItem("token");
+        
+        // First check if there's a token at all
+        if (!token) {
+            return false;
+        }
+        
+        // If the token exists, it could be a string token (like in your case) or a JSON object
+        // We'll consider the user authenticated if there's any non-empty token
+        return token.trim().length > 0;
+    };
+
     const handleBookNow = () => {
-        const user = JSON.parse(localStorage.getItem("user"));
-    
-        if (!user) {
+        // Check if user is authenticated using our helper function
+        const isAuthenticated = checkUserAuthentication();
+        
+        if (!isAuthenticated) {
             toast.error("You need to login to book a property!");
             navigate("/User/Login");
             return;
         }
-    
+        
+        // Continue with booking process since user is authenticated
         if (!checkInDate || !checkOutDate) {
             toast.error("Please select check-in and check-out dates");
             setError("Please select check-in and check-out dates");
             return;
         }
-    
+        
         if (error) return;
-    
-
+        
         setBookingDetails({
             property: {
                 property_id: property.property_id,

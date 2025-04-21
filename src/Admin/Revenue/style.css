@@ -1,0 +1,315 @@
+/* Admin Revenue Dashboard Styles */
+.admin-revenue-dashboard {
+  padding: 20px;
+  background-color: #f5f7fa;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+  min-height: 100vh;
+}
+
+.dashboard-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a3353;
+  margin-bottom: 24px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.dashboard-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #1976d2, #64b5f6);
+  border-radius: 4px;
+}
+
+/* Filters Section */
+.filters-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+}
+
+.filter-input {
+  margin-bottom: 0;
+}
+
+.filter-input .MuiInputBase-root,
+.filter-select .MuiInputBase-root {
+  background-color: #f8f9fb;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.filter-input .MuiInputBase-root:hover,
+.filter-select .MuiInputBase-root:hover {
+  background-color: #f0f2f5;
+}
+
+.filter-input .MuiInputBase-input,
+.filter-select .MuiInputBase-input {
+  padding: 12px 14px;
+}
+
+.filter-select .MuiInputLabel-root {
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+  background-color: transparent;
+}
+
+.apply-filters-button {
+  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  transition: all 0.3s;
+}
+
+.apply-filters-button:hover {
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  flex: 1;
+  min-width: 200px;
+}
+
+.summary-card .MuiCard-root {
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  height: 100%;
+  overflow: hidden;
+  border-top: 4px solid transparent;
+}
+
+.summary-card:nth-child(1) .MuiCard-root {
+  border-top-color: #4caf50; /* Green for completed bookings */
+}
+
+.summary-card:nth-child(2) .MuiCard-root {
+  border-top-color: #f44336; /* Red for cancelled bookings */
+}
+
+.summary-card:nth-child(3) .MuiCard-root {
+  border-top-color: #9c27b0; /* Purple for properties */
+}
+
+.summary-card:nth-child(4) .MuiCard-root {
+  border-top-color: #ff9800; /* Orange for revenue */
+}
+
+.summary-card .MuiCard-root:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.summary-card .MuiCardContent-root {
+  padding: 18px;
+}
+
+.summary-card .MuiTypography-subtitle1 {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.summary-card .MuiTypography-h6 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a3353;
+}
+
+/* Charts Sections - Fixed overflow issues and smaller sizes */
+.charts-container {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Line charts row */
+.line-charts-row {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  gap: 20px;
+}
+
+.line-charts-row .chart-item {
+  width: calc(50% - 10px);
+  flex: 0 0 calc(50% - 10px);
+  height: 300px; /* Smaller height for line charts */
+}
+
+/* Pie charts row */
+.pie-charts-row {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  gap: 20px;
+}
+
+.pie-charts-row .chart-item {
+  width: calc(50% - 10px);
+  flex: 0 0 calc(50% - 10px);
+  height: 280px; /* Smaller height for pie charts */
+}
+
+.chart-item {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-item:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.chart-item .MuiTypography-h6 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a3353;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+/* Chart canvas container - key fix for overflow with smaller dimensions */
+.chart-canvas-container {
+  position: relative;
+  height: calc(100% - 40px); /* Leave room for title */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Top Properties Section */
+.top-properties {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.top-properties .MuiTypography-h6 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a3353;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.top-properties .MuiTypography-body1 {
+  font-size: 15px;
+  color: #495057;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.top-properties .MuiTypography-body1:hover {
+  background-color: #e9ecef;
+  transform: translateX(4px);
+}
+
+.top-properties .MuiTypography-body1:nth-child(odd) {
+  background-color: #f1f4f7;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .line-charts-row,
+  .pie-charts-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .line-charts-row .chart-item,
+  .pie-charts-row .chart-item {
+    width: 100%;
+    flex: 0 0 100%;
+    height: 260px; /* Even smaller height for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-revenue-dashboard {
+    padding: 16px;
+  }
+  
+  .summary-card {
+    width: 48%;
+    flex: 0 0 48%;
+  }
+  
+  .dashboard-title {
+    font-size: 24px;
+  }
+  
+  .filters-container {
+    padding: 16px;
+  }
+  
+  .chart-item {
+    padding: 14px;
+    margin-bottom: 16px;
+    height: 240px; /* Reduced height for small screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .summary-card {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+  
+  .filters-container {
+    padding: 12px;
+  }
+  
+  .dashboard-title {
+    font-size: 22px;
+  }
+  
+  .apply-filters-button {
+    width: 100%;
+  }
+  
+  .chart-item {
+    height: 220px; /* Smallest height for very small screens */
+  }
+}
