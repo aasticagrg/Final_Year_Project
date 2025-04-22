@@ -3,6 +3,8 @@ import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
+import MapPicker from "../../components/Map.jsx"; 
+
 
 const AddProperty = () => {
     const [categories, setCategories] = useState([{ category_title: "Select Category", category_id: null }]);
@@ -11,6 +13,8 @@ const AddProperty = () => {
         city: "",
         description: "",
         location: "",
+        latitude: "", // Added for map location
+        longitude: "", // Added for map location
         p_type: "",
         bhk: "",
         bedroom: "",
@@ -85,8 +89,24 @@ const AddProperty = () => {
         }
     };
 
+    // Handler for map location selection
+    const handleLocationSelect = (latlng) => {
+        setFormData((prev) => ({
+            ...prev,
+            latitude: latlng.lat.toString(),
+            longitude: latlng.lng.toString()
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate if location is selected on map
+        if (!formData.latitude || !formData.longitude) {
+            toast.error("Please select a location on the map");
+            return;
+        }
+        
         const form = new FormData();
         
         // Add token to form data as well for backward compatibility
@@ -160,6 +180,18 @@ const AddProperty = () => {
                             required 
                             placeholder="Enter full address"
                         />
+                    </div>
+
+                    {/* Map Location Picker */}
+                    <div className="full-width map-container">
+                        <label>Pin Location on Map</label>
+                        <p className="map-instructions">Click on the map to select your property's exact location</p>
+                        <MapPicker onSelect={handleLocationSelect} />
+                        {formData.latitude && formData.longitude && (
+                            <div className="selected-coordinates">
+                                <p>Selected coordinates: {formData.latitude}, {formData.longitude}</p>
+                            </div>
+                        )}
                     </div>
 
                     <div>

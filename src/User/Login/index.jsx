@@ -132,6 +132,7 @@ const LoginPage = () => {
                             />
                             <Button label="Login" type="submit" />
                         </form>
+                        
                         {role !== "admin" && (
                             <span className="register-text">
                                 Don't have an account?{" "}
@@ -140,6 +141,7 @@ const LoginPage = () => {
                                 </Link>
                             </span>
                         )}
+                        
                     </div>
                 </div>
             </div>

@@ -368,6 +368,30 @@
 .delete-button:hover {
   background-color: #e0e0e0;
 }
+.property-map-container {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-unavailable {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  color: #777;
+}
+
+.map-instructions {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
 
 /* Loader */
 .loader-wrapper {

@@ -276,3 +276,36 @@ body {
   border-left: 4px solid #9b59b6;
   padding-left: 15px;
 }
+/* Add these styles to your style.css file */
+
+.map-container {
+  margin-bottom: 20px;
+}
+
+.map-instructions {
+  margin-bottom: 10px;
+  font-style: italic;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.selected-coordinates {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Fix any z-index issues with Leaflet controls */
+.leaflet-pane,
+.leaflet-control {
+  z-index: 400 !important;
+}
+
+.leaflet-pane {
+  z-index: 200 !important;
+}
+
+.leaflet-top, 
+.leaflet-bottom {
+  z-index: 300 !important;
+}

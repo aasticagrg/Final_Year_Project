@@ -7,6 +7,7 @@ import { BookingContext } from "../../context";
 import DatePicker from "react-datepicker";
 import ReviewForm from "../../components/ReviewForm";
 import ReviewList from "../../components/ReviewList";
+import MapPicker from "../../components/Map.jsx"; 
 import "react-datepicker/dist/react-datepicker.css";
 import './style.css';
 
@@ -191,6 +192,13 @@ const PropertyDetail = () => {
         );
     };
 
+    // Check if we have valid coordinates to display the map
+    const hasValidCoordinates = property && 
+                               property.latitude && 
+                               property.longitude && 
+                               !isNaN(parseFloat(property.latitude)) && 
+                               !isNaN(parseFloat(property.longitude));
+
     return (
         <>
             <Navbar />
@@ -238,6 +246,24 @@ const PropertyDetail = () => {
                                     </span>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Map Location Section */}
+                        <h2 className="section-title">Location on Map</h2>
+                        <div className="property-map-container">
+                            {hasValidCoordinates ? (
+                                <MapPicker 
+                                    readOnly={true}
+                                    initialPosition={{
+                                        lat: parseFloat(property.latitude),
+                                        lng: parseFloat(property.longitude)
+                                    }}
+                                />
+                            ) : (
+                                <div className="map-unavailable">
+                                    <p>Location information unavailable for this property.</p>
+                                </div>
+                            )}
                         </div>
 
                         <h2 className="section-title">Features & Amenities</h2>
