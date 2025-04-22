@@ -40,7 +40,7 @@ const BookingSuccess = () => {
                     <div className="action-buttons">
                         <Button 
                             label="View My Bookings" 
-                            onClick={() => navigate("/my-bookings")}
+                            onClick={() => navigate("/User/Booked")}
                         />
                         <button 
                             className="secondary-button"
