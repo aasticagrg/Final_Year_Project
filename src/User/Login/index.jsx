@@ -132,6 +132,12 @@ const LoginPage = () => {
                             />
                             <Button label="Login" type="submit" />
                         </form>
+                        {/* Forgot Password Link */}
+                        <div className="forgot-password">
+                            <Link to="/components/ForgotPassword" className="forgot-password-link">
+                                Forgot your password?
+                            </Link>
+                        </div>
                         
                         {role !== "admin" && (
                             <span className="register-text">

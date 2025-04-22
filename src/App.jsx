@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { BookingProvider } from "./context";
-import MapPicker from "./components/Map.jsx";
+
 
 // User
 import Home from "./User/Home";
@@ -17,6 +17,9 @@ import ProfilePage from "./User/Profile";
 import BookingConfirm from "./User/BookingConfirm";
 import UserPayment from "./User/Payment";
 import BookingSuccess from "./User/BookingSuccess";
+import ForgotPassword from "./components/ForgotPassword";
+import VerifyResetCode from "./components/VerifyCode";
+import ResetPassword from "./components/ResetPassword";
 
 // Vendor
 import VendorRegisterPage from "./Vendor/VendorRegister";
@@ -64,6 +67,9 @@ function App() {
                     <Route path="/User/Liked" element={<Liked />} />
                     <Route path="/User/Booked" element={ <BookedPage />} />
                     <Route path="/User/Reviews" element={<UserReviewPage />} />
+                    <Route path="/components/ForgotPassword" element={<ForgotPassword />} />
+                    <Route path="/components/VerifyCode" element={<VerifyResetCode />} />
+                    <Route path="/components/ResetPassword/:email/:code" element={<ResetPassword />} />
 
                     {/* Vendor */}
                     <Route path="/Vendor/VendorRegister" element={<VendorRegisterPage />} />
