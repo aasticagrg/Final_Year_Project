@@ -1,0 +1,64 @@
+/* Container for the entire auth section */
+.auth-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("C:\Users\Ripple\Desktop\project\public\assets\authentication.jpg") no-repeat center center/cover;
+}
+
+/* Outer box */
+.reset-password-page {
+  width: 100%;
+  max-width: 420px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Inner box styling */
+.reset-password-box {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title */
+.reset-password-box h2 {
+  text-align: center;
+  font-size: 26px;
+  color: #333333;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+/* Form layout */
+.reset-password-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Message display */
+.reset-password-box p {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Button hover effect if using raw HTML buttons */
+.reset-password-box button:hover {
+  opacity: 0.95;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 480px) {
+  .reset-password-page {
+    padding: 24px;
+  }
+
+  .reset-password-box h2 {
+    font-size: 22px;
+  }
+}

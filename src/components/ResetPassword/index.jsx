@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import TextField from "../../components/TextField";
 import Button from "../../components/Button";
 import { baseUrl } from "../../constants";
-
+import "./style.css"; 
 const ResetPassword = () => {
   const { code, email } = useParams(); // Get code and email from URL
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const ResetPassword = () => {
         setMessage(data.message);
         setTimeout(() => {
           navigate("/User/login"); // Redirect to login page
-        }, 1500);
+        });
       } else {
         toast.error(data.message);
         setMessage(data.message);

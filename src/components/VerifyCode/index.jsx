@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import TextField from "../../components/TextField";
 import Button from "../../components/Button";
 import { baseUrl } from "../../constants";
+import "./style.css";
 
 const VerifyResetCode = () => {
   const [email, setEmail] = useState("");

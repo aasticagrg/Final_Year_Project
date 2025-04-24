@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
@@ -11,6 +12,8 @@ const AdminUser = () => {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedImage, setSelectedImage] = useState(null);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         getUsers();
@@ -39,6 +42,9 @@ const AdminUser = () => {
             setLoading(false);
         }
     };
+    const handleUserClick = (user) => {
+        navigate(`/admin/UserBookings/${user.user_id}`);
+      };
 
     const updateAccountStatus = async (user_id, status) => {
         try {
@@ -96,7 +102,20 @@ const AdminUser = () => {
 
     const columns = [
         { field: 'user_id', headerName: 'USER ID', width: 80 },
-        { field: 'name', headerName: 'Name', width: 150 },
+        {
+            field: 'name',
+            headerName: 'User Name',
+            width: 150,
+            renderCell: (params) => (
+              <span
+                style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+                onClick={() => handleUserClick(params.row)}
+              >
+                {params.row.name}
+              </span>
+            )
+          },
+          
         { field: 'email', headerName: 'Email', width: 200 },
         { field: 'phone_no', headerName: 'Phone', width: 130 },
         { field: 'user_address', headerName: 'Address', width: 180 },
