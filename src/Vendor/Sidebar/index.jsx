@@ -78,7 +78,7 @@ const VendorSidebar = ({ isExpanded, setIsExpanded, setActive, active }) => {
                             marginBottom: "10px",
                         }}
                     >
-                        EasyRent Vendor Hub
+                        EasyRental Vendor Hub
                     </div>
                 )}
 

@@ -6,7 +6,6 @@ import AdminVendor from "../Vendor";
 import AdminComplaint from "../Complaint";
 import AdminProperty from "../Property";
 import AdminBookingPayments from "../Bookings";
-import AdminRevenue from "../Revenue";
 import AdminReport from "../Report";
 
 
@@ -21,7 +20,6 @@ const AdminHome = () => {
         <AdminVendor />,
         <AdminBookingPayments />,
         <AdminComplaint />,
-        <AdminRevenue />,
         <AdminReport />,
         
     ];

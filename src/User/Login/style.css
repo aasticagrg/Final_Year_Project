@@ -79,3 +79,26 @@
 .register-link:hover {
   text-decoration: none;
 }
+.forgot-password {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot-password-link {
+  color: #007BFF; /* You can change the color as per your design */
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.forgot-password-link:hover {
+  color: #0056b3; /* Change to a darker shade for hover effect */
+  text-decoration: underline;
+}
+
+.forgot-password-link:focus {
+  outline: none;
+  color: #0056b3; /* Change the color when focused */
+}
+

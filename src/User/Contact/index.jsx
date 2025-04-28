@@ -65,9 +65,7 @@ const Contact = () => {
           <div className="contact-text">
             <h2>We are here to help!</h2>
             <p>
-              Let us know how we can best serve you. Use the contact form to email 
-              us or select from the topics below that best fit your needs. It's 
-              an honor to support you in your journey toward better living.
+            We’re here to assist you! For any inquiries, please feel free to reach out to us at our email address easyrental@gmail.com or through the contact form below. We value your feedback and are committed to providing you with the best service possible. Your satisfaction is our priority, and we look forward to hearing from you soon!
             </p>
           </div>
           <form className="contact-form" onSubmit={handleSubmit}>
