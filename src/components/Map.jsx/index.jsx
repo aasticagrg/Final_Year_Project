@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
 function LocationMarker({ position, setPosition, onLocationSelect, readOnly }) {
   const map = useMapEvents({
     click(e) {
-      if (readOnly) return; // Don't allow clicks in read-only mode
+      if (readOnly) return; // Don't allow clicks in read-only mode: skip if readOnly is true
       setPosition(e.latlng);
       onLocationSelect(e.latlng);
     },

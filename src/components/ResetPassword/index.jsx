@@ -5,10 +5,12 @@ import TextField from "../../components/TextField";
 import Button from "../../components/Button";
 import { baseUrl } from "../../constants";
 import "./style.css"; 
+
 const ResetPassword = () => {
   const { code, email } = useParams(); // Get code and email from URL
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // new state
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
@@ -19,13 +21,18 @@ const ResetPassword = () => {
       return;
     }
 
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+
     try {
       const response = await fetch(baseUrl + "resetPassword.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ code, email, newPassword }),
+        body: JSON.stringify({ code, email, newPassword, confirmPassword }), // send both
       });
 
       const data = await response.json();
@@ -35,7 +42,7 @@ const ResetPassword = () => {
         setMessage(data.message);
         setTimeout(() => {
           navigate("/User/login"); // Redirect to login page
-        });
+        }, 2000);
       } else {
         toast.error(data.message);
         setMessage(data.message);
@@ -46,10 +53,6 @@ const ResetPassword = () => {
       setMessage("An error occurred. Please try again later.");
     }
   };
-  console.log("Email:", email);
-console.log("Code:", code);
-console.log("New Password:", newPassword);
-
 
   return (
     <div className="auth-container">
@@ -63,6 +66,14 @@ console.log("New Password:", newPassword);
               required
               label="New Password"
               hint="Enter your new password"
+              type="password"
+            />
+            <TextField
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              label="Confirm Password"
+              hint="Confirm your new password"
               type="password"
             />
             <Button label="Reset Password" type="submit" />

@@ -12,16 +12,15 @@ const SearchForm = ({ onSearch }) => {
 
         const searchData = {
             city,
-            checkIn,
-            checkOut,
+            check_in: checkIn,
+            check_out: checkOut,
             price
         };
 
         if (onSearch) {
-            onSearch(searchData); // used by homepage
+            onSearch(searchData); // passes correct keys to backend
         } else {
-            console.log("No onSearch handler provided:", searchData); 
-            // fallback behavior if needed
+            console.log("No onSearch handler provided:", searchData);
         }
     };
 
@@ -37,6 +36,7 @@ const SearchForm = ({ onSearch }) => {
                     placeholder="Enter city"
                 />
             </div>
+
             <div className="search-input">
                 <label htmlFor="check-in">Check-in</label>
                 <input
@@ -46,6 +46,7 @@ const SearchForm = ({ onSearch }) => {
                     onChange={(e) => setCheckIn(e.target.value)}
                 />
             </div>
+
             <div className="search-input">
                 <label htmlFor="check-out">Check-out</label>
                 <input
@@ -55,6 +56,7 @@ const SearchForm = ({ onSearch }) => {
                     onChange={(e) => setCheckOut(e.target.value)}
                 />
             </div>
+
             <div className="search-input">
                 <label htmlFor="price">Your Price</label>
                 <input
@@ -65,6 +67,7 @@ const SearchForm = ({ onSearch }) => {
                     placeholder="Enter price"
                 />
             </div>
+
             <button type="submit" className="searchbox-button">
                 Search
             </button>

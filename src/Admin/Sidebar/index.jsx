@@ -4,7 +4,7 @@ import { IoNewspaper, IoHome } from "react-icons/io5";
 import { IoIosPeople } from "react-icons/io";
 import { FaPeopleCarryBox } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
-import { onLogout } from "../../components/Logout";
+import onLogout from "../../components/Logout"; 
 
 const AdminSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
     const navigate = useNavigate();
@@ -125,6 +125,7 @@ const AdminSidebar = ({ active, setActive, isExpanded, setIsExpanded }) => {
                     <FiLogOut />
                     {isExpanded && <span>Logout</span>}
                 </button>
+                
             </div>
 
             {/* Spacer pushes collapse button to bottom */}

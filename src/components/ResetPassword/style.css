@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("C:\Users\Ripple\Desktop\project\public\assets\authentication.jpg") no-repeat center center/cover;
+  background: url("../../../public/assets/authentication.jpg") no-repeat center center/cover;
 }
 
 /* Outer box */
@@ -45,11 +45,20 @@
   text-align: center;
   font-size: 14px;
   color: #555;
+  margin-top: 1rem; /* add space above message */
+  margin-bottom: 1rem; /* add space below */
 }
 
 /* Button hover effect if using raw HTML buttons */
 .reset-password-box button:hover {
   opacity: 0.95;
+}
+
+/* Input focus outline for accessibility */
+/* If your TextField doesn't handle focus styles */
+input:focus, textarea:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
 }
 
 /* Responsive adjustments */

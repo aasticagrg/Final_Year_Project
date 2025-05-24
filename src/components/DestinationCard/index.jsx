@@ -12,6 +12,8 @@ const DestinationCard = ({ city, image, description }) => {
       .then(data => {
         if (data.success) {
           setPropertyCount(data.properties.length);
+          console.log("DestinationCard city prop:", city);
+
         }
       })
       .catch(err => {

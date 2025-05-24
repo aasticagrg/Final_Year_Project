@@ -4,7 +4,7 @@ import { IoMdHome } from "react-icons/io";
 import { FaTable, FaCalendarCheck } from "react-icons/fa";
 import { MdPayments, MdHomeWork } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-import { onLogout } from "../../components/Logout";
+import onLogout from "../../components/Logout"; 
 import { MdOutlineRateReview } from "react-icons/md";
 import { GoGraph } from "react-icons/go";
 import { baseUrl } from "../../constants";

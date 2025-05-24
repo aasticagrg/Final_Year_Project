@@ -1,11 +1,16 @@
 
-import { baseUrl } from "../../constants";
 import toast from "react-hot-toast";
+import { baseUrl } from "../../constants";
 
-export const onLogout = async (navigate) => {
+
+const onLogout = async (navigate) => {  // Accept navigate as an argument
+  const confirmed = window.confirm("Do you really want to log out?");
+  if (!confirmed) return;
+
   const token = localStorage.getItem("token");
 
   if (!token) {
+    // If no token, just redirect to the login page
     navigate("/User/login");
     return;
   }
@@ -21,8 +26,8 @@ export const onLogout = async (navigate) => {
 
     const data = await response.json();
     if (data.success) {
-      localStorage.clear();
-      navigate("/");
+      localStorage.clear();  // Clear all localStorage data on successful logout
+      navigate("/");  // Navigate to home page
       toast.success("Logged out successfully");
     } else {
       throw new Error("Logout failed");
@@ -32,3 +37,5 @@ export const onLogout = async (navigate) => {
     toast.error("Something went wrong");
   }
 };
+
+export default onLogout;

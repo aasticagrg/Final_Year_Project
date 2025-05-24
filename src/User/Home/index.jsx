@@ -14,16 +14,17 @@ const Home = () => {
     const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
     const navigate = useNavigate();
 
-    const handleSearch = ({ city, checkIn, checkOut, price }) => {
-        const queryParams = new URLSearchParams();
-    
-        if (city) queryParams.append("city", city);
-        if (checkIn) queryParams.append("checkIn", checkIn);
-        if (checkOut) queryParams.append("checkOut", checkOut);
-        if (price) queryParams.append("price", price);
-    
-        navigate(`/User/Properties?${queryParams.toString()}`);
-    };
+    const handleSearch = ({ city, check_in, check_out, price }) => {
+    const queryParams = new URLSearchParams();
+
+    if (city) queryParams.append("city", city);
+    if (check_in) queryParams.append("check_in_date", check_in);
+    if (check_out) queryParams.append("check_out_date", check_out);
+    if (price) queryParams.append("price", price);
+
+    navigate(`/User/Properties?${queryParams.toString()}`);
+};
+
     
     const carouselRef = useRef(null);
     
@@ -146,7 +147,7 @@ const Home = () => {
             {/* Most Popular Section */}
             <section className="popular-section">
                 <div className="section-header">
-                    <h2>Experience the Comfort of Our Most Loved Stays</h2>
+                    <h2>Experience the Comfort of Our New Stays</h2>
                     <a href="/User/Properties" className="see-all">See all</a>
                 </div>
                 

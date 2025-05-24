@@ -183,7 +183,7 @@ const PropertyDetail = () => {
 
     const propertyImages = getAllPropertyImages();
 
-    // ✅ Proper check for disabled dates
+    // Proper check for disabled dates
     const isDateDisabled = (date) => {
         return bookedDates.some(disabled =>
             date.getFullYear() === disabled.getFullYear() &&

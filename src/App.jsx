@@ -7,8 +7,10 @@ import { BookingProvider } from "./context";
 import Home from "./User/Home";
 import LoginPage from "./User/Login";
 import RegisterPage from "./User/Register";
+import { onLogout } from "./components/Logout";
 import Properties from "./User/Properties";
 import PropertyDetails from "./User/PropertyDetail";
+import AboutUs from "./User/AboutUs";
 import Liked from "./User/Liked";
 import BookedPage from "./User/Booked";
 import UserReviewPage from "./User/Reviews";
@@ -57,9 +59,11 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/User/Login" element={<LoginPage />} />
                     <Route path="/User/Register" element={<RegisterPage />} />
+                    <Route path="/User/Logout" element={<div>Logout</div>} />
                     <Route path="/User/Properties" element={<Properties />} />
                     <Route path="/User/PropertyDetails/:id" element={<PropertyDetails />} />
                     <Route path="/User/Contact" element={<Contact />} />
+                    <Route path="/User/AboutUs" element={<AboutUs />} />
                     <Route path="/User/Profile" element={ <ProfilePage /> } />
                     <Route path="/User/BookingConfirm" element={ <BookingConfirm />}/>
                     <Route path="/User/Payment" element={ <UserPayment /> } />

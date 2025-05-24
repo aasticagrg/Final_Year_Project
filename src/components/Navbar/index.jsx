@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiMenu, FiX, FiUser } from "react-icons/fi";  // FiUser for profile icon
+import { FiMenu, FiX, FiUser } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { baseUrl } from "../../constants";
+import onLogout from "../../components/Logout";  // Import default
 import "./styles.css";
 
 const Navbar = () => {
@@ -15,28 +15,8 @@ const Navbar = () => {
 
   const isLoggedIn = localStorage.getItem("token");
 
-  const handleLogout = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("token", localStorage.getItem("token"));
-
-      const response = await fetch(baseUrl + "auth/logout.php", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-      if (data.success) {
-        localStorage.clear();
-        toast.success("Logged out successfully");
-        navigate("/");
-      } else {
-        toast.error("Logout failed");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
-    }
+  const handleLogout = () => {
+    onLogout(navigate);  // Pass navigate here
   };
 
   return (
@@ -50,7 +30,7 @@ const Navbar = () => {
       <div className={`nav-link ${menuOpen ? "nav-active" : ""}`}>
         <Link className="link" to="/" onClick={toggleMenu}>Home</Link>
         <Link className="link" to="/User/Properties" onClick={toggleMenu}>Property</Link>
-        <Link className="link" to="/User/about" onClick={toggleMenu}>About</Link>
+        <Link className="link" to="/User/AboutUs" onClick={toggleMenu}>About</Link>
         <Link className="link" to="/User/Contact" onClick={toggleMenu}>Contact</Link>
         <Link className="link" to="/Vendor/VendorRegister" onClick={toggleMenu}>List Your Property</Link>
 
@@ -62,7 +42,6 @@ const Navbar = () => {
             </>
           ) : (
             <div className="user-dropdown">
-              {/* Profile Icon */}
               <button className="profile-icon" onClick={toggleDropdown}>
                 <FiUser /> {/* Profile icon */}
               </button>

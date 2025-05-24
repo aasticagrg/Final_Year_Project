@@ -13,8 +13,8 @@ const AddProperty = () => {
         city: "",
         description: "",
         location: "",
-        latitude: "", // Added for map location
-        longitude: "", // Added for map location
+        latitude: "", //  for map location
+        longitude: "", //  for map location
         p_type: "",
         bhk: "",
         bedroom: "",
